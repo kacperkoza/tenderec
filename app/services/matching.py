@@ -14,7 +14,7 @@ INDUSTRIES_PATH = (
     Path(__file__).resolve().parent.parent.parent
     / "resources"
     / "organization_by_industry"
-    / "industries_organizations.json"
+    / "organizations_by_industry.json"
 )
 
 SYSTEM_PROMPT = """\

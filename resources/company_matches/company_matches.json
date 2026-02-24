@@ -1,0 +1,70 @@
+{
+  "company": "GreenWorks Infrastructure Ltd.",
+  "matches": [
+    {
+      "industry": "Administracja samorządowa",
+      "score": 1,
+      "reasoning": "Firma specjalizuje się w usługach związanych z utrzymaniem zieleni miejskiej, co jest kluczowe dla samorządów zarządzających parkami, skwerami i innymi terenami zielonymi."
+    },
+    {
+      "industry": "Leśnictwo",
+      "score": 0.9,
+      "reasoning": "Usługi firmy, takie jak wycinka drzew czy zarządzanie zielenią, są bardzo zbliżone do potrzeb organizacji leśnych, choć firma skupia się głównie na terenach miejskich."
+    },
+    {
+      "industry": "Transport kolejowy",
+      "score": 0.8,
+      "reasoning": "Firma może realizować prace związane z utrzymaniem zieleni wzdłuż torów kolejowych, co jest istotne dla organizacji z branży transportu kolejowego."
+    },
+    {
+      "industry": "Budownictwo",
+      "score": 0.7,
+      "reasoning": "Firma może być zaangażowana w projekty budowlane związane z zagospodarowaniem terenów zielonych, jednak nie jest to jej główna specjalizacja."
+    },
+    {
+      "industry": "Transport publiczny",
+      "score": 0.6,
+      "reasoning": "Firma może realizować prace związane z utrzymaniem zieleni w pobliżu infrastruktury transportu publicznego, ale nie jest to jej główny obszar działalności."
+    },
+    {
+      "industry": "Edukacja",
+      "score": 0.5,
+      "reasoning": "Szkoły i instytucje edukacyjne mogą potrzebować usług związanych z utrzymaniem zieleni na swoich terenach, ale jest to raczej niszowy segment dla firmy."
+    },
+    {
+      "industry": "Ochrona zdrowia",
+      "score": 0.4,
+      "reasoning": "Placówki ochrony zdrowia mogą potrzebować usług związanych z utrzymaniem zieleni na swoich terenach, ale jest to marginalny obszar działalności firmy."
+    },
+    {
+      "industry": "Energetyka",
+      "score": 0.3,
+      "reasoning": "Firma mogłaby realizować prace związane z utrzymaniem zieleni wokół infrastruktury energetycznej, ale nie jest to jej główny obszar działalności."
+    },
+    {
+      "industry": "Handel i usługi",
+      "score": 0.3,
+      "reasoning": "Organizacje z tej branży mogą sporadycznie potrzebować usług związanych z utrzymaniem zieleni, ale nie jest to kluczowy segment dla firmy."
+    },
+    {
+      "industry": "Produkcja przemysłowa",
+      "score": 0.2,
+      "reasoning": "Zakłady przemysłowe mogą sporadycznie potrzebować usług związanych z zielenią, ale nie jest to główny obszar działalności firmy."
+    },
+    {
+      "industry": "Przemysł chemiczny",
+      "score": 0.2,
+      "reasoning": "Organizacje z tej branży mogą sporadycznie potrzebować usług związanych z zielenią, ale jest to marginalny obszar dla firmy."
+    },
+    {
+      "industry": "Górnictwo",
+      "score": 0.2,
+      "reasoning": "Firma mogłaby realizować prace związane z utrzymaniem zieleni na terenach należących do kopalń, ale nie jest to jej główny obszar działalności."
+    },
+    {
+      "industry": "Poligrafia i reklama",
+      "score": 0.1,
+      "reasoning": "Branża poligrafii i reklamy raczej nie potrzebuje usług związanych z zielenią, co czyni dopasowanie bardzo niskim."
+    }
+  ]
+}

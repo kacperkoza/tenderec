@@ -91,5 +91,7 @@ def match_company_to_industries() -> dict:
     )
 
     raw = response.choices[0].message.content
-    return json.loads(raw)
+    result = json.loads(raw)
+    result["company"] = "GreenWorks Infrastructure Ltd."
+    return result
 

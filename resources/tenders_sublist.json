@@ -1,0 +1,2000 @@
+{
+  "target_date": "2026-01-07",
+  "count": 100,
+  "tenders": [
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260049",
+      "metadata": {
+        "name": "Wzmocnienie poziomu cyberbezpieczeństwa w powiecie wągrowieckim",
+        "organization": "Powiat Wągrowiecki",
+        "submission_deadline": "2026-01-16 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193320229_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193324977_Zapytanie ofertowe opracowanie i wdrożenie SZBI.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193320715_Załącznik nr 1 - Opis Przedmiotu Zamówienia SZBI.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193321293_Załącznik nr 2 - formularz SZBI.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193324535_Wzór umowy opracowanie SZBI.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/259970",
+      "metadata": {
+        "name": "Wzrost jakości kształcenia ogólnego w szkołach podstawowych w Gminie Papowo Biskupie",
+        "organization": "Gmina Papowo Biskupie",
+        "submission_deadline": "2026-01-14 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 9,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193823621_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193840691_Zapytanie ofertowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193835231_Załącznik nr 1_opis przedmiotu zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193834041_Załącznik nr 2a_Projekt umowy cz1.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193836036_Załącznik nr 2b_Projekt umowy cz2.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193837664_Załącznik nr 2c_Projekt umowy cz3.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193825331_Załącznik nr 3_Wzór formularza ofertowego.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193816359_Załącznik Nr 4 - Wzór oświadczenia o braku powiązań.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193821107_ZaŁącznik Nr 5 - Wzór oświadczenia o braku podstaw do wykluczenia.docx"
+      ]
+    },
+    {
+      "tender_url": "https://e-propublico.pl/Ogloszenia/Details/cb81f141-cf47-414f-a044-52e07fed7056",
+      "metadata": {
+        "name": "Dostawy drobnego sprzętu j.u. do Samodzielnego Publicznego Zakładu Opieki Zdrowotnej w Siedlcach",
+        "organization": "Samodzielny Publiczny Zakład Opieki Zdrowotnej w Siedlcach",
+        "submission_deadline": "2026-01-19 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "epropublico_main"
+      },
+      "files_count": 8,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191524420_Ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191528036_SWZ 2026.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191512805_Zał. nr 1 - Wzór oferty na dostawy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191512231_Zał. nr 2 - Formularz cenowy.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191507931_Zał. nr 3 - Oświadczenie o niepodleganiu wykluczeniu.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191504365_Zał. nr 4 - Oświadczenie Wykonawcy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191510170_Zał. nr 5 - Dokumenty dotyczące przynależności do grupy kapitałowej.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191501955_Zał. nr 6 - wzór umowy.doc"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1244005",
+      "metadata": {
+        "name": "1-Świadczenie kompleksowej obsługi prawnej Departamentu Transportu w zakresie transportu zbiorowego",
+        "organization": "Województwo Kujawsko-Pomorskie w Toruniu",
+        "submission_deadline": "2026-01-16 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 18,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190524106_tender_1244005_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190538639_OGŁOSZENIE.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190548921_SWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190525650_Załącznik nr 1 oswiadczenia-wykonawcy-wykonawcow-z-art-125-ust-1-ustawy-Pzp-ponizej-progow.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190541891_Załącznik nr 1 oswiadczenia-wykonawcy-wykonawcow-z-art-125-ust-1-ustawy-Pzp-ponizej-progow.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190539534_Załącznik nr 2 formularz ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190527921_Załącznik nr 2 formularz ofertowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190521383_Załącznik nr 3 Wykaz doświadczenia osób wykonujących zamówienie.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190537232_Załącznik nr 3 Wykaz doświadczenia osób wykonujących zamówienie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190534980_Załącznik nr 4 oświadczenie dotyczące grupy kapitałowej.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190531136_Załącznik nr 4 oświadczenie dotyczące grupy kapitałowej.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190517045_Załącznik nr 5 wykaz osób.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190519551_Załącznik nr 5 wykaz osób.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190524774_Załącznik nr 6 projekt umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190528799_Załącznik nr 7 oswiadczenia-podmiotu-udostepniajacego-zasoby-z-art-125-ust-5-Pzp-ponizej-progow.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190532027_Załącznik nr 7 oswiadczenia-podmiotu-udostepniajacego-zasoby-z-art-125-ust-5-Pzp-ponizej-progow.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190532892_Załącznik nr 8 zobowiązanie podmiotu udostępniającego zasoby.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190520528_Załącznik nr 8 zobowiązanie podmiotu udostępniającego zasoby.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1242084",
+      "metadata": {
+        "name": "Sprzedaż składników majątku Gminy Brojce – Autobus AUTOSAN S.A. rok produkcji 2005 wersja TRAMP oraz Ciągnik rolniczy URSUS rok produkcji 1977 wersja 360",
+        "organization": "Gmina Brojce",
+        "submission_deadline": "2026-01-14 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190556956_tender_1242084_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190558737_FORMULARZ OFERTOWY 30.12.2025.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190555876_zapytanie ofertowe zbycie majątku 30.12.2025 podpisane.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243552",
+      "metadata": {
+        "name": "Dostawa głośnika VS-R10S-8 VISATON 2037",
+        "organization": "Miejskie Przedsiębiorstwo Komunikacyjne sp. z o.o. we Wrocławiu",
+        "submission_deadline": "2026-01-14 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190320126_tender_1243552_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190323804_tender_1243552_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190322529_tender_1243552_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1242522",
+      "metadata": {
+        "name": "Kompleksowe sprzątanie pomieszczeń biurowych budynku Sądu Rejonowego  w Kartuzach wraz z terenem przyległym.",
+        "organization": "Sąd Rejonowy w Kartuzach",
+        "submission_deadline": "2026-01-20 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 10,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190630878_tender_1242522_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190659916_00_4_2026_swz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190634296_01_4_2026_zal_1.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190641231_02_4_2026_zal_2.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190648522_03_4_2026_zal_3.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190653770_04_4_2026_zal_4 wzór umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190626937_05_4_2026_zal_5.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190631627_06_4_2026_zal_6.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190658282_07_4_2026_zal_7_opz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190639802_08de4ea5-69fc-7b14-47ec-270001f667ad.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-7177c79a-aed4-41f2-9d1e-4ec080bf4c88",
+      "metadata": {
+        "name": "Zaprojektowanie, wykonanie nadruku i dostawa materiałów promocyjnych - 2026 rok",
+        "organization": "Centrum Rozwoju Edukacji Województwa Łódzkiego w Skierniewicach",
+        "submission_deadline": "2026-01-15 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 11,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193831513_bzp_budget.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193906584_Ogłoszenie_2026-BZP_00010652-01_z_dnia_7_stycznia_2026.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193917681_SWZ - materiały promocyjne 2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193833960_Zał. nr 1 - Opis przedmiotu zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193846450_Zał. nr 2 - Formularz ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193829555_Zał. nr 3 - Oswiadczenie o spelnianiu warunkow oraz braku podstaw do wykluczenia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193825868_Zał. nr 4 - Wykaz dostaw.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193908761_Zał. nr 5 - Wzór umowy2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193832035_Zał. nr 7 - Zobowiązanie podmiotu udostępniającego zasoby.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193843116_Zał. nr 8 - Oświadczenie podmiotu udostępniającego  zasoby.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193827636_Zał. nr 9 - Oświadczenie Wykonawców wspólnie ubiegających się o udzielenie zamówienia.docx"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-57b2e8a9-f1b8-41f8-97a1-314112145d80",
+      "metadata": {
+        "name": "Zakup i sukcesywne dostawy pieczywa i bułki tartej do Aresztu Śledczego w Lublinie.",
+        "organization": "Areszt Śledczy w Lublinie",
+        "submission_deadline": "2026-01-16 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193633265_bzp_budget.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193637252_Ogłoszenie_2026-BZP_00013605-01_z_dnia_8_stycznia_2026.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193633966_Załącznik nr 3 - oświadczenie o podstawach wykluczenia.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193636021_Załącznik nr 2 -  wzór umowy.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193636665_załącznik nr 1 - Formularz ofertowy.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193638775_SWZ.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243549",
+      "metadata": {
+        "name": "Dostawa głośnika VS-R10S-8 VISATON 2037",
+        "organization": "Miejskie Przedsiębiorstwo Komunikacyjne sp. z o.o. we Wrocławiu",
+        "submission_deadline": "2026-01-13 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190308194_tender_1243549_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190309613_tender_1243549_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190310204_tender_1243549_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://swoz.tauron.pl/platform/demand/notice/public/13059475/details",
+      "metadata": {
+        "name": "DOSTAWA: Akcesoria czyszczące do wtyków i adapterów światłowodowych",
+        "organization": "TAURON Wytwarzanie S.A.",
+        "submission_deadline": "2026-01-15 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "tauron"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191323828_ogloszenie_o_zamowieniu.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191329508_TAURON Wytwarzanie S.A._Warunki realizacji zamówienia - dostawy_X_2025.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-6d0f113b-0c1f-4c62-b3fb-c456e632147f",
+      "metadata": {
+        "name": "Sukcesywna dostawa artykułów żywnościowych dla Szkoły Podstawowej im. ks. Józefa Londzina w Zabrzegu w 2026 r.",
+        "organization": "SZKOŁA PODSTAWOWA W ZABRZEGU",
+        "submission_deadline": "2026-01-16 15:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193542441_bzp_budget.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193603287_Ogłoszenie_2026-BZP_00015530-01_z_dnia_8_stycznia_2026.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193543082_Załącznik 5 oświadczenie o aktualności.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193556165_UMOWA ZAŁ. NR 4-.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193546913_zal3_OSWIADCZENIE.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193615204_2026 Formularz asortymentowo-cenowy 2026.xls",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193613893_SWZ 2026.odt"
+      ]
+    },
+    {
+      "tender_url": "https://alchemia.logintrade.net/zapytania_email,1645752,ed09ab5ecd8c446485daeb5561bc99e6.html",
+      "metadata": {
+        "name": "HBT / 44778 / 2025 - Tarcza do szlifowania 125x7x22,23 NQ24P-BF27 NORTON QUANTUM 3",
+        "organization": "Alchemia S.A. Oddział Chorzów Batory",
+        "submission_deadline": "2026-01-12 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194140906_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-8808b495-eae4-4d8e-8b97-543e38b04261",
+      "metadata": {
+        "name": "Budowa świetlicy wiejskiej wraz z infrastrukturą zewnętrzną oraz z pracami przygotowawczymi w miejscowości Buków, gmina Ujazd",
+        "organization": "GMINA UJAZD",
+        "submission_deadline": "2026-01-26 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 45,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201859914_bzp_budget.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201947269_Ogłoszenie_2026-BZP_00014486-01_z_dnia.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201959160_SPECYFIKACJA WARUNKÓW ZAMÓWIENIA -3.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201931843_Przedmiar PZT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202009530_PZT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201932556_PAB.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201912420_Projekt rozbiórki.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201915522_Przedmiar.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201945056_Rys. 2. Rozbiórka.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201901677_Przedmiar.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201916316_Pozwolenie na budowę Buków.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201923953_1. ZRO.6120.27.2025- decyzja Ujazd.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201909038_2. Decyzja_zmieniająca_Gmina_Ujazd (Załącznik - RPW_11166_2025)-1.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201920057_Informacja BIOZ+pisma dot. sieci zew. od gestorów sieci.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201944041_PAB.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201959737_Przedmiar PAB i konstrukcja.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202032853_opis PAB wykonawczy - Buków .pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201900914_Spis roślin.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201953773_opis PAB wykonawczy - Buków  .doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201951839_Projekt techniczny konstrukcja.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202030940_Projekt Wykonawczy Architektura.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201933486_Przedmiar PZT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202019355_PZT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202040554_STWiOR-BUKÓW.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202043844_Projekt Techniczny instalacje sanitarne wewnętrzne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201958363_Przedmiar inst. wewnętrzna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201917027_Przedmiar inst. zewnętrzna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202041223_PW instalacje sanitarne wewnętrzne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202032106_STWIOR.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201952699_Projekt techniczny instalacje elektryczne Buków.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202054277_PRZEDMIAR.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202056014_PRZEDMIAR branża elekryczna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201946471_SPECYFIKACJA TECHNICZNA.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201911848_Przedmiar wyposażenie sanitarne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201908375_Wyjaśnienia Projektanta.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201920841_Pozwolenie na budowę Buków.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201928780_Załącznik nr 2 - formularz ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201904668_Załącznik nr 3 - oświadczenie dot warunkow udzialu i podstaw wykluczenia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201906579_Załącznik nr 4  do SWZ- zobowiazanie innego podmiotu.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201909672_Załącznik nr 5 - oświadczenie wykonawców wspólnie ....docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201913443_Załącznik nr 6 do SWZ - wykaz robót.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201917883_Załącznik nr 7 - wykaz osób.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202022300_Załącznik nr 9a- wzór umowy dla zadania 1.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202003174_Załącznik nr 9b - wzór umowy dla zadania 2.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201902520_Załącznik nr 1 do UMOWY - oświadczenie podwykonawcy.docx"
+      ]
+    },
+    {
+      "tender_url": "https://grupapekabex.logintrade.net/portal,szczegolyZapytaniaOfertowe,ebd67c843185b0333d2cdf0d9933724a.html",
+      "metadata": {
+        "name": "PO/ BLACHA S355 12, 15, 20MM; Dostawa Poznań",
+        "organization": "Pekabex Bet S.A",
+        "submission_deadline": "2026-01-09 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193800740_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260079",
+      "metadata": {
+        "name": "Zakup i dostawa dwóch maszyn do serwisowania sprzętu narciarskiego, w ramach realizacji projektu pn. „Rozwój Firmy Handlowo-Usługowej SNOW DREAM poprzez rozszerzenie katalogu usług dla wzmocnienia pozycji i konkurencyjności w regionie Małopolskim.”.",
+        "organization": "Firma Handlowo-Usługowa SNOW DREAM",
+        "submission_deadline": "2026-01-16 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193329930_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193338424_zapytanie ofertowe_MS_wypo_zal1.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193334666_zapytanie ofertowe_MS_wypo_zal2.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193336547_zapytanie ofertowe_MS_wypo_zal3.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193331067_zapytanie ofertowe_MS_wypo_zal4.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193340541_zapytanie ofertowe_MS_wypożyczalnia_08.01.2026 podpisane.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243622",
+      "metadata": {
+        "name": "Zakup i montaż zbiorników naziemnych do zbierania wody deszczowej w ramach zadania pn.: „Odzyskiwanie wody deszczowej: Ekologiczne podejście do oszczędzania wody”. Zadanie dofinansowane z programu Fundusze Europejskie dla Wielkopolski 2021-2027.",
+        "organization": "Gmina Stęszew",
+        "submission_deadline": "2026-01-15 07:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 8,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190408262_tender_1243622_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190358944_Opis przedmiotu zamówienia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190405074_Opis przedmiotu zamówienia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190401819_Oświadczenia o podatkach.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190406449_Oświadczenie o niepodleganiu wykluczeniu z postępowania.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190413093_PFU.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190405658_PFU.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190402877_umowa dostawa.docx"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-c71c0cad-738f-4229-865d-fdb56a358bf6",
+      "metadata": {
+        "name": "Postępowanie o udzielenie zamówienia publicznego na wykonanie, uruchomienie oraz utrzymanie w roku 2026 łączy dostępowych do Internetu dla Urzędu Pracy Powiatu Krakowskiego",
+        "organization": "Urząd Pracy Powiatu Krakowskiego",
+        "submission_deadline": "2026-01-19 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 16,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193521496_bzp_budget.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193637616_Ogłoszenie_2026-BZP_00015184-01_z_dnia.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193656692_SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193538664_załącznik nr 1.A. opis przedmiotu zamówienia dla zadania nr 1.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193536016_załącznik nr 1.B. opis przedmiotu zamówienia dla zadania nr 2.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193602323_załącznik nr 1.C. opis przedmiotu zamówienia dla zadania nr 3.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193554102_załącznik nr 1.D. opis przedmiotu zamówienia dla zadania nr 4.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193559171_załącznik nr 1.E. opis przedmiotu zamówienia dla zadania nr 5.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193556382_załącznik nr 2 - podgląd oferty.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193523809_Załącznik nr 3 oświadczenie art 125 ust.1_ust. 5 podst.wykluczenia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193521956_Załącznik nr 4 oświadczenie art 125 ust.1 spełnienie warunków udziału.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193634913_załącznik nr 5.A. wzór umowy dla zadania nr 1.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193613262_załącznik nr 5.B. wzór umowy dla zadania nr 2.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193621089_załącznik nr 5.C. wzór umowy dla zadania nr 3.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193616304_załącznik nr 5.D. wzór umowy dla zadania nr 4.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193648898_załącznik nr 5.E. wzór umowy dla zadania nr 5.docx"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243703",
+      "metadata": {
+        "name": "Kompleksowe ubezpieczenia majątkowe  wraz z odpowiedzialnością cywilną",
+        "organization": "Zarząd Budynków Miejskich II Towarzystwa Budownictwa Społecznego Sp. z o.o. w Gliwicach",
+        "submission_deadline": "2026-01-16 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 12,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190559247_tender_1243703_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190556249_Informacja o maksymalnej kwocie przeznaczonej na realizację zamówienia - Ubezpieczenie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190603863_Ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190610279_SWZ_Ubezpieczenie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190612338_Załącznik NR 1 - Szczegółowy opis przedmiotu zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190556717_Załącznik Nr 1A  Wniosek o udostenienie części poufnej SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190555582_Załącznik Nr 1B - Informacja o Zamawiającym.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190558547_Załącznik Nr 1C - Pełnomocnictwo.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190604983_Załącznik nr 2-Formularz ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190604466_Załącznik nr 3 - Projektowane postanowienia umowne_Ubezpieczenie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190559743_Załącznik nr 4 do SWZ_Oświadczenie z art. 125 ust. 1.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190601726_Załącznik nr 5 do SWZ - Oświadczenie dot. grupy kapitalowej.docx"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560187/supplier/status",
+      "metadata": {
+        "name": "W - wykonanie robót; Oddział Koszalin; Lębork, Bukowina (wieś)",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-22 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192732820_Zapytanie Ofertowe ROBOTA budowlana.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192737939_Wzór umowy ROBOTY_OWU 15.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192741088_2500867 PB.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192737323_2500867 Przedmiar robót.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192734978_2500867 STWiORB.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192736861_Wymagane uprawnienia w RKW.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://oisw-opole.ezamawiajacy.pl/pn/OISW-OPL/demand/notice/public/199215/details",
+      "metadata": {
+        "name": "Dostawa rolet do Zakładu Karnego w Kłodzku",
+        "organization": "Zakład Karny w Kłodzku",
+        "submission_deadline": "2026-01-09 13:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202517967_projekt umowy (rolety).pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202535036_Zestawienie stolarki okiennej Kłodzko.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202511799_Zestawienie stolarki okiennej.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560413/supplier/status",
+      "metadata": {
+        "name": "P - wykonanie projektów; Oddział Gdańsk; Oddział Gdańsk - 2505529 - Budowa stacji transformatorowej, linia kablowa SN-15kV i linia kablowa nN-0,4kV; G...",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-16 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192833265_zał 02 B_25091911.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560402/supplier/status",
+      "metadata": {
+        "name": "P - wykonanie projektów; Oddział Gdańsk; Oddział Gdańsk, 2500502, Doposażenie pola nr 10 sekcja I oraz nr 26 sekcja II w rozdzielni 15kV w GPZ Wejhero...",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-15 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192832101_U1 do OWU V15 P.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192827238_Specyfikacja.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192818103_RKW.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192837334_przetarg.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192830779_1. Zapytanie Ofertowe Projekt RKW bez zabezpieczenia - wzór.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://pkpintercity.eb2b.com.pl/open-preview-auction.html/438822/przebudowa-pomieszczen-biurowych-i-socjalnych-w-budynku-biurowym-we-wroclawiu-przy-ul-suchej",
+      "metadata": {
+        "name": "Przebudowa pomieszczeń biurowych i socjalnych w budynku biurowym we Wrocławiu przy ul. Suchej",
+        "organization": "PKP INTERCITY S.A. ŁUKASZ GABRYCH lukasz.gabrych@intercity.pl",
+        "submission_deadline": "2026-01-23 13:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200948117_zapytanie_roboty_sucha_wroclaw.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200955861_zalacznik_nr_3_przedmiar_robot.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201002300_zalacznik_nr_4_do_zapytania-wzor_umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200949674_zalaczniki_do_zapytania_nr_1,5-10.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200945235_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.grupaazoty.com/zapytania_email,1645786,043f093625229c37e2ec9800938002f2.html",
+      "metadata": {
+        "name": "Zakup z dostawą surowca produkcyjnego: Nansa L33 38 AS w opakowaniach zwrotnych.",
+        "organization": "Grupa Azoty Jednostka Ratownictwa Chemicznego sp. z o.o.",
+        "submission_deadline": "2026-01-15 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193902708_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://leoni.logintrade.net/portal,szczegolyZapytaniaOfertowe,f10f181fa316b1ea0863b154a0ef24ba.html",
+      "metadata": {
+        "name": "Rexroth",
+        "organization": "LEONI KABEL POLSKA SP.z o.o.",
+        "submission_deadline": "2026-01-12 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193824024_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://przetargiumwl.ezamawiajacy.pl/pn/przetargiumwl/demand/notice/public/199216/details",
+      "metadata": {
+        "name": "Usługa realizacji transportu osób na terenie województwa lubuskiego ze szkół do Centrum Edukacji Ekologicznej w Drzonkowie i z powrotem w ramach projektu „Lubuska Edukacja Ekologiczno-Klimatyczna (Nau",
+        "organization": "Urząd Marszałkowski Województwa Lubuskiego",
+        "submission_deadline": "2026-01-16 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202635715_01.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202652899_Specyfikacja Warunków Zamówienia-12.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202613330_Opis przedmiotu zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202622742_Załączniki w wersji edytowalnej.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202634816_Projekt Umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202606529_Załącznik nr 1 do Umowy - harmonogram i wykaz szkół.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://swpp2.gkpge.pl/app/demand/notice/public/105915/details",
+      "metadata": {
+        "name": "Zakup fabrycznie nowych łożysk produkcji FAG/SKF dla PGE GiEK S.A. Oddział Kopalnia Węgla Brunatnego Bełchatów",
+        "organization": "PGE GiEK SA",
+        "submission_deadline": "2026-01-15 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "pge"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192555413_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192557874_SWZ.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://bogdanka.eb2b.com.pl/open-preview-auction.html/147840/statecznik-elektroniczny-do-swietlowek-pc-2x36-t8-pro-sl-22185217-2",
+      "metadata": {
+        "name": "STATECZNIK ELEKTRONICZNY DO ŚWIETLÓWEK PC 2X36 T8 PRO SL 22185217",
+        "organization": "LUBELSKI WĘGIEL BOGDANKA S.A. ZIELIŃSKI DARIUSZ dzielinski@lw.com.pl",
+        "submission_deadline": "2026-01-09 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200819363_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://ezakupy.pkpcargo.com/auction/auction/preview-auction/id/102721",
+      "metadata": {
+        "name": "RFP na zakup wraz z dostarczeniem fabrycznie nowych części do lokomotyw spalinowych ST44m - POKRYWA CYLINDRA KPL. 5D49.78SPC2-21",
+        "organization": "PKP CARGO S.A. W RESTRUKTURYZACJI",
+        "submission_deadline": "2026-01-14 14:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200806879_zalacznik_nr_2_do_zapytanie_ofertowego_-_oswiadczenie_sankcje.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200805709_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://przetargiumwl.ezamawiajacy.pl/pn/przetargiumwl/demand/notice/public/199223/details",
+      "metadata": {
+        "name": "Świadczenie usług polegających na zapewnieniu dostępu do obiektów sportowo-rekreacyjnych dla pracowników Urzędu Marszałkowskiego Województwa Lubuskiego oraz ich osób towarzyszących i dzieci na podstaw",
+        "organization": "Urząd Marszałkowski Województwa Lubuskiego",
+        "submission_deadline": "2026-01-16 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 10,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202654025_Specyfikacja Warunków Zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202618362_zalacznik_1_opz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202612033_zalacznik_2_formularz_oferty.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202617828_zalacznik_3_oswiadczenie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202641927_zalacznik_4_projekt_umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202612725_zalacznik_5_projekt_umowy_powierzenia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202618883_zalacznik_2_formularz_oferty.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202607620_zalacznik_3_oswiadczenie.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202636438_Ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202611520_bzp_budget.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1244120",
+      "metadata": {
+        "name": "Smartfon SAMSUNG Galaxy A16 4/128GB granatowy",
+        "organization": "ZPUE S.A.",
+        "submission_deadline": "2026-01-09 14:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190319679_tender_1244120_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190319021_tender_1244120_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190320291_tender_1244120_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://grupapekabex.logintrade.net/portal,szczegolyZapytaniaOfertowe,f00f948a4e2ea940510824e6bd1e7a87.html",
+      "metadata": {
+        "name": "GD kołek do styropianu. Dostawa Gdańsk",
+        "organization": "Pekabex Bet S.A",
+        "submission_deadline": "2026-01-09 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193755316_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243991",
+      "metadata": {
+        "name": "Zakup i dostawa materiałów eksploatacyjnych (tonerów i tuszy)",
+        "organization": "Nadleśnictwo Myślenice",
+        "submission_deadline": "2026-01-15 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190312412_tender_1243991_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190310448_Warunki zamówienia tonery.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190311902_Warunki zamówienia tonery.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://uml.ezamawiajacy.pl/pn/ML/demand/notice/public/199249/details",
+      "metadata": {
+        "name": "Świadczenie usług weterynaryjnych dla zwierząt z terenu Miasta Łodzi w 2026 roku",
+        "organization": "Miasto Łódź",
+        "submission_deadline": "2026-01-16 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 9,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202620296_SWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202537036_zał. 1 - opis przedmiotu zamówienia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202542758_zał. 2 - Formularz ofertowy.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202532716_zał. 3 - Ośw. wykluczenie.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202534599_zał. 4 - Oświadczenie wykluczenie Rosja.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202551329_zał. 5 - Wzór umowy.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202557214_zał. 5 - Wzór umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202542027_ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202532044_bzp_budget.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.grupaazoty.com/zapytania_email,1645772,09e41250479b8d20bc70848f55da2b39.html",
+      "metadata": {
+        "name": "Zakup i dostawa materiałów uszczelniających",
+        "organization": "Grupa Azoty Kopalnie i Zakłady Chemiczne Siarki Siarkopol S.A.",
+        "submission_deadline": "2026-01-22 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 12,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194325331_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194332755_siwz na materiały uszczelniające 2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194332050_Załącznik Nr_ 1 do SIWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194326726_Załącznik Nr 2 do SIWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194327683_Załącznik Nr 3 do SIWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194324611_Załącznik Nr 4 do SIWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194346348_Projekt umowy załacznik nr 5.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194328345_12- WTS - 12 Mat_ uszczelniające - Płyty wulkan_ olejoodpor.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194331333_13- WTS - 13 Materiały uszczelniające - Płyty.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194329313_14- WTS - 14 Materiały uszczelniające - szczeliwo plecione.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194325935_52- WTS - 52 Materiały uszczelniające - Szczeliwo enyrun PTFE-G.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194330041_53- WTS - 53 Materiały uszczelniające - szczeliwo aramidowe.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560375/supplier/status",
+      "metadata": {
+        "name": "25DFBT992 Wykonanie remontu układów AKPiA i instalacji elektrycznych instalacji sieci cieplnej, wody chłodzącej, oleju lekkiego, odpopielania, nawęgla...",
+        "organization": "ORLEN Termika S.A.",
+        "submission_deadline": "2026-01-22 14:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192947037_0_Zapytanie Ofertowe - 25DFBT992.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192856131_Załącznik nr 4 do Umowy - Klauzula informacyjna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192941332_Załącznik nr 3 do Umowy  - Wytyczne ubezpieczeniowe.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192824010_Załącznik nr 2 do Umowy- Wniosek o wyrażenie zgody na podwykonawcę.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193003325_Załącznik nr 1 - Cennik i zakres prac.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192938654_7) Klauzula informacyjna dla Oferentów.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192819260_6)  Wykaz podwykonawców.docx"
+      ]
+    },
+    {
+      "tender_url": "https://platforma.eb2b.com.pl/open-preview-auction.html/500686/cykliczne-dostawy-torebek-papierowych-ze-staloscia-cen-przez-okres-6-miesiecy-2",
+      "metadata": {
+        "name": "Cykliczne dostawy torebek papierowych ze stałością cen przez okres 6 miesięcy.",
+        "organization": "FARMACOL LOGISTYKA SP. Z O.O. AGNIESZKA ŁOSOŃ 502 872 640 aloson@farmacol.com.pl",
+        "submission_deadline": "2026-01-15 12:30",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200822645_zalacznik_nr_2_miejsca_dostaw.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200825404_zalacznik_nr_1_do_zapytania_ofertowe_torebki_papierowe_2025.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200829356_zapytanie_ofertowe_-_torebki_papierowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200826600_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://grupasmithfield.logintrade.net/portal,szczegolyZapytaniaOfertowe,89dcfee65a4eb99254153c75de5ef378.html",
+      "metadata": {
+        "name": "Zapytanie ofertowe Hrubieszów/Szczebrzeszyn/Dorohusk/Zamość - WP Kurzętnik / tydz.3 / wywrotka",
+        "organization": "Agri Plus Sp. z o.o. Oddział Paszowy w Poznaniu",
+        "submission_deadline": "2026-01-09 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193858023_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://tokaicobex.logintrade.net/portal,szczegolyZapytaniaOfertowe,b302ae08e1652593574be32edd61ac93.html",
+      "metadata": {
+        "name": "Pilny zakup kurtek zimowych dla Tokai COBEX Polska",
+        "organization": "Tokai Cobex Polska sp. z o.o.",
+        "submission_deadline": "2026-01-13 16:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193923531_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77556",
+      "metadata": {
+        "name": "ML/26/H3/029310 - Dostawa zakrętarek kolejowych",
+        "organization": "Zespół Asortymentu Katalogowego",
+        "submission_deadline": "2026-01-13 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192452264_SPALINOWA_ZAKRĘATRKA_UDAROWA_GW3000_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192453503_Oświadczenie do zapytania ofertowego.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1242169",
+      "metadata": {
+        "name": "Świadczenie usług terapeutycznych dla podopiecznych przebywających w Punkcie opieki dla osób z niepełnosprawnościami z Ukrainy",
+        "organization": "Regionalny Ośrodek Polityki Społecznej w Toruniu",
+        "submission_deadline": "2026-01-20 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 10,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190759156_tender_1242169_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190825369_ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190837119_SWZ + zał. nr 1 OPZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190834488_zał. nr 4.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190755693_Załącznik nr 5 do SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190803915_Załącznik nr 6 do SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190807056_Załącznik nr 7 do SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190800265_Załącznik  nr 2 do SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190812880_Załącznik nr 3 do SWZ.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190816941_Załącznik nr 3a do SWZ.doc"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1244053",
+      "metadata": {
+        "name": "Dostawa Chemii do filtrów wody",
+        "organization": "24WOG",
+        "submission_deadline": "2026-01-14 07:30",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190401499_tender_1244053_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190400849_tender_1244053_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190402386_tender_1244053_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1244040",
+      "metadata": {
+        "name": "ZAKUP I DOSTAWA MATRIAŁOWYCH ŚRODKÓW MEDYCZNYCH DLA 21 WOG W ELBLĄGU",
+        "organization": "21 Wojskowy Oddział Gospodarczy w Elblągu",
+        "submission_deadline": "2026-01-13 14:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190352501_tender_1244040_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190356382_FORMULARZ OFERTOWY MSM 2026.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190353373_KLAUZULA_RODO.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190355386_KLAUZULA_WYKLUCZENIE.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190348641_Zaproszenie do skladania ofert MŚM AMBULATORIUM.docx"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560253/supplier/status",
+      "metadata": {
+        "name": "Pompy dozujące do kolumny ekstrakcyjnej",
+        "organization": "ORLEN S.A.",
+        "submission_deadline": "2026-01-22 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192847572_Zapytanie ofertowe PKN200495825.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192845628_Zał. 12 - Specyfikacja techniczna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192846403_zał. 11 - Wzór_klauzula_kontrahent_dla_pracowników_RODO_PL.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260025",
+      "metadata": {
+        "name": "Dostawa i montaż klimatyzacji",
+        "organization": "Centrum Medyczne \"VITA” Skrętowicz Sp. k. (dawniej Centrum Medyczne \"VITA” Skrętowicz Sp. z o. o.)",
+        "submission_deadline": "2026-01-23 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 8,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193103763_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193128005_Zapytanie ofertowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193104456_1_Opis przedmiotu zamówienia - Zał. nr 1 do Zapytania .pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193116063_2_ Wzór formularza cenowego - Zał. nr 2 do Zapytania.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193118775_3 _ Wzór wykazu wykonanych dostaw - Zał. nr 3 do Zapytania.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193124755_4_Wzór wykazu osób - Zał. nr 4 do Zapytania.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193122231_5_Wzór oświadczenia o powiązaniach - Zał. nr 5 do Zapytania.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193131597_6_ Wzór umowy - Zał. nr 6 do Zapytania ofertowego.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260089",
+      "metadata": {
+        "name": "ZAPYTANIE OFERTOWE NR 8/ASNZ/FEMA.08.01 PRZEPROWADZANE W TRYBIE ZASADY KONKURENCYJNOŚCI w projekcie „Aktywność szansą na zmiany!” nr FEMA.08.01-IP.01-031B/24-00 realizowanym w ramach Programu Fundusze Europejskie dla Mazowsza 2021-2027 współfinansowanego ze środków Europejskiego Funduszu Społecznego Plus",
+        "organization": "Fundacja Instytut Edukacji",
+        "submission_deadline": "2026-01-16 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193239934_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193303269_Zapytanie ofertowe.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193245143_Załącznik nr 1 Formularz oferty.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193232069_Załącznik nr 2 Doświadczenie kadry.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193242997_Załącznik nr 3 Oświadczenie w zakresie objęcia sankcjami.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193234920_Załącznik nr 4 Oświadczenie o spelnianiu aspektów społecznych.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193240569_Załącznik nr 5 Klauzula informacyjna dot. przetwarzania danych osobowych.docx"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243605",
+      "metadata": {
+        "name": "Usługa uprzątnięcia po sezonie świątecznym 4 szt. świerków z terenu Miasta Starachowice",
+        "organization": "Urząd Miejski Starachowice",
+        "submission_deadline": "2026-01-12 08:15",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190351708_tender_1243605_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190341899_zapytanie ofertowe choinki  2025 uprzątnięcie.odt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243985",
+      "metadata": {
+        "name": "Wykonanie kompletnej dokumentacji projektowej wraz z uzyskaniem ostatecznej decyzji o pozwoleniu na budowę lub zaświadczenia o braku sprzeciwu co do zamiaru budowy oraz prowadzenie nadzoru autorskiego dla zadania: Skórzewo – przebudowa wlotu ulicy Batorowskiej w ul. Poznańską",
+        "organization": "Gmina Dopiewo",
+        "submission_deadline": "2026-01-15 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190342297_tender_1243985_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190344664_OPZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190347509_Projekt umowy - Batorowska Skórzewo.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190343930_Załącznik nr 1 -  Formularz ofertowy.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190342960_Załącznik nr 1 -  Formularz ofertowy.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77550",
+      "metadata": {
+        "name": "ML/25/H4/029078 - DOSTAWA KOSZA SSAWNEGO Z ZAWOREM ZWROTNYM, POMPY SPALINOWEJ HONDA SST-80 ORAZ WĘŻA ZBROJONEGO DO MOTOPOMPY",
+        "organization": "Zespół Asortymentu Wielobranżowego",
+        "submission_deadline": "2026-01-09 07:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192229354_KOSZ_SSAWNY_Z_ZAWOREM_ZWROTNYM_KRÓCIEC_3_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192232856_Oświadczenie do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192230168_POMPA_SPALINOWA_PÓŁSZLAMOWA_HONDA_SST-80_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192230618_WĄŻ_75_ZBROJONY_DO_MOTOPOMPY_L_7M_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://cognor.logintrade.net/zapytania_email,1645683,e4cc9f19cd035e6d0590d9dd9446b984.html",
+      "metadata": {
+        "name": "zawór przelewowy DBW10B2-5X/350 S6EG24N9K4 Wtyczka Z5L Nr.R900057292 REXROTH RD25802 - (176252 poz.1)",
+        "organization": "Cognor SA oddział HSJ w Stalowej Woli",
+        "submission_deadline": "2026-01-09 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194224928_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://kwbkonin.logintrade.net/zapytania_email,1645668,9d959fea220a384f2eb2c61538536c3e.html",
+      "metadata": {
+        "name": "LUZK02 - Radiotelefony",
+        "organization": "PAK Kopalnia Węgla Brunatnego Konin S.A.",
+        "submission_deadline": "2026-01-13 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194201065_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260021",
+      "metadata": {
+        "name": "Analizator do badania moczu",
+        "organization": "CENTRUM MEDYCZNE ALMED SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ",
+        "submission_deadline": "2026-01-16 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193007575_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193035463_Ogłoszeni o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193006488_Załącznik nr 1_OPZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193010374_Załącznik nr  2 - 7.docx"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77666",
+      "metadata": {
+        "name": "ML/26/CZBL/029361 - DOSTAWA FOLIA RĘKAW PE 1000X0,2MM 5X20KG (ZAM.4501792992)",
+        "organization": "Centrum Zaopatrzenia Budownictwa Lubin",
+        "submission_deadline": "2026-01-09 13:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192134926_FOLIA_RĘKAW_PE_1000X0_2MM_5X20KG_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192132371_Oświadczenie w zakresie sankcji_2023.09.20.doc"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/558922/supplier/status",
+      "metadata": {
+        "name": "2100147987 - 24 miesięczna umowa serwisowa na instalacji Glikol , Biodiesel oraz Ukofame w ORLEN Południe S.A. Zakład w Trzebini.",
+        "organization": "ORLEN Południe",
+        "submission_deadline": "2026-01-22 16:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 31,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193135916_Załącznik nr 1 - Zakres - Usługa serwisowa Glikol.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193149730_Załącznik nr 2 - Formularz - Stawki Glikol.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193139671_Załącznik nr 3 - Klauzula informacyjna - postepowania zakupowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193217285_Załącznik nr 4 - Oświadczenie - Beneficjent Rzeczywisty.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193203833_Polityka upominkowa ORLEN.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193144434_Kodeks Postępowania dla Dostawców GK ORLEN.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193145280_OŚWIADCZENIE OFERENTA - do podpisu.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193208811_Polityka antykorupcyjna ORLEN.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193223845_Polityka ochrony praw człowieka w Grupie ORLEN.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193149038_Załącznik nr 6 - Wzór potwierdzenia wizji lokalnej.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193154874_Załącznik nr 19 - Wzór Oświadczenia podwykonawcy o otrzymaniu należności.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193205357_Warunki Sczegółowe Umowy Konserwacyjnej.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193300914_Załącznik nr 1 Warunki Ogólne Umowy dalej WO.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193248331_Załącznik nr 5 - Zasady Środowiskowe i BHP obowiązujące na terenie ORLEN Południe S.A.,.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193243155_Wyciąg z Zarządzenia Wewnętrznego Dyrektora Naczelnego ORLEN Południe S.A. z dnia 9 sierpnia 2021 roku nr ewid. 32.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193253877_Wyciąg z Wytycznych do organizacji ruchu osobowego w ORLEN Południe S.A..docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193233518_Wyciąg z Regulamin ruchu materialowego.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193228937_Załącznik nr 7 - Klauzula Informacji Chronionych.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193213775_Załącznik nr 8 - Klauzula danych osobowych.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193159059_Załącznik nr 9 - Klauzula antykorupcyjna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193140770_Załącznik nr 10 - Klauzula MAR tj. Nota informacyjna dotycząca obowiązków informacyjnych spółki publicznej.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193200500_Załącznik nr 11 - Klauzula komunikacji zewnętrznej.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193239771_Instrukcja realizacji prac ziemnych.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193251829_Instrukcja  prowadzenia pomiarów substancji niebezpiecznych.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193241092_Instrukcja bezpiecznej eksploatacji maszyn i narzędzi w środowiskach roboczych.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193242281_Instrukcja prowadzenia prac na wysokości.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193253062_Instrukcja przygotowania i realizacji prac w przestrzeni zamkniętej.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193240437_Instrukcja realizacji prac z połączeniami kołnierzowymi oraz podczas rozszczelniania aparatów.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193220906_Załącznik nr 16 - Klauzula Sankcyjna.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193211714_Załącznik nr 17 - Klauzula Białej Listy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193224945_Załącznik nr 18 - Wzór Porozumienia w sprawie przesyłania faktur drogą elektroniczną.docx"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/259848",
+      "metadata": {
+        "name": "Przeprowadzenie usług wspierających osoby starsze, w tym z niepełnosprawnościami w ramach projektu pt. ” Lepsze zdrowie 2 - poprawa zdrowia seniorów poprzez zwiększenie dostępu do usług zdrowotnych” realizowanego w ramach FUNDUSZY EUROPEJSKICH DLA OPOLSKIEGO 2021-2027, oś priorytetowa VII – Fundusze Europejskie wspierające usługi społeczne i zdrowotne w opolskim, działanie 07.01 Usługi zdrowotne i społeczne oraz opieka długoterminowa - Wsparcie seniorów poprzez realizację usług zdrowotnych – Fizjoterapeuta/ fizjoterapeutka (rehabilitacja ruchowa).",
+        "organization": "Nadir II Spółka z ograniczoną odpowiedzialnością",
+        "submission_deadline": "2026-01-15 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193308226_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193312816_Ogloszenie Nadir2 - fizjoterapeuta 1_1.docx.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193309301_Zapytanie_oferta i załączniki.docx.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193310032_Zapytanie_oferta i załączniki-2.docx"
+      ]
+    },
+    {
+      "tender_url": "https://platforma-weglokoksenergia.logintrade.net/portal,szczegolyZapytaniaOfertowe,6b7171cb788849a2831230771d11cc3c.html",
+      "metadata": {
+        "name": "Zapytanie o cenę w zakresie zakupu subskrypcji FortiAnalyzer-VM na potrzeby Węglokoks Energia sp. z o.o.",
+        "organization": "WĘGLOKOKS ENERGIA Sp. z o.o.",
+        "submission_deadline": "2026-01-13 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193855664_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://bogdanka.eb2b.com.pl/open-preview-auction.html/147845/kabel-yotkgtsdfoyn-24j-na-bebnie-niezwrotnym-wys-max-1400mm-1",
+      "metadata": {
+        "name": "KABEL YOTKGTSDFOYN 24J na bębnie niezwrotnym [wys.max. 1400mm]",
+        "organization": "LUBELSKI WĘGIEL BOGDANKA S.A. ZIELIŃSKI DARIUSZ dzielinski@lw.com.pl",
+        "submission_deadline": "2026-01-12 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201151069_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://zus.ezamawiajacy.pl/pn/zus/demand/notice/public/199183/details",
+      "metadata": {
+        "name": "Niszczenie dokumentacji niearchiwalnej na potrzeby Oddziału ZUS w Olsztynie i TJO.",
+        "organization": "Olsztyn",
+        "submission_deadline": "2026-01-16 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202452771_Formularz ofertowy - załącznik nr 1 do zapytania publicznego.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202505978_Wzór umowy - załącznik nr 2 do zapytania publicznego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202456516_Zapytanie publiczne - 2026-00008145-11918563-1.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://grupasmithfield.logintrade.net/portal,szczegolyZapytaniaOfertowe,00b5fc754504d282c611a4bcf169172e.html",
+      "metadata": {
+        "name": "Zapytanie ofertowe 88-150 Kruszwica - WP Kurzętnik/ tydz.3 / wywrotka",
+        "organization": "Agri Plus Sp. z o.o. Oddział Paszowy w Poznaniu",
+        "submission_deadline": "2026-01-09 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193832358_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77562",
+      "metadata": {
+        "name": "ML/25/H4/029099 - DOSTAWA USZCZELEK LR-01 NAROŻNEJ ORAZ LR-02 ŚRODKOWEJ RAMY PRASY FILTRACYJNEJ-NEGOCJACJE",
+        "organization": "Zespół Asortymentu Wielobranżowego",
+        "submission_deadline": "2026-01-09 07:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192315657_USZCZELKA_LR-01_NAROŻNA_RAMY_PRASY_FILTR_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192317654_Załącznik nr .. do SIWZ- Oświadczenie o zachowaniu poufności nowe.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192314847_USZCZELKA_LR-02_ŚRODKOWA_RAMY_PRASY_FILT_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560130/supplier/status",
+      "metadata": {
+        "name": "P - wykonanie projektów; Oddział Gdańsk; Starogard Gdański; Wykonanie dokumentacji projektowej w m.Skarszewy gm.Skarszewy /OBI/34/2504586; Skarszewy ...",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-15 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193101083_wymagany_zakres_współpracy_w_RKW_2504586.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193105108_WP_2504586.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193112624_U1 do OWU V15 P.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193104582_S1 Specyfikacja Projekt 03.11.2025 11_56_08.9984021.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193031089_plan_zagospodarowania_2504586.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193102649_mapa_2504586.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193109929_1. Zapytanie Ofertowe Projekt RKW bez zabezpieczenia - wzór.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77595",
+      "metadata": {
+        "name": "ML/26/H1/029328 - DOSTAWA WENTYLATORÓW 227982 BELL",
+        "organization": "Zespół Towarów Strategicznych",
+        "submission_deadline": "2026-01-13 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192409684_WENTYLATOR_227982_BELL_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192412391_Oświadczenie do zapytania ofertowego (1).pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192410182_oświadczenie o statusie dużego przedsiębiorcy.docx"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260068",
+      "metadata": {
+        "name": "Zapytanie ofertowe nr 32-HotelIRP na kompleksową usługę hotelową realizowaną w terminie 02-03.02.2026 na terenie miasta Olsztyn lub powiatu kętrzyńskiego, mrągowskiego lub olsztyńskiego województwa warmińsko-mazurskiego",
+        "organization": "Warmińsko-Mazurski Zakład Doskonalenia Zawodowego w Olsztynie",
+        "submission_deadline": "2026-01-16 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193135177_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193135781_Zapytanie ofertowe nr 32-HotelIRP na kompleksową usługę hotelową.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193131442_Zał. 1 - Formularz ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193129840_Zał. 1 - Formularz ofertowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193133825_Zał. 2 - Oświadczenie o spełnianiu warunków udziału w postępowaniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193134498_Zał. 3 - Wzór umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193130750_Zał. 4 - Klauzula informacyjna.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-c6bd9f9d-8f9f-4301-a97f-488fdf6d780e",
+      "metadata": {
+        "name": "Usługa druku materiałów poligraficznych i wydawnictw oraz dwumiesięcznika „Doradca”.",
+        "organization": "MAŁOPOLSKI OŚRODEK DORADZTWA ROLNICZEGO",
+        "submission_deadline": "2026-01-19 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 8,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193916471_Ogłoszenie_2026-BZP_00013850-01_z_dnia_8_stycznia_2026.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193701796_Zał. nr 6A - Formularz asortymentowo-cenowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193648923_Zał. nr 5 - Oświadczenie aktualizacyjne.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193654688_Zał. nr 4 - Oświadczenie o niepodleganiu wykluczeniu.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193659349_Zał. nr 3 - Oświadczenie art. 117 ust. 4.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193940464_Zał. nr 2 - Projektowane postanowienia umowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193907120_Zał. nr 1 - Opis przedmiotu zamówienia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194009136_SWZ.docx"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/259927",
+      "metadata": {
+        "name": "Realizacja prac badawczo-rozwojowych w ramach Projektu „RadiologyOS”",
+        "organization": "Pixel Technology sp. z o.o.",
+        "submission_deadline": "2026-01-15 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193200992_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193201539_RadiologyOS_Zapytanie ofertowe_ importer danych_01.docx"
+      ]
+    },
+    {
+      "tender_url": "https://kcer-brwinow.ezamawiajacy.pl/pn/kcer-brwinow/demand/notice/public/199196/details",
+      "metadata": {
+        "name": "Usługa kompleksowego zorganizowania 5-dniowego grupowego wyjazdu studyjnego do Włoch - na potrzeby Krajowego Centrum Edukacji Rolniczej w Brwinowie.",
+        "organization": "Krajowe Centrum Edukacji Rolniczej w Brwinowie",
+        "submission_deadline": "2026-01-16 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamawiajacy"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202411660_wzór oświadczenia zał nr 1 SWZ-kopia.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202504580_SWZ Włochy.04.26 r. .pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T202417700_projekt umowy wyjazd studyjny.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://swoz.tauron.pl/platform/demand/notice/public/13059493/details",
+      "metadata": {
+        "name": "Świadczenie usług cateringowych podczas szkoleń organizowanych w okresie styczeń 2026 – czerwiec 2026 w ramach Branżowego Centrum Umiejętności w dziedzinie elektryki",
+        "organization": "TAURON Dystrybucja S.A.",
+        "submission_deadline": "2026-01-16 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "tauron"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191428609_ogloszenie_o_zamowieniu.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191447922_Specyfikacja Warunków Zamówienia - Zapytanie Ofertowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191450186_Zał. nr 9 do SWZ - Projekt umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191427122_Zał. nr 7 do SWZ - Formularz Wyceny.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platforma.bzk.pl/open-preview-auction.html/2514/zakup-kleju-do-kartonow-komagra-kosow-lacki-1",
+      "metadata": {
+        "name": "Zakup kleju do kartonów _Komagra Kosów Lacki",
+        "organization": "BZK I WSPÓLNICY SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ JUSTYNA CIEŚLAK +48 887 160 167 cieslak_j@bzk.pl",
+        "submission_deadline": "2026-01-09 14:30",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T200821203_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560293/supplier/status",
+      "metadata": {
+        "name": "P - wykonanie projektów; Oddział Koszalin; Kołobrzeg",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-21 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192755082_Zapytanie Ofertowe PROJEKT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192750975_Wzór Umowy PROJEKTY płatność jednorazowa Connect OWU15.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77630",
+      "metadata": {
+        "name": "ML/25/H2/028275 - Dostawa asortymentu baterii PAD-PAK-03 do defibrylatora HEARTSHINE",
+        "organization": "Zespół Środków Ochrony Osobistej",
+        "submission_deadline": "2026-01-15 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192339427_BATERIA_PAD-PAK_-03_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192340129_formularz ofertowy bateria PAD PAK.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://e-propublico.pl/Ogloszenia/Details/be0eb94e-2e2e-49ff-a7be-47e4b3fdea40",
+      "metadata": {
+        "name": "Konserwacja i serwis dźwigów",
+        "organization": "20 Wojskowy Szpital Uzdrowiskowo-Rehabilitacyjny SPZOZ w Krynicy-Zdroju SP ZOZ w Krynicy-Zdroju",
+        "submission_deadline": "2026-01-15 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "epropublico_main"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191626914_Zaproszenie do składania ofert.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191557868_zał. nr 1 - formularz ofertowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191559191_zał. nr 2 - formularz cenowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191559813_zał. nr 3 - klauzula informacyjna RODO.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191558570_zał. nr 4 - oświadczenie.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191627497_zał. nr 5 - istotne dla stron postanowienia umowy.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243862",
+      "metadata": {
+        "name": "Zeszyt B5 160k w twardej oprawie",
+        "organization": "ZPUE S.A.",
+        "submission_deadline": "2026-01-12 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190244236_tender_1243862_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190248510_tender_1243862_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190247793_tender_1243862_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243990",
+      "metadata": {
+        "name": "Remont części budynków mieszkalnych na terenie Gminy Dębowa Łąka",
+        "organization": "Gmina Dębowa Łąka",
+        "submission_deadline": "2026-01-23 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 24,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191119167_tender_1243990_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191138411_Ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191202399_SWZ - Remont części budynków mieszkalnych na terenie Gminy Dębowa Łąka.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191134635_Zał. nr 1 do SWZ - Formularz Ofertowy.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191121997_Zał. nr 1 do Umowy (4a)- Harmonogram rzeczowo-finansowy.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191133651_Zał. nr 1 do Umowy (4b)- Harmonogram rzeczowo-finansowy.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191129782_Zał. nr 2 do SWZ - Oświadczenie. o niepodleganiu wykluczeniu, spełnianiu warunków udziału w postępowaniu.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191122761_Zał. nr 3 do SWZ - Wykaz robót budowlanych.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191144811_Zał. nr 4a do SWZ - Projekt umowy.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191151567_Zał. nr 4b do SWZ - Projekt umowy.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191126073_Zał. nr 5 do SWZ - Ośw. Wykonawcy o aktualności informacji zawartych w ośw., - art. 125 ust. 1 Pzp.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191124685_Zał. nr 6 do SWZ - Zobowiązanie podmiotu udostępniającego zasoby.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191138915_Zał. nr 7 do SWZ -Oświadczenie podmiotu udostępniającego zasoby.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191127723_Zał. nr 8 do SWZ - Pełnomocnictwo Wykonawców wspólnie ubiegających się o udzielenie zamówienia.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191119734_Zał. nr 9 do SWZ - Ośw. Wykonawców wspólnie ubiegających się o udzielenie zamówienia.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191142668_Zał. nr 10 a Dokumentacja projektowa Cz. nr I.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191141071_Zał. nr 10 b Dokumentacja projektowa Cz nr 2.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191207226_Zał. nr 11a do SWZ - Przedmiar robót dla cz. 1 zam. - Remont części budynku mieszkalnego nr 16 w miejscowości Dębowa Łąka.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191223614_Zał. nr 11b do SWZ - Przedmiar robót dla cz. 2 zam. - Remont części budynku mieszkalnego nr 15 w miejscowości Kurkocin.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191245260_Specyfikacje techniczne 2025 Dębowa Łąka 16.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191131523_Strona_tytułowa  Specyfikacje techniczne Dębowa Łąka 16 - 2025….pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191244012_Specyfikacje techniczne Kurkocin 15 2025.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191121575_Strona_tytułowa  Kurkocin 15 Specyfikacje techniczne 2025.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191132067_bzp_budget.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243874",
+      "metadata": {
+        "name": "Szacowanie -na wykonanie obsługi serwisowej i napraw awaryjnych systemów Sygnalizacji Włamania i Napadu, Kontroli Dostępu i Telewizji Dozorowej CCTV dla Terenowej Stacji w Wojskowym Centrum Krwiodawstwa i Krwiolecznictwa SPZOZ w Warszawie",
+        "organization": "Wojskowe Centrum Krwiodawstwa I Krwiolecznictwa SP ZOZ",
+        "submission_deadline": "2026-01-12 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190257200_tender_1243874_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190259458_Opis przedmiotu zamówienia .pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190258656_SZACOWANIE-.xlsx"
+      ]
+    },
+    {
+      "tender_url": "https://farmacol.eb2b.com.pl/open-preview-auction.html/500656/cykliczne-dostawy-folii",
+      "metadata": {
+        "name": "Cykliczne dostawy folii",
+        "organization": "FARMACOL LOGISTYKA SP. Z O.O. AGNIESZKA ŁOSOŃ 502 872 640 aloson@farmacol.com.pl",
+        "submission_deadline": "2026-01-15 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201103670_2025.09.10_owz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201100549_zalacznik_nr_1_-_miejsca_dostaw.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201104524_zapytanie_ofertowe_-_cykliczne_dostawy_folii.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201105183_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/559935/supplier/status",
+      "metadata": {
+        "name": "W - wykonanie robót; Oddział Płock; Kutno, OBI/74/2502002, Gostynin gmina miejska; Gostynin",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-16 09:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192952660_Zapytanie Ofertowe Robota budowlana RKW bez zabezpieczenia - w3.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192951792_Załączniki PT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192950385_WZÓR UMOWY - U6 do OWU V15 W płatność częściowa_podatnik VAT.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192940706_tabela wymaganych uprawnień RKW(1).pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193000272_S2 Specyfikacja Wykonanie PPN 18.11.2025 11_07_15.2696631.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192957643_PZT...pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192956133_Projekt techniczny...pdf"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/259982",
+      "metadata": {
+        "name": "„Zwiększenie poziomu cyberbezpieczeństwa Gminy Jasionówka”",
+        "organization": "Gmina Jasionówka",
+        "submission_deadline": "2026-01-16 15:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193234478_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193233394_zał-1-oferta-I.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193231231_zał-2-brak powiązań-I.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193244111_zał-3-opis przedmiotu zam-I.odt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193253504_Zapytanie-cyber-baza-2026-1-podp.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://przyjazn.logintrade.net/zapytania_email,1645706,b1efedde964497fb3cacb2a885415647.html",
+      "metadata": {
+        "name": "TULEJA GUMOWA SPRZĘGŁA: A=35mm B=60mm / H=55mm wg rysunku (ZKP-AM879736)",
+        "organization": "JSW KOKS Spółka Akcyjna",
+        "submission_deadline": "2026-01-15 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194317989_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243813",
+      "metadata": {
+        "name": "Dostawa kruszyw drogowych  dla MPWiK Sp. z o.o. w Rzeszowie",
+        "organization": "Miejskie Przedsiębiorstwo Wodociągów i Kanalizacji Sp. z o.o. w Rzeszowie",
+        "submission_deadline": "2026-01-15 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190432859_tender_1243813_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190434069_Oświadczenie_wykluczenie.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190442684_Umowa ZO-01.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560467/supplier/status",
+      "metadata": {
+        "name": "6000007420/2026 - Čerpadlo P001A/B, typ: RW 43-4418c6XR-0608U1V-K - PUMP P001A/B, type RW 43-4418c6XR-0608U1V-K",
+        "organization": "ORLEN UNIPETROL",
+        "submission_deadline": "2026-01-16 16:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192835561_Zadávací podmínky VŘ.doc"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260012",
+      "metadata": {
+        "name": "ZAPYTANIE OFERTOWE NR 12/2026 Dotyczące zakupu, dostawy i uruchomienia hydraulicznej prasy krawędziowej .",
+        "organization": "Przedsiębiorstwo Techniczne Plex spółka z o.o.",
+        "submission_deadline": "2026-01-19 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 9,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193403692_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193406559_Załącznik nr 1 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193407159_Załącznik nr 2 do zapytania ofertowego.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193405344_Załącznik nr 2 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193404128_Załącznik nr 3 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193404717_Załącznik nr 4 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193402665_Załącznik nr 5 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193405953_Załącznik nr 6 do zapytania ofertowego.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193409162_Zapytanie ofertowe 12 2026.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243965",
+      "metadata": {
+        "name": "DOSTAWA ROZTWORU MOCZNIKA 32,5 %PRZEZNACZONEGO DO OCZYSZCZANIA GAZÓW SPALINOWYCH SILNIKÓW WYSOKOPRĘŻNYCH",
+        "organization": "Grudziądzki Park Przemysłowy Sp. z o.o.",
+        "submission_deadline": "2026-01-19 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190340303_tender_1243965_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190341947_2 - ZP-MZK-2026-01-1 - ZAPROSZENIE 08.01.2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190355412_2A - ZP-MZK-2026-01-1 - ZAŁ. NR 1 - PROJEKT UMOWY - 08.01.2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190340962_2B - ZP-MZK-2026-01-1 - ZAŁ. NR 2 - FORMULARZ CENOWY 08.01.2026.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190345258_2C - ZP-MZK-2026-01-1 - ZAŁ. NR 3 - FORMULARZ OFERTOWY - 08.01.2026.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190342701_2D - ZP-MZK-2026-01-1 - ZAŁ. NR 4 OŚWIADCZENIE UKRAINA..docx"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243548",
+      "metadata": {
+        "name": "Dostawa blachy i blachy chromoniklowej",
+        "organization": "Miejskie Przedsiębiorstwo Komunikacyjne sp. z o.o. we Wrocławiu",
+        "submission_deadline": "2026-01-13 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190241082_tender_1243548_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190232862_Formularz ofertowy.xls"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560127/supplier/status",
+      "metadata": {
+        "name": "W + P - wykonanie robót + wykonanie dokumentacji; Oddział Kalisz; Turek, Opracowanie dokumentacji projektowej i budowa linii kablowej nN, wymianę istn...",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-19 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193025133_Załącznik do specyfikacji.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193026778_Wymagany zakres współpracy w RKW.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193028166_Warunki.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193032374_U2 do OWU V15 PW Płatność jednorazowa_podatnik VAT 28.03.2025 14_07_49.5221899.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193030308_Specyfikacja.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193017459_Mapa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193033173_7. Zapytanie Ofertowe pod klucz RKW bez zabezpieczenia - 2025.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://connect.orlen.pl/app/outRfx/560287/supplier/status",
+      "metadata": {
+        "name": "P - wykonanie projektów; Oddział Koszalin; Kołobrzeg, Rymań (wieś)",
+        "organization": "Energa Operator",
+        "submission_deadline": "2026-01-21 08:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "orlenconnect"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192714933_Zapytanie Ofertowe PROJEKT.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://cersanit.logintrade.net/zapytania_email,1645730,784dea900fa2f7bdb4355f04c8409f07.html",
+      "metadata": {
+        "name": "-LOGISTICS/TRANSPORT/Kwark/Sacmi Polska/Tomasz Galinski/Cersanit SA",
+        "organization": "Cersanit Invest LLC / ТОВ ”Церсаніт Інвест”",
+        "submission_deadline": "2026-01-08 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194132174_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260082",
+      "metadata": {
+        "name": "Dostawa sprzętu medycznego",
+        "organization": "Jacek Witold Woliński",
+        "submission_deadline": "2026-01-15 23:59",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193212774_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193221159_Zapytanie ofertowe_sprzęt medyczny 08.01.2026.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193216777_Zał. 1. Formularz ofertowy_sprzęt medyczny.docx"
+      ]
+    },
+    {
+      "tender_url": "https://www.deutsche-evergabe.de/Dashboards/Dashboard_off?name=Digitalisierung%20von%20Bestandsgrundst%C3%BCcksakten&date=2026-01-08",
+      "metadata": {
+        "name": "Digitalisierung von Bestandsgrundstücksakten",
+        "organization": "Samtgemeinde Zeven",
+        "submission_deadline": "2026-02-04 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "deutsche_evergabe"
+      },
+      "files_count": 6,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191451743_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191453373_Bekanntmachung\\Auftragsbekanntmachung.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191506252_Unterlagen\\Vergabeunterlagen.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191452607_Unterlagen\\Weitere Dokumente\\Anlage Muster Bewertungsmatrix.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191500125_Unterlagen\\Weitere Dokumente\\Leistungsbeschreibung.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191501444_Unterlagen\\Weitere Dokumente\\LV Digitalisierung Akten.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://ezamowienia.gov.pl/mp-client/search/list/ocds-148610-1e922c2d-5439-46a0-ac40-53b0cd6c41c3",
+      "metadata": {
+        "name": "Sukcesywna dostawa środków czystości oraz artykułów gospodarczych dla Jednostek Gminy Stalowa Wola w 2026 roku",
+        "organization": "Stalowowolskie Centrum Usług Wspólnych",
+        "submission_deadline": "2026-01-16 11:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "ezamowienia"
+      },
+      "files_count": 11,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193912561_Ogłoszenie_2026-BZP_00014628-01_z_dnia_8_stycznia_2026.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193947802_SWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193921805_Ogłoszenie 1.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193916468_Załącznik nr 1 - Formularz ofertowy.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193951292_Załącznik nr 2 - Formularz rzeczowo-cenowy ZP-III.261.1.2026.KA.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193914527_Załączniki 3,4,5,6.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193933314_Załącznik nr 7 - Wzór umowy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193911200_Instrukcja Komunikacja-w-postepowaniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193918895_Instrukcja Oferty, wnioski i prace konkursowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193918161_Podpisywanie-wnioskow-3.1_20210628.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193919503_ZKU-3.2_20211016.pdf"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243853",
+      "metadata": {
+        "name": "Dzierżawa dwóch 12 metrowych autobusów komunikacji miejskiej.",
+        "organization": "Transgór Spółka Akcyjna",
+        "submission_deadline": "2026-01-20 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 7,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190413970_tender_1243853_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190415321_Zapytanie ofertowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190424577_Załącznik nr 1 _Wymagania techniczne dotyczące autobusów.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190420928_Załącznik nr 2 _ Standard wyposażenia pojazdów w urządzenia poboru opłat wariant „Metrolinia”.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190418916_Załącznik nr 3_Standardy działania Systemu Informacji Pasażerskiej w pojazdach.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190418189_Załącznik nr 4_Zasady identyfikacji wizualnej i oznakowania autobusów.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190416399_Załącznik nr 5 - Formularz ofertowy.doc"
+      ]
+    },
+    {
+      "tender_url": "https://oferty.kghm.com/platform/application?MP_module=outErfx&MP_action=supplierStatus&iRfxRound=77602",
+      "metadata": {
+        "name": "ML/26/H4/029337 - DOSTAWA BLOK C73451-A430-D81 PNEUMATYCZNY",
+        "organization": "Zespół Asortymentu Wielobranżowego",
+        "submission_deadline": "2026-01-13 14:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "kghm"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T192255734_BLOK_C73451-A430-D81_PNEUMATYCZNY_details.txt"
+      ]
+    },
+    {
+      "tender_url": "https://bazakonkurencyjnosci.funduszeeuropejskie.gov.pl/ogloszenia/260066",
+      "metadata": {
+        "name": "Dostawa wraz montażem elektrycznego ekranu projekcyjnego wraz z niezbędnym wyposażeniem w II Liceum Ogólnokształcącym w Świdnicy. (zapytanie ofertowe nr 04/01/2026/LO)",
+        "organization": "Fundacja \"Krzyżowa\" dla Porozumienia Europejskiego",
+        "submission_deadline": "2026-01-19 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "bazakonkurencyjnosci"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193259701_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193301494_zapytanie ofertowe 04_01_2026_LO.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193313716_zał. 1 formularz ofertowy 04_01_2026_LO.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193305828_zał. 2 oświadczenia 04_01_2026_LO.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193309817_zał. nr 3 szczegółowy opis 04_01_2026_LO.docx"
+      ]
+    },
+    {
+      "tender_url": "https://goodvalley.logintrade.net/portal,szczegolyZapytaniaOfertowe,61286c9ddec100cff171da786f16245b.html",
+      "metadata": {
+        "name": "karton na sklejarkę 590x390x70",
+        "organization": "GOODVALLEY Sp. z o.o.",
+        "submission_deadline": "2026-01-13 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193935778_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.grupaazoty.com/zapytania_email,1645811,9fa6c8adc54c76d0c5de8b433a850168.html",
+      "metadata": {
+        "name": "Wykonywanie serwisu szlabanów drogowych na terenie Grupy Azoty Zakłady Azotowe Kędzierzyn S.A. w latach 2026-2027",
+        "organization": "Grupa Azoty Zakłady Azotowe Kędzierzyn S.A.",
+        "submission_deadline": "2026-01-16 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 5,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194150925_tender_description.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194144087_ZAŁ_ NR 1 - Wzór oferty serwis szlabanów na terenie Grupy Azoty ZAK S_A_.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194146329_ZAŁ_ NR 3 Wykaz zadań - Serwis szlabanów na terenie Grupy Azoty ZAK S_A_.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194148629_ZAŁ_ NR 2 oświadczenie Oferenta.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T194151600_Zapytanie ofertowe_usługa serwisu szlabanów drogowych_.docx"
+      ]
+    },
+    {
+      "tender_url": "https://bogdanka.eb2b.com.pl/open-preview-auction.html/147828/rezystor-choppera-uxp-600-1k2kj-silnik-sg3f-355l-4",
+      "metadata": {
+        "name": "REZYSTOR CHOPPERA UXP/600 1K2KJ - SILNIK SG3F 355L-4",
+        "organization": "LUBELSKI WĘGIEL BOGDANKA S.A. ZIELIŃSKI DARIUSZ dzielinski@lw.com.pl",
+        "submission_deadline": "2026-01-12 10:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201034280_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://swoz.tauron.pl/platform/demand/notice/public/13059470/details",
+      "metadata": {
+        "name": "Dostawa zaworu kulowego Ceravalve KSV DN150-125-150 PN10 CERA SYSTEM dla TAURON Wytwarzanie Spółka Akcyjna - Oddział Elektrownia Nowe Jaworzno w Jaworznie",
+        "organization": "TAURON Wytwarzanie S.A.",
+        "submission_deadline": "2026-01-13 13:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "tauron"
+      },
+      "files_count": 4,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191338793_ogloszenie_o_zamowieniu.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191353132_Warunki Zamówienia.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191351961_Załącznik nr 1 - Warunki realizacji zamówienia - dostawy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191401650_Załącznik nr 2 - Oświadczenie o produkcie równoważnym.docx"
+      ]
+    },
+    {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243600",
+      "metadata": {
+        "name": "Rozbudowa drogi wojewódzkiej nr 303   odc. Chobienice – Grójec – budowa ścieżki rowerowej",
+        "organization": "Wielkopolski Zarząd Dróg Wojewódzkich w Poznaniu",
+        "submission_deadline": "2026-01-23 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 65,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191505339_tender_1243600_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191542233_formularze edytowanle.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191528617_10_Rys. 6.2 Przekroje poprzeczne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191526233_11_Rys. 6.3 Przekroje poprzeczne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191533726_12_Rys. 6.4 Przekroje poprzeczne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191507326_13_Rys. 7 Schemat umocnien wylotu przepustu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191448110_1_Rys. 1 Plan orientacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191524715_2_Rys. 2.1 Plan sytuacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191539863_3_Rys. 2.2 Plan sytuacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191505981_4_Rys. 3 Przekroje normalne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191523355_5_Rys. 4 Szczegoly konstrukcyjne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191506714_6_Rys. 5.1 Przekroj podluzny Sciezka rowerowa - odcinek A.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191539231_7_Rys. 5.2 Przekroj podluzny Sciezka rowerowa - odcinek B.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191524114_8_Rys. 5.3 Przekroj podluzny Sciezka rowerowa - odcinek B.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191555488_9_Rys. 6.1 Przekroje poprzeczne.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191557176_PT_PW_D_czesc opisowa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191430287_3. Załączniki.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191537577_3.1 WT_1.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191536834_3.1 WT_2.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191140092_3.1 WT_mapa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191531606_3.2 Dodatkowe wymagania OPL.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191532302_3.3.1 Uprawnienia_Marcin Tomasik.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191520386_3.3.2 Uprawnienia_Przemyslaw Janusiewicz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191514692_3.3.3 Zaświadczenie_Marcin Tomasik.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191433467_3.3.4 Zaświadczenie_Przemyslaw Janusiewicz.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191548388_3.4.1 Odpis protokolu z NK.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191502076_3.4.2 Odpis protokolu z NK_rys_ark1.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191513018_3.4.3 Odpis protokolu z NK_rys_ark2.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191504679_3.5 Uzgodnienie OPL 17074-TTISILU-P-2023.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191449536_3.6 Oświadczenie projektanta.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191454577_3.7 Oswiadczenie inwestora.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191525581_3.8 Wykaz dzialek na ktorych jest przebudowa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191441456_3.9. Przepisy i normy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191459767_4. Rysunki.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191452200_4.1 Rys1 Plan orientacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191507848_4.2 Rys2.1 Plan sytuacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191513997_4.2 Rys2.2 Plan sytuacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191517920_4.3 Rys3.1 Przebudowa kabli rozdzielczych.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191442727_4.3 Rys3.2 Przebudowa kabli rozdzielczych.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191458864_5. Zestawienie materiałów.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191547592_PT_PW_T_czesc opisowa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191549083_Opis_Projekt stalej organizacji ruchu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191503510_Rys. 1 Plan orientacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191237554_Rys. 2.1 Plan stałej organizacji ruchu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191256264_Rys. 2.2 Plan stałej organizacji ruchu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191534591_Opis_Plan wyrebu drzew.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191443651_Rys, 1 Plan orientacyjny.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191509414_Rys. 2.1 Plan wyrebu drzew i krzewow.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191549791_Rys. 2.2 Plan wyrebu drzew i krzewow.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191717356_SSTWiORB.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191502779_wzór tablicy.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191550453_TER_specjalnosc drogowa.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191527920_TER_specjalnosc drogowa.xls",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191456779_TER_specjalnosc telekomunikacyjna.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191447338_TER_specjalnosc telekomunikacyjna.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191508649_ZZK.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191457610_ZZK.xlsx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191554712_Ogłoszenie o zamówieniu.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191634180_PPU .pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191636976_SWZ.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191510144_notatka do odbioru oststecznego wzór.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191521199_prot.odb.cz⌐ÿå_.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191545591_prot.odb.ostat.robót. wzór.doc",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191450428_Protokoê koniecznoÿci.wzór.xls",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T191637778_TER+ZZK wzór.xls"
+      ]
+    },
+    {
+      "tender_url": "https://alchemia.logintrade.net/zapytania_email,1645788,e7fa9ce0cf28a4d0c103b0ed24cae3b5.html",
+      "metadata": {
+        "name": "HBT / 44741 / 2025 - Zestaw kluczy nasadowych z grzechotką YATO 96 sztuk 1/4'''''''''''''''' i 1/2'''''''''''''''' Indeks YT-1268",
+        "organization": "Alchemia S.A. Oddział Chorzów Batory",
+        "submission_deadline": "2026-01-12 00:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "logintrade"
+      },
+      "files_count": 1,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T193943157_tender_description.txt"
+      ]
+    },
+    {
+      "tender_url": "https://pkpintercity.eb2b.com.pl/open-preview-auction.html/438813/pompa-obiegowa-do-c-o",
+      "metadata": {
+        "name": "Pompa obiegowa do C. O.",
+        "organization": "PKP INTERCITY S.A. ELŻBIETA TUSZKOWSKA 697044636 Elzbieta.Tuszkowska@intercity.pl",
+        "submission_deadline": "2026-01-15 12:00",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "eb2b"
+      },
+      "files_count": 3,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201103216_zapytanie_ofertowe.pdf",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201059915_zalacznik_nr.1_-_oswiadczenie.docx",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T201102562_tender_description.txt"
+      ]
+    }
+  ]
+}

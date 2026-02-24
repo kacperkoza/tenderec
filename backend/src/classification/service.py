@@ -1,9 +1,8 @@
-import json
 from pathlib import Path
 
-from app.services.llm import get_openai_client
+from src.classification import constants as classification_constants
+from src.llm.service import get_openai_client
 
-TENDERS_PATH = Path(__file__).resolve().parent.parent.parent / "resources" / "tender" / "tenders_sublist.json"
 
 SYSTEM_PROMPT = """\
 Jesteś ekspertem od polskiego rynku zamówień publicznych i klasyfikacji branżowej firm.
@@ -34,10 +33,10 @@ Nie dodawaj żadnego tekstu poza JSON-em.\
 """
 
 
-def load_tenders() -> list[dict]:
-    with open(TENDERS_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return data["tenders"]
+def _load_tenders() -> list[dict]:
+    import json
+    with open(classification_constants.TENDERS_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)["tenders"]
 
 
 def _build_user_prompt(tenders: list[dict]) -> str:
@@ -52,15 +51,14 @@ def _build_user_prompt(tenders: list[dict]) -> str:
             seen.add(key)
             lines.append(f"- organization: {org} | name: {name}")
 
-    header = f"Oto lista {len(lines)} przetargów (organization + name):\n\n"
-    return header + "\n".join(lines)
+    return f"Oto lista {len(lines)} przetargów (organization + name):\n\n" + "\n".join(lines)
 
 
 def classify_tenders() -> dict:
-    """Wysyła organizacje z przetargów do LLM i zwraca pogrupowane branże."""
-    tenders = load_tenders()
-    client = get_openai_client()
+    import json
 
+    tenders = _load_tenders()
+    client = get_openai_client()
     user_prompt = _build_user_prompt(tenders)
 
     response = client.chat.completions.create(

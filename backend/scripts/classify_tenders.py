@@ -12,10 +12,9 @@ import json
 import sys
 from pathlib import Path
 
-# Dodaj root projektu do sys.path, żeby importy z app/ działały
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.services.llm import get_openai_client
+from src.llm.service import get_openai_client
 
 TENDERS_PATH = Path(__file__).resolve().parent.parent / "resources" / "tender" / "tenders_sublist.json"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "resources" / "organization_by_industry" / "organizations_by_industry.json"

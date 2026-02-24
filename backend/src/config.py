@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings
 
-TOKEN_PATH = Path(__file__).resolve().parent.parent.parent / ".token"
+TOKEN_PATH = Path(__file__).resolve().parent.parent / ".token"
 
 
 def _read_token() -> str:
@@ -22,3 +22,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+

@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from app.core.config import settings
+from src.config import settings
 
 GITHUB_MODELS_ENDPOINT = "https://models.inference.ai.azure.com"
 
@@ -15,5 +15,4 @@ def get_openai_client() -> OpenAI:
             api_key=settings.github_token,
         )
     return _client
-
 

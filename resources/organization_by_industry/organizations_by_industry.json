@@ -1,0 +1,132 @@
+{
+  "industries": [
+    {
+      "industry": "Administracja samorządowa",
+      "organizations": [
+        "Powiat Wągrowiecki",
+        "Gmina Papowo Biskupie",
+        "Gmina Brojce",
+        "Gmina Stęszew",
+        "Urząd Pracy Powiatu Krakowskiego",
+        "Urząd Marszałkowski Województwa Lubuskiego",
+        "Miasto Łódź",
+        "Urząd Miejski Starachowice",
+        "Gmina Dopiewo",
+        "Gmina Dębowa Łąka",
+        "Gmina Jasionówka",
+        "Wielkopolski Zarząd Dróg Wojewódzkich w Poznaniu"
+      ]
+    },
+    {
+      "industry": "Edukacja",
+      "organizations": [
+        "Centrum Rozwoju Edukacji Województwa Łódzkiego w Skierniewicach",
+        "SZKOŁA PODSTAWOWA W ZABRZEGU",
+        "Fundacja Instytut Edukacji",
+        "Krajowe Centrum Edukacji Rolniczej w Brwinowie",
+        "Fundacja \"Krzyżowa\" dla Porozumienia Europejskiego"
+      ]
+    },
+    {
+      "industry": "Ochrona zdrowia",
+      "organizations": [
+        "Samodzielny Publiczny Zakład Opieki Zdrowotnej w Siedlcach",
+        "Areszt Śledczy w Lublinie",
+        "Centrum Medyczne \"VITA” Skrętowicz Sp. k. (dawniej Centrum Medyczne \"VITA” Skrętowicz Sp. z o. o.)",
+        "Nadir II Spółka z ograniczoną odpowiedzialnością",
+        "Wojskowe Centrum Krwiodawstwa I Krwiolecznictwa SP ZOZ",
+        "20 Wojskowy Szpital Uzdrowiskowo-Rehabilitacyjny SPZOZ w Krynicy-Zdroju SP ZOZ w Krynicy-Zdroju"
+      ]
+    },
+    {
+      "industry": "Energetyka",
+      "organizations": [
+        "TAURON Wytwarzanie S.A.",
+        "Energa Operator",
+        "ORLEN Termika S.A.",
+        "ORLEN S.A.",
+        "ORLEN Południe",
+        "WĘGLOKOKS ENERGIA Sp. z o.o."
+      ]
+    },
+    {
+      "industry": "Transport kolejowy",
+      "organizations": [
+        "PKP INTERCITY S.A. ŁUKASZ GABRYCH lukasz.gabrych@intercity.pl",
+        "PKP CARGO S.A. W RESTRUKTURYZACJI",
+        "Zespół Asortymentu Katalogowego",
+        "PKP INTERCITY S.A. ELŻBIETA TUSZKOWSKA 697044636 Elzbieta.Tuszkowska@intercity.pl"
+      ]
+    },
+    {
+      "industry": "Przemysł chemiczny",
+      "organizations": [
+        "Grupa Azoty Jednostka Ratownictwa Chemicznego sp. z o.o.",
+        "Grupa Azoty Kopalnie i Zakłady Chemiczne Siarki Siarkopol S.A.",
+        "Grupa Azoty Zakłady Azotowe Kędzierzyn S.A."
+      ]
+    },
+    {
+      "industry": "Górnictwo",
+      "organizations": [
+        "PGE GiEK SA",
+        "LUBELSKI WĘGIEL BOGDANKA S.A. ZIELIŃSKI DARIUSZ dzielinski@lw.com.pl",
+        "PAK Kopalnia Węgla Brunatnego Konin S.A.",
+        "JSW KOKS Spółka Akcyjna"
+      ]
+    },
+    {
+      "industry": "Transport publiczny",
+      "organizations": [
+        "Miejskie Przedsiębiorstwo Komunikacyjne sp. z o.o. we Wrocławiu",
+        "Transgór Spółka Akcyjna"
+      ]
+    },
+    {
+      "industry": "Produkcja przemysłowa",
+      "organizations": [
+        "Alchemia S.A. Oddział Chorzów Batory",
+        "Pekabex Bet S.A",
+        "LEONI KABEL POLSKA SP.z o.o.",
+        "ZPUE S.A.",
+        "Cognor SA oddział HSJ w Stalowej Woli",
+        "Przedsiębiorstwo Techniczne Plex spółka z o.o.",
+        "GOODVALLEY Sp. z o.o."
+      ]
+    },
+    {
+      "industry": "Usługi komunalne",
+      "organizations": [
+        "Zarząd Budynków Miejskich II Towarzystwa Budownictwa Społecznego Sp. z o.o. w Gliwicach",
+        "Miejskie Przedsiębiorstwo Wodociągów i Kanalizacji Sp. z o.o. w Rzeszowie",
+        "Stalowowolskie Centrum Usług Wspólnych"
+      ]
+    },
+    {
+      "industry": "Wojsko i obronność",
+      "organizations": [
+        "24WOG",
+        "21 Wojskowy Oddział Gospodarczy w Elblągu"
+      ]
+    },
+    {
+      "industry": "IT i technologie",
+      "organizations": [
+        "Pixel Technology sp. z o.o.",
+        "WĘGLOKOKS ENERGIA Sp. z o.o."
+      ]
+    },
+    {
+      "industry": "Poligrafia i wydawnictwa",
+      "organizations": [
+        "MAŁOPOLSKI OŚRODEK DORADZTWA ROLNICZEGO"
+      ]
+    },
+    {
+      "industry": "Turystyka i hotelarstwo",
+      "organizations": [
+        "Warmińsko-Mazurski Zakład Doskonalenia Zawodowego w Olsztynie"
+      ]
+    }
+  ]
+}

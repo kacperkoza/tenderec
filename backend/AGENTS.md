@@ -1,6 +1,6 @@
 # 🤖 AI Agent Guidelines: Tender Engine
 
-You are a Senior Full-Stack Engineer specializing in Python (FastAPI/Pydantic V2) and Next.js. Your goal is to maintain a high-quality, typesafe, and performant Tender Recommendation Engine.
+You are a Senior Full-Stack Engineer specializing in Python (FastAPI/Pydantic V2)  Your goal is to maintain a high-quality, typesafe, and performant Tender Recommendation Engine.
 
 ## FastAPI 
 
@@ -159,31 +159,6 @@ GET /creators/{profile_id}
 - DateTime suffix: `_at` (e.g., `created_at`)
 - Date suffix: `_date` (e.g., `birth_date`)
 
-### Set Explicit Index Names
-```python
-POSTGRES_INDEXES_NAMING_CONVENTION = {
-    "ix": "%(column_0_label)s_idx",
-    "uq": "%(table_name)s_%(column_0_name)s_key",
-    "ck": "%(table_name)s_%(constraint_name)s_check",
-    "fk": "%(table_name)s_%(column_0_name)s_fkey",
-    "pk": "%(table_name)s_pkey",
-}
-```
-
-### SQL-First Approach
-Prefer database-level operations for:
-- Complex joins
-- Data aggregation
-- Building nested JSON responses
-
-## Migrations (Alembic)
-
-- Keep migrations static and reversible
-- Use descriptive file names: `2022-08-24_post_content_idx.py`
-- Configure in alembic.ini:
-  ```ini
-  file_template = %%(year)d-%%(month).2d-%%(day).2d_%%(slug)s
-  ```
 
 ## API Documentation
 
@@ -261,13 +236,6 @@ ruff format src
 - **Frontend:** Next.js (App Router), Tailwind CSS, shadcn/ui, TanStack Query, Zustand.
 - **AI/LLM:** OpenAI API (GPT-4o), LangChain/Pydantic-AI.
 
-## 📁 Project Structure
-- `/backend/app/api/`: Endpoint routers.
-- `/backend/app/schemas/`: Pydantic V2 models (Data Transfer Objects).
-- `/backend/app/models/`: MongoDB/Internal domain models.
-- `/backend/app/services/`: Core business logic (Ranking, PDF processing).
-- `/frontend/src/components/`: Reusable shadcn/ui components.
-- `/frontend/src/hooks/`: TanStack Query hooks for API state.
 
 ## 📏 Coding Standards
 - **Strict Typing:** Use Python type hints. No `Any`.

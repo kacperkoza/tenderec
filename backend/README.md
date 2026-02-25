@@ -85,3 +85,14 @@ Result:
 multi-level filtering from cheapest to the most expensive, with the following levels:  
 - **Level 1: Basic Classification** - Classify organizations into broad categories (e.g., public sector, private sector, non-profit) based on minimal information such as name and description
 - level 2: Industry Classification - Classify organizations into specific industries (e.g., healthcare, education, construction) using more detailed information from the description
+
+
+Limitations:
+- free 4o model have 8000 context limit. for classification of 1400 tenders, we would need to perform 30 requests
+Due to this limitation analyzing files is super hard or impossible.
+
+```
+openai.APIStatusError: Error code: 413 - {'error': {'code': 'tokens_limit_reached', 'message': 'Request body too large for gpt-4o model. Max size: 8000 tokens.', 'details': 'Request body too large for gpt-4o model. Max size: 8000 tokens.'}}
+```
+```
+openai.RateLimitError: Error code: 429 - {'error': {'code': 'RateLimitReached', 'message': 'Rate limit of 100 per 86400s exceeded for UserByModelByDay. Please wait 9971 seconds before retrying.', 'details': 'Rate limit of 100 per 86400s exceeded for UserByModelByDay. Please wait 9971 seconds before retrying.'}}```

@@ -1,9 +1,6 @@
 from datetime import date
-from pathlib import Path
 
-RESOURCES_DIR = Path(__file__).resolve().parent.parent.parent / "resources"
-
-TENDERS_PATH = RESOURCES_DIR / "tender" / "tenders.json"
+from src.constants import TENDERS_PATH as TENDERS_PATH
 
 COLLECTION_NAME = "organization_classifications"
 

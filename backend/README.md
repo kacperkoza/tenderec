@@ -6,7 +6,7 @@ Tender Recommendation Engine — matches Polish public procurement tenders to co
 
 - Python 3.12+
 - MongoDB running locally (default: `mongodb://localhost:27017`)
-- GitHub Models API token (saved in `.token` file or set via `GITHUB_TOKEN` env var)
+- OpenAI API key (set via `OPENAI_API_KEY` env var in `.env`)
 
 ## Setup
 
@@ -14,14 +14,18 @@ Tender Recommendation Engine — matches Polish public procurement tenders to co
 uv sync --all-extras
 ```
 
-Create a `.token` file in the project root with your GitHub Models API token, or set the `GITHUB_TOKEN` environment variable.
+Set your OpenAI API key in the `.env` file:
+
+```
+OPENAI_API_KEY=sk-...
+```
 
 Optional `.env` overrides:
 
 ```
 MONGODB_URL=mongodb://localhost:27017
 MONGODB_DB_NAME=tenderec
-LLM_MODEL=gpt-4o
+LLM_MODEL=gpt-4o-mini
 ORGANIZATION_CLASSIFICATION_SOURCE=mongodb
 TENDER_DEADLINE_DATE=2026-01-10
 ```
@@ -157,8 +161,8 @@ curl -X POST "http://localhost:8000/api/v1/recommendations/match?company_name=gr
 
 ## Limitations
 
-- GitHub Models free tier has an 8000 token context limit for gpt-4o, requiring batched requests
-- Daily rate limit of 100 requests per model — classification of 678 organizations requires multiple batches across days
+- OpenAI API has token limits per request, requiring batched requests for large datasets
+- Rate limits depend on your OpenAI plan — classification of 678 organizations requires multiple batches
 
 ## Future vision
 - use vector databases for more efficient tender retrieval and matching without LLM scoring of all tenders

@@ -1,6 +1,7 @@
 import json
 
 from src.llm.service import get_openai_client
+from src.organization_classification.service import get_industries
 from src.recommendations import constants as rec_constants
 
 
@@ -48,8 +49,7 @@ def _load_company_profile(company_id: str) -> str:
 
 
 def _load_industries_list() -> list[dict]:
-    with open(rec_constants.INDUSTRIES_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)["industries"]
+    return get_industries()["industries"]
 
 
 def _load_org_to_industry_map() -> dict[str, str]:

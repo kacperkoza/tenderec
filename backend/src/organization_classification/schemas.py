@@ -1,11 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
-class IndustryGroup(BaseModel):
-    industry: str
-    organizations: list[str]
+class OrganizationClassification(BaseModel):
+    organization: str
+    industries: list[str] = Field(min_length=1, max_length=3)
 
 
 class ClassifyResponse(BaseModel):
-    industries: list[IndustryGroup]
-
+    organizations: list[OrganizationClassification]

@@ -19,6 +19,9 @@ class Settings(BaseSettings):
 
     github_token: str = _read_token()
 
+    mongodb_url: str = "mongodb://localhost:27017"
+    mongodb_db_name: str = "tenderec"
+
     # "file" = read industries from organizations_by_industry.json (fast, no LLM cost)
     # "llm"  = classify on the fly via LLM (slow, uses tokens, we are poor)
     organization_classification_source: Literal["file", "llm"] = "llm"
@@ -27,4 +30,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-

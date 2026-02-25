@@ -5,7 +5,7 @@ from src.organization_classification.service import get_industries
 from src.recommendations import constants as rec_constants
 
 
-#classification ideas
+# classification ideas
 """
 1. Kategorie usług
 2. Sugerowane Kody CPV
@@ -99,17 +99,17 @@ def _load_company_profile(company_id: str) -> str:
 
 
 def _load_industries_list() -> list[dict]:
-    return get_industries()["industries"]
+    data = get_industries()
+    return data["organizations"]
 
 
-def _load_org_to_industry_map() -> dict[str, str]:
-    # Always read from file for recommendations — fast, no LLM cost
+def _load_org_to_industry_map() -> dict[str, list[str]]:
     from src.organization_classification.service import _load_from_file
+
     data = _load_from_file()
-    org_map: dict[str, str] = {}
-    for group in data["industries"]:
-        for org in group["organizations"]:
-            org_map[org] = group["industry"]
+    org_map: dict[str, list[str]] = {}
+    for entry in data["organizations"]:
+        org_map[entry["organization"]] = entry["industries"]
     return org_map
 
 
@@ -118,7 +118,9 @@ def _load_tenders() -> list[dict]:
         return json.load(f)["tenders"]
 
 
-def _score_tenders_via_llm(company_profile: str, tenders_with_industry: list[dict]) -> list[dict]:
+def _score_tenders_via_llm(
+    company_profile: str, tenders_with_industry: list[dict]
+) -> list[dict]:
     """Send all tenders to LLM in one call for per-tender scoring and size classification."""
     client = get_openai_client()
 
@@ -172,22 +174,26 @@ def match_company_to_industries(company_id: str) -> dict:
     return result
 
 
-def get_recommendations(company_id: str, threshold: float = rec_constants.SCORE_THRESHOLD) -> dict:
+def get_recommendations(
+    company_id: str, threshold: float = rec_constants.SCORE_THRESHOLD
+) -> dict:
     company_name = rec_constants.COMPANY_REGISTRY.get(company_id)
     if not company_name:
         raise ValueError(f"Unknown company_id: {company_id}")
 
-    # 1. Build org -> industry map from file (fast)
-    org_to_industry = _load_org_to_industry_map()
+    # 1. Build org -> industries map from file (fast)
+    org_to_industries = _load_org_to_industry_map()
 
-    # 2. Load tenders and attach industry to each
+    # 2. Load tenders and attach industries to each
     tenders = _load_tenders()
     tenders_with_industry = [
         {
             "tender_url": t["tender_url"],
             "name": t["metadata"]["name"],
             "organization": t["metadata"]["organization"],
-            "industry": org_to_industry.get(t["metadata"]["organization"], "Nieznana"),
+            "industry": ", ".join(
+                org_to_industries.get(t["metadata"]["organization"], ["Nieznana"])
+            ),
         }
         for t in tenders
     ]
@@ -206,15 +212,17 @@ def get_recommendations(company_id: str, threshold: float = rec_constants.SCORE_
         if score < threshold:
             continue
         t = tenders_with_industry[i]
-        recommendations.append({
-            "tender_url": t["tender_url"],
-            "name": t["name"],
-            "organization": t["organization"],
-            "industry": t["industry"],
-            "score": score,
-            "reasoning": item["reasoning"],
-            "tender_size": item["tender_size"],
-        })
+        recommendations.append(
+            {
+                "tender_url": t["tender_url"],
+                "name": t["name"],
+                "organization": t["organization"],
+                "industry": t["industry"],
+                "score": score,
+                "reasoning": item["reasoning"],
+                "tender_size": item["tender_size"],
+            }
+        )
 
     recommendations.sort(key=lambda x: (-x["score"], x["name"]))
 
@@ -225,4 +233,3 @@ def get_recommendations(company_id: str, threshold: float = rec_constants.SCORE_
         "total": len(recommendations),
         "recommendations": recommendations,
     }
-

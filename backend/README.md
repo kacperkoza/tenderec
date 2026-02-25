@@ -72,3 +72,16 @@ Result:
   "created_at": "2026-02-25T15:02:00.478000"
 }
 ```
+
+**Later improvements may include:**
+- Support for multiple profiles per company (e.g., different service lines)
+- More detailed geographic targeting (e.g., specific regions or cities)
+- Additional structured data extraction (e.g., company size, certifications)
+- LLM may add additional questions to the company to improve profile quaiality (What size is the company? What certifications do they have? Do they have experience with public tenders?)
+
+
+## organization classification
+
+multi-level filtering from cheapest to the most expensive, with the following levels:  
+- **Level 1: Basic Classification** - Classify organizations into broad categories (e.g., public sector, private sector, non-profit) based on minimal information such as name and description
+- level 2: Industry Classification - Classify organizations into specific industries (e.g., healthcare, education, construction) using more detailed information from the description

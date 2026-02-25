@@ -159,3 +159,7 @@ curl -X POST "http://localhost:8000/api/v1/recommendations/match?company_name=gr
 
 - GitHub Models free tier has an 8000 token context limit for gpt-4o, requiring batched requests
 - Daily rate limit of 100 requests per model — classification of 678 organizations requires multiple batches across days
+
+## Future vision
+- use vector databases for more efficient tender retrieval and matching without LLM scoring of all tenders
+- point places in documents that confirm LLM reasoning (e.g., "LLM says this tender matches because of CPV code 77310000-6, which corresponds to maintenance of green areas. The tender includes this CPV code in its metadata.")

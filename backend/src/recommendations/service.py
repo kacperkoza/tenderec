@@ -1,6 +1,7 @@
 import json
 import logging
 import math
+from collections import defaultdict
 
 from fastapi.concurrency import run_in_threadpool
 from pymongo import ReplaceOne
@@ -96,11 +97,26 @@ def _load_tenders() -> list[dict]:
         return json.load(f)["tenders"]
 
 
-def _classify_batch(company_profile_text: str, tender_lines: list[str]) -> list[dict]:
+def _build_tenders_prompt(org_tenders: dict[str, list[str]]) -> str:
+    lines: list[str] = []
+    for org, tenders in org_tenders.items():
+        lines.append(f"Organizacja: {org}")
+        lines.append("Przetargi:")
+        for t in tenders:
+            lines.append(f"- {t}")
+        lines.append("")
+    return "\n".join(lines).strip()
+
+
+def _classify_batch(
+    company_profile_text: str, org_tenders: dict[str, list[str]]
+) -> list[dict]:
+    tender_count = sum(len(t) for t in org_tenders.values())
+    tenders_section = _build_tenders_prompt(org_tenders)
+
     user_prompt = (
         f"## Profil firmy\n\n{company_profile_text}\n\n"
-        f"## Przetargi do oceny ({len(tender_lines)} szt.)\n\n"
-        + "\n".join(tender_lines)
+        f"## Przetargi do oceny ({tender_count} szt.)\n\n" + tenders_section
     )
 
     client = get_openai_client()
@@ -152,26 +168,32 @@ async def match_company_to_tenders(company_name: str) -> MatchCompanyResponse:
     company_profile_text = await _load_company_profile_text(company_name)
     tenders = _load_tenders()
 
-    tender_lines: list[str] = []
+    grouped: dict[str, list[str]] = defaultdict(list)
     for t in tenders:
-        name = t["metadata"]["name"]
         org = t["metadata"]["organization"]
-        tender_lines.append(f"- Przetarg: {name} | Organizacja: {org}")
+        name = t["metadata"]["name"]
+        grouped[org].append(name)
 
-    batch_size = math.ceil(len(tender_lines) / BATCH_COUNT)
+    org_names = list(grouped.keys())
+    batch_size = math.ceil(len(org_names) / BATCH_COUNT)
     all_matches: list[dict] = []
 
-    for i in range(0, len(tender_lines), batch_size):
-        chunk = tender_lines[i : i + batch_size]
+    for i in range(0, len(org_names), batch_size):
+        batch_orgs = org_names[i : i + batch_size]
         batch_num = i // batch_size + 1
+        org_tenders = {org: grouped[org] for org in batch_orgs}
+        tender_count = sum(len(t) for t in org_tenders.values())
         logger.info(
-            "Scoring batch %d/%d (%d tenders) for %s",
+            "Scoring batch %d/%d (%d orgs, %d tenders) for %s",
             batch_num,
             BATCH_COUNT,
-            len(chunk),
+            len(batch_orgs),
+            tender_count,
             company_name,
         )
-        matches = await run_in_threadpool(_classify_batch, company_profile_text, chunk)
+        matches = await run_in_threadpool(
+            _classify_batch, company_profile_text, org_tenders
+        )
         all_matches.extend(matches)
         await _save_matches_to_mongo(company_name, matches)
 

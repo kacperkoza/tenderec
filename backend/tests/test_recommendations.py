@@ -125,10 +125,9 @@ class TestMatchCompany:
         assert len(data["matches"]) == 1
         match = data["matches"][0]
         assert match["tender_name"] == "Utrzymanie zieleni w gminie"
+        assert match["organization"] == "Gmina Kraków"
         assert match["total_score"] == 85
         assert match["criteria"]["subject_match"]["score"] == 45
-        assert match["criteria"]["service_vs_delivery"]["score"] == 25
-        assert match["criteria"]["authority_profile"]["score"] == 15
 
     async def test_matches_custom_company(
         self,

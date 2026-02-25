@@ -14,37 +14,37 @@ from src.organization_classification.schemas import ClassifyResponse
 logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """\
-Jesteś ekspertem od polskiego rynku zamówień publicznych i klasyfikacji branżowej organizacji.
+You are an expert in the Polish public procurement market and industry classification of organizations.
 
-Dostajesz nazwę organizacji oraz listę przetargów, które ta organizacja ogłosiła.
+You receive an organization name and a list of tenders published by that organization.
 
-Twoim zadaniem jest:
-1. Przypisz organizacji od 1 do 3 branż (od najbardziej pasującej).
-- Pierwsza branża musi bazować WYŁĄCZNIE na nazwie organizacji (ignoruj przetargi).
-- Kolejne branże (max 2) dodaj tylko jeśli przetargi wskazują na branże INNE niż pierwsza. \
-Jeśli przetargi pokrywają się z pierwszą branżą, nie dodawaj kolejnych.
-2. Dla KAŻDEJ przypisanej branży dodaj krótkie uzasadnienie po polsku (1-2 zdania). \
-Dla pierwszej branży odnieś się do nazwy organizacji. Dla kolejnych — do konkretnych przetargów.
-3. Użyj zwięzłych, polskich nazw branż (np. "Energetyka", "Górnictwo", \
-"Administracja samorządowa", "Transport kolejowy", "Przemysł chemiczny" itp.).
-4. Pierwsza branża na liście = najbardziej trafna.
+Your task:
+1. Assign the organization 1 to 3 industries (from most relevant to least).
+- The first industry must be based EXCLUSIVELY on the organization name (ignore tenders).
+- Additional industries (max 2) should only be added if the tenders indicate industries \
+DIFFERENT from the first one. If the tenders align with the first industry, do not add more.
+2. For EACH assigned industry, provide a short reasoning in Polish (1-2 sentences). \
+For the first industry, refer to the organization name. For the rest, refer to specific tenders.
+3. Use concise Polish industry names (e.g. "Energetyka", "Górnictwo", \
+"Administracja samorządowa", "Transport kolejowy", "Przemysł chemiczny", etc.).
+4. The first industry in the list = the most relevant one.
 
-Odpowiedz WYŁĄCZNIE poprawnym JSON-em w formacie:
+Respond ONLY with valid JSON in the following format:
 {
-  "organization": "<nazwa organizacji>",
+  "organization": "<organization name>",
   "industries": [
     {
-      "industry": "<branża 1 - najlepsza>",
-      "reasoning": "<uzasadnienie po polsku>"
+      "industry": "<industry 1 - best match>",
+      "reasoning": "<reasoning in Polish>"
     },
     {
-      "industry": "<branża 2>",
-      "reasoning": "<uzasadnienie po polsku>"
+      "industry": "<industry 2>",
+      "reasoning": "<reasoning in Polish>"
     }
   ]
 }
 
-Nie dodawaj żadnego tekstu poza JSON-em.\
+Do not include any text outside of the JSON.\
 """
 
 
@@ -64,7 +64,7 @@ def _group_by_organization(tenders: list[dict]) -> dict[str, list[str]]:
 
 def _build_user_prompt(org_name: str, tender_names: list[str]) -> str:
     tenders = "\n".join(f"- {name}" for name in tender_names)
-    return f"## Organizacja: {org_name}\n\n### Przetargi:\n{tenders}"
+    return f"## Organization: {org_name}\n\n### Tenders:\n{tenders}"
 
 
 def _classify_organization(org_name: str, tender_names: list[str]) -> dict:

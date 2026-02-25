@@ -30,7 +30,9 @@ async def get_company(company_name: str) -> CompanyProfileResponse | None:
 def extract_company_profile(company_name: str, description: str) -> CompanyProfile:
     client = get_openai_client()
 
-    user_prompt = f"## Nazwa firmy\n\n{company_name}\n\n## Opis firmy\n\n{description}"
+    user_prompt = (
+        f"## Company name\n\n{company_name}\n\n## Company description\n\n{description}"
+    )
 
     logger.info("LLM request start for company '%s'", company_name)
     response = client.chat.completions.create(

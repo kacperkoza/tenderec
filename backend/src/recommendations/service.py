@@ -25,47 +25,46 @@ ORG_LIMIT = 1
 
 
 SYSTEM_PROMPT = """\
-Jesteś ekspertem ds. zamówień publicznych w Polsce, specjalizującym się w dopasowywaniu \
-przetargów do profili firm.
+You are a Polish public procurement expert specializing in matching tenders to company profiles.
 
-Otrzymujesz:
-1. Profil firmy — jej branże, kategorie usług oraz typy docelowych zamawiających.
-2. Listę przetargów pogrupowanych wg organizacji zamawiającej. \
-Przy każdej organizacji podane są jej branże w nawiasach kwadratowych.
+You receive:
+1. A company profile — its industries, service categories, and target contracting authorities.
+2. A list of tenders grouped by contracting organization. \
+Each organization has its industries listed in square brackets.
 
-Twoim zadaniem jest ocena dopasowania każdego przetargu do profilu firmy.
+Your task is to evaluate how well each tender matches the company profile.
 
 ## Scoring (0-100)
 
-Wynik składa się z dwóch składników:
+The score consists of two components:
 
-1. **Dopasowanie nazwy przetargu do działalności firmy (0-70 pkt)**
-   Oceń, na ile przedmiot zamówienia (nazwa przetargu) pokrywa się z kategoriami usług \
-i kompetencjami firmy. Pełne pokrycie = 70 pkt, brak związku = 0 pkt.
+1. **Tender name relevance to company activities (0-70 pts)**
+   Evaluate how closely the subject of the tender (tender name) aligns with the company's \
+service categories and competencies. Full match = 70 pts, no relation = 0 pts.
 
-2. **Dopasowanie branżowe (0-30 pkt)**
-   Oceń, na ile branże organizacji zamawiającej pokrywają się z branżami i docelowymi \
-zamawiającymi firmy. Pełne pokrycie = 30 pkt, brak związku = 0 pkt.
+2. **Industry relevance (0-30 pts)**
+   Evaluate how closely the contracting organization's industries align with the company's \
+industries and target authorities. Full match = 30 pts, no relation = 0 pts.
 
-Wynik końcowy = suma obu składników.
+Final score = sum of both components.
 
-## Format odpowiedzi
+## Response format
 
-Odpowiedz WYŁĄCZNIE poprawnym JSON-em:
+Respond ONLY with valid JSON:
 {
   "recommendations": [
     {
-      "tender_name": "<nazwa przetargu>",
+      "tender_name": "<tender name>",
       "score": <0-100>,
       "name_relevance_score": <0-70>,
-      "name_relevance_reason": "<jedno zdanie uzasadnienia po polsku>",
+      "name_relevance_reason": "<one sentence reasoning in Polish>",
       "industry_relevance_score": <0-30>,
-      "industry_relevance_reason": "<jedno zdanie uzasadnienia po polsku>"
+      "industry_relevance_reason": "<one sentence reasoning in Polish>"
     }
   ]
 }
 
-Zwróć wyniki posortowane malejąco wg score. Uwzględnij WSZYSTKIE przetargi.\
+Return results sorted descending by score. Include ALL tenders.\
 """
 
 
@@ -97,8 +96,8 @@ def _build_tenders_section(
         industries = org_industries.get(org, [])
         industries_str = f" [{', '.join(industries)}]" if industries else ""
 
-        lines.append(f"### Organizacja: {org}{industries_str}")
-        lines.append("Przetargi:")
+        lines.append(f"### Organization: {org}{industries_str}")
+        lines.append("Tenders:")
         for name in tender_names:
             lines.append(f"{name}")
         lines.append("")
@@ -120,18 +119,18 @@ def build_user_prompt(
     tenders_section = _build_tenders_section(grouped_tenders, org_industries)
 
     return f"""\
-## Profil firmy: {company_info.name}
+## Company profile: {company_info.name}
 
-### Branże
+### Industries
 {industries}
 
-### Kategorie usług
+### Service categories
 {categories}
 
-### Docelowi zamawiający
+### Target contracting authorities
 {authorities}
 
-## Przetargi
+## Tenders
 
 {tenders_section}\
 """

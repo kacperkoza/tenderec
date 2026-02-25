@@ -1,7 +1,6 @@
 import json
 import logging
 from collections import defaultdict
-from datetime import datetime
 
 from fastapi.concurrency import run_in_threadpool
 from pymongo import ReplaceOne
@@ -58,20 +57,6 @@ Nie dodawaj żadnego tekstu poza JSON-em.\
 def _load_tenders() -> list[dict]:
     with open(constants.TENDERS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)["tenders"]
-
-
-def _filter_by_deadline(tenders: list[dict]) -> list[dict]:
-    today = constants.get_deadline_reference_date()
-    result = []
-    for t in tenders:
-        deadline_str = t["metadata"]["submission_deadline"]
-        try:
-            deadline = datetime.strptime(deadline_str, "%Y-%m-%d %H:%M").date()
-        except ValueError:
-            deadline = datetime.strptime(deadline_str, "%Y-%m-%d %H:%M:%S").date()
-        if deadline > today:
-            result.append(t)
-    return result
 
 
 def _group_by_organization(tenders: list[dict]) -> dict[str, list[str]]:
@@ -149,8 +134,7 @@ async def _load_from_mongo() -> ClassifyResponse:
 
 async def _classify_via_llm() -> ClassifyResponse:
     all_tenders = _load_tenders()
-    tenders = _filter_by_deadline(all_tenders)
-    grouped = _group_by_organization(tenders)
+    grouped = _group_by_organization(all_tenders)
 
     org_names = list(grouped.keys())
     all_organizations: list[dict] = []

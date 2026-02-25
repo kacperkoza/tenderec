@@ -13,7 +13,6 @@ from src.companies.service import (
 
 router = APIRouter(prefix="/companies", tags=["companies"])
 
-
 @router.get(
     "/{company_name}",
     response_model=CompanyProfileResponse,

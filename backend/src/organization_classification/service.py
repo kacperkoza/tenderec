@@ -13,18 +13,16 @@ from src.organization_classification.schemas import ClassifyResponse
 
 logger = logging.getLogger(__name__)
 
-BATCH_SIZE = 80
-
 SYSTEM_PROMPT = """\
 Jesteś ekspertem od polskiego rynku zamówień publicznych i klasyfikacji branżowej organizacji.
 
-Dostajesz listę organizacji pogrupowanych wg nazwy. Przy każdej organizacji podane są \
-nazwy przetargów, które ta organizacja ogłosiła.
+Dostajesz nazwę organizacji oraz listę przetargów, które ta organizacja ogłosiła.
 
 Twoim zadaniem jest:
-1. Na podstawie nazwy organizacji i nazw jej przetargów — przypisz każdą organizację \
+1. Na podstawie nazwy organizacji i nazw jej przetargów — przypisz organizację \
 do 2 lub 3 branż (top branże, od najbardziej pasującej).
-Pierwsza (najważniejsza) branża niech bazuje na nazwie organizacji, a kolejne branże niech bazują na nazwie organizacji i nazwach przetargów.
+Pierwsza (najważniejsza) branża niech bazuje na nazwie organizacji, a kolejne branże \
+niech bazują na nazwie organizacji i nazwach przetargów.
 2. Dla KAŻDEJ przypisanej branży dodaj krótkie uzasadnienie po polsku (1-2 zdania), \
 dlaczego ta branża pasuje — odnieś się do konkretnych przetargów.
 3. Użyj zwięzłych, polskich nazw branż (np. "Energetyka", "Górnictwo", \
@@ -33,19 +31,15 @@ dlaczego ta branża pasuje — odnieś się do konkretnych przetargów.
 
 Odpowiedz WYŁĄCZNIE poprawnym JSON-em w formacie:
 {
-  "organizations": [
+  "organization": "<nazwa organizacji>",
+  "industries": [
     {
-      "organization": "<nazwa organizacji>",
-      "industries": [
-        {
-          "industry": "<branża 1 - najlepsza>",
-          "reasoning": "<uzasadnienie po polsku>"
-        },
-        {
-          "industry": "<branża 2>",
-          "reasoning": "<uzasadnienie po polsku>"
-        }
-      ]
+      "industry": "<branża 1 - najlepsza>",
+      "reasoning": "<uzasadnienie po polsku>"
+    },
+    {
+      "industry": "<branża 2>",
+      "reasoning": "<uzasadnienie po polsku>"
     }
   ]
 }
@@ -68,18 +62,14 @@ def _group_by_organization(tenders: list[dict]) -> dict[str, list[str]]:
     return {org: sorted(names) for org, names in grouped.items()}
 
 
-def _build_user_prompt(org_batch: dict[str, list[str]]) -> str:
-    lines: list[str] = []
-    for org, names in org_batch.items():
-        tender_list = "; ".join(names)
-        lines.append(f"- {org}: {tender_list}")
-
-    return f"Oto {len(lines)} organizacji z ich przetargami:\n\n" + "\n".join(lines)
+def _build_user_prompt(org_name: str, tender_names: list[str]) -> str:
+    tenders = "\n".join(f"- {name}" for name in tender_names)
+    return f"## Organizacja: {org_name}\n\n### Przetargi:\n{tenders}"
 
 
-def _classify_batch(org_batch: dict[str, list[str]]) -> list[dict]:
+def _classify_organization(org_name: str, tender_names: list[str]) -> dict:
     client = get_openai_client()
-    user_prompt = _build_user_prompt(org_batch)
+    user_prompt = _build_user_prompt(org_name, tender_names)
 
     response = client.chat.completions.create(
         model=settings.llm_model,
@@ -92,8 +82,7 @@ def _classify_batch(org_batch: dict[str, list[str]]) -> list[dict]:
     )
 
     raw = response.choices[0].message.content
-    result = json.loads(raw)  # type: ignore[arg-type]
-    return result["organizations"]
+    return json.loads(raw)  # type: ignore[arg-type]
 
 
 async def _save_to_mongo(organizations: list[dict]) -> None:
@@ -136,20 +125,19 @@ async def _classify_via_llm() -> ClassifyResponse:
     all_tenders = _load_tenders()
     grouped = _group_by_organization(all_tenders)
 
-    org_names = list(grouped.keys())
     all_organizations: list[dict] = []
 
-    for i in range(0, len(org_names), BATCH_SIZE):
-        batch_keys = org_names[i : i + BATCH_SIZE]
-        batch = {org: grouped[org] for org in batch_keys}
+    for i, (org_name, tender_names) in enumerate(grouped.items(), 1):
         logger.info(
-            "Classifying batch %d-%d of %d organizations",
-            i + 1,
-            min(i + BATCH_SIZE, len(org_names)),
-            len(org_names),
+            "Classifying organization %d/%d: '%s'",
+            i,
+            len(grouped),
+            org_name,
         )
-        classified = await run_in_threadpool(_classify_batch, batch)
-        all_organizations.extend(classified)
+        classified = await run_in_threadpool(
+            _classify_organization, org_name, tender_names
+        )
+        all_organizations.append(classified)
 
     await _save_to_mongo(all_organizations)
     return ClassifyResponse(organizations=all_organizations)

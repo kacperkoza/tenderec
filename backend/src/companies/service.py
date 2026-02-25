@@ -1,9 +1,12 @@
 import json
 import logging
-
 from datetime import datetime, timezone
 
-from src.companies.schemas import CompanyProfile, CompanyProfileResponse
+from src.companies.schemas import (
+    CompanyProfile,
+    CompanyProfileDocument,
+    CompanyProfileResponse,
+)
 from src.config import settings
 from src.database import get_database
 from src.llm.service import get_openai_client
@@ -55,6 +58,7 @@ na podstawie kontekstu branżowego.
 
 Nie dodawaj żadnego tekstu poza JSON-em.\
 """
+
 logger = logging.getLogger(__name__)
 
 
@@ -62,16 +66,12 @@ async def get_company(company_name: str) -> CompanyProfileResponse:
     db = get_database()
     collection = db[COLLECTION_NAME]
 
-    document = await collection.find_one({"_id": company_name})
-    if document is None:
+    raw = await collection.find_one({"_id": company_name})
+    if raw is None:
         raise ValueError(f"Company not found: {company_name}")
-    company = CompanyProfileResponse(
-        company_name=document["_id"],
-        profile=document["profile"],
-        created_at=document["created_at"],
-    )
-    logger.info("Get company profile: '%s'", company_name)
-    return company
+
+    document = CompanyProfileDocument.from_mongo(raw)
+    return document.to_response()
 
 
 def extract_company_profile(company_name: str, description: str) -> CompanyProfile:
@@ -79,6 +79,7 @@ def extract_company_profile(company_name: str, description: str) -> CompanyProfi
 
     user_prompt = f"## Nazwa firmy\n\n{company_name}\n\n## Opis firmy\n\n{description}"
 
+    logger.info("LLM request start for company '%s'", company_name)
     response = client.chat.completions.create(
         model=settings.llm_model,
         temperature=0.2,
@@ -89,27 +90,27 @@ def extract_company_profile(company_name: str, description: str) -> CompanyProfi
         ],
     )
 
-    raw = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
+    raw_content = response.choices[0].message.content
+    logger.info("LLM response for company '%s': %s", company_name, raw_content)
+
+    raw = json.loads(raw_content)  # type: ignore[arg-type]
     return CompanyProfile(**raw)
 
 
 async def create_company_profile(
-        company_name: str, profile: CompanyProfile
+    company_name: str, profile: CompanyProfile
 ) -> CompanyProfileResponse:
     db = get_database()
     collection = db[COLLECTION_NAME]
 
-    now = datetime.now(timezone.utc)
-    document = {
-        "_id": company_name,
-        "profile": profile.model_dump(),
-        "created_at": now,
-    }
-
-    await collection.replace_one({"_id": company_name}, document, upsert=True)
-
-    return CompanyProfileResponse(
+    document = CompanyProfileDocument.from_domain(
         company_name=company_name,
         profile=profile,
-        created_at=now,
+        created_at=datetime.now(timezone.utc),
     )
+
+    await collection.replace_one(
+        {"_id": company_name}, document.to_mongo(), upsert=True
+    )
+
+    return document.to_response()

@@ -141,38 +141,8 @@ Result:
 curl -X GET "http://localhost:8000/api/v1/organizations/industries" | jq
 ```
 
-### Recommendations (Tender Matching)
-
-**Score tenders via LLM:**
-
-`POST /api/v1/recommendations/match?company_name=greenworks` scores each tender against a company profile using 2 criteria (max 100 pts total):
-
-| Criterion | Max pts | What it measures |
-|-----------|---------|------------------|
-| `subject_match` | 60 | How well the tender name matches company services |
-| `industry_match` | 40 | How well the contracting authority's industries align with the company's industries |
-
-Each criterion includes a `score` and `reasoning` (in Polish), plus an overall `reasoning`.
-
-`total_score` is computed server-side as the sum of criteria scores (not taken from LLM response).
-
-Tenders are processed in 4 chunks grouped by organization. Results are saved to MongoDB after each chunk.
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/recommendations/match?company_name=greenworks" | jq
-```
-
-**Retrieve cached matches:**
-
-`GET /api/v1/recommendations/match?company_name=greenworks` returns previously computed matches from MongoDB, sorted by `total_score` descending. No LLM calls are made.
-
-```bash
-curl -X GET "http://localhost:8000/api/v1/recommendations/match?company_name=greenworks" | jq
-```
-
 ## Limitations
 
-- OpenAI API has token limits per request — tenders are split into 4 chunks per scoring run
 - Rate limits depend on your OpenAI plan — classification of organizations requires multiple batches
 
 ## Future vision

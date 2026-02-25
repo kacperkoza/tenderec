@@ -74,9 +74,9 @@ async def _get_org_industries() -> dict[str, list[str]]:
 
 
 def build_user_prompt(
-        profile: CompanyProfile,
-        tender: Tender,
-        org_industries: dict[str, list[str]],
+    profile: CompanyProfile,
+    tender: Tender,
+    org_industries: dict[str, list[str]],
 ) -> str:
     company_info = profile.company_info
     criteria = profile.matching_criteria
@@ -132,8 +132,8 @@ def _should_skip(recommendation: TenderRecommendation) -> bool:
 
 
 async def _save_recommendation(
-        company_name: str,
-        recommendation: TenderRecommendation,
+    company_name: str,
+    recommendation: TenderRecommendation,
 ) -> None:
     db = get_database()
     collection = db[RECOMMENDATIONS_COLLECTION]
@@ -170,14 +170,48 @@ async def get_company_profile(company_name: str) -> CompanyProfile:
     return CompanyProfile(**document["profile"])
 
 
-async def get_recommendations(company_name: str) -> None:
+async def _load_from_mongo(
+    company_name: str,
+    name_match: MatchLevel,
+    industry_match: MatchLevel,
+) -> list[TenderRecommendation]:
+    db = get_database()
+    collection = db[RECOMMENDATIONS_COLLECTION]
+
+    cursor = collection.find(
+        {
+            "company": company_name,
+            "name_match": name_match,
+            "industry_match": industry_match,
+        }
+    )
+    docs = await cursor.to_list(length=None)
+
+    return [
+        TenderRecommendation(
+            tender_name=doc["tender_name"],
+            name_match=doc["name_match"],
+            name_reason=doc["name_reason"],
+            industry_match=doc["industry_match"],
+            industry_reason=doc["industry_reason"],
+        )
+        for doc in docs
+    ]
+
+
+async def _classify_via_llm(company_name: str) -> None:
     profile = await get_company_profile(company_name)
 
     tenders = load_tenders()
     org_industries = await _get_org_industries()
 
     total = len(tenders)
-    logger.info("Processing %d tenders (%d concurrent) for '%s'", total, LLM_CONCURRENCY, company_name)
+    logger.info(
+        "Processing %d tenders (%d concurrent) for '%s'",
+        total,
+        LLM_CONCURRENCY,
+        company_name,
+    )
 
     semaphore = asyncio.Semaphore(LLM_CONCURRENCY)
     executor = ThreadPoolExecutor(max_workers=LLM_CONCURRENCY)
@@ -185,7 +219,9 @@ async def get_recommendations(company_name: str) -> None:
 
     async def _process_tender(index: int, tender: Tender) -> None:
         async with semaphore:
-            logger.info("[%d/%d] Evaluating tender: '%s'", index, total, tender.metadata.name)
+            logger.info(
+                "[%d/%d] Evaluating tender: '%s'", index, total, tender.metadata.name
+            )
             user_prompt = build_user_prompt(profile, tender, org_industries)
             recommendation = await loop.run_in_executor(
                 executor, _call_llm, user_prompt, tender.metadata.name
@@ -207,3 +243,16 @@ async def get_recommendations(company_name: str) -> None:
 
     executor.shutdown(wait=False)
     logger.info("Finished processing all %d tenders for '%s'", total, company_name)
+
+
+async def get_recommendations(
+    company_name: str,
+    name_match: MatchLevel,
+    industry_match: MatchLevel,
+) -> list[TenderRecommendation]:
+    source = settings.recommendations_source
+
+    if source == "llm":
+        await _classify_via_llm(company_name)
+
+    return await _load_from_mongo(company_name, name_match, industry_match)

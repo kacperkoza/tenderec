@@ -1,4 +1,3 @@
-from datetime import datetime
 from enum import StrEnum
 
 from pydantic import BaseModel
@@ -22,4 +21,3 @@ class TenderRecommendation(BaseModel):
 class RecommendationsResponse(BaseModel):
     company: str
     recommendations: list[TenderRecommendation]
-    created_at: datetime

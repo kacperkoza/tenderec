@@ -217,6 +217,10 @@ ruff check --fix src
 ruff format src
 ```
 
+## Comments
+
+Write only necessary comments that add value. Avoid redundant comments that state the obvious. Always write comments in English. 
+
 ## Quick Reference
 
 | Scenario | Solution |

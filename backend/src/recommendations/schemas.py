@@ -1,30 +1,18 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
-class IndustryMatch(BaseModel):
-    industry: str
-    score: float = Field(ge=0, le=1)
-    reasoning: str
-
-
-class MatchCompanyResponse(BaseModel):
-    company: str
-    matches: list[IndustryMatch]
-
-
 class TenderRecommendation(BaseModel):
-    tender_url: str
-    name: str
-    organization: str
-    industry: str
-    score: float = Field(ge=0, le=1)
-    reasoning: str
+    tender_name: str
+    score: int = Field(ge=0, le=100)
+    name_relevance_score: int = Field(ge=0, le=70)
+    name_relevance_reason: str
+    industry_relevance_score: int = Field(ge=0, le=30)
+    industry_relevance_reason: str
 
 
 class RecommendationsResponse(BaseModel):
-    company_id: str
     company: str
-    threshold: float
-    total: int
     recommendations: list[TenderRecommendation]
-
+    created_at: datetime

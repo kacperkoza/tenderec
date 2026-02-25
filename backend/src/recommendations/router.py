@@ -1,31 +1,24 @@
-from fastapi import APIRouter, HTTPException
-from fastapi.concurrency import run_in_threadpool
+import logging
 
-from src.recommendations.schemas import MatchCompanyResponse, RecommendationsResponse
-from src.recommendations.service import get_recommendations, match_company_to_industries
+from fastapi import APIRouter, HTTPException, Query
 
-router = APIRouter(prefix="/recommendations", tags=["recommendations"])
+from src.recommendations.service import get_recommendations
 
+logger = logging.getLogger(__name__)
 
-@router.post(
-    "/match/{company_id}",
-    response_model=MatchCompanyResponse,
-    description="Score company fit against each industry via LLM",
-)
-async def match_company(company_id: str) -> MatchCompanyResponse:
-    result = await run_in_threadpool(match_company_to_industries, company_id)
-    return MatchCompanyResponse(**result)
+router = APIRouter(prefix="/tenders", tags=["recommendations"])
 
 
 @router.get(
-    "/{company_id}",
-    response_model=RecommendationsResponse,
-    description="Get recommended tenders for a company (score >= threshold)",
+    "/recommendations",
+    description="Generate tender recommendations for a company using LLM",
 )
-async def recommendations(company_id: str = "greenworks_company", threshold: float = 0.7) -> RecommendationsResponse:
+async def recommendations_endpoint(
+    company: str = Query(default="greenworks", description="Company name"),
+) -> dict[str, str]:
     try:
-        result = await run_in_threadpool(get_recommendations, company_id, threshold)
+        await get_recommendations(company)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-    return RecommendationsResponse(**result)
 
+    return {"status": "prompt printed to console"}

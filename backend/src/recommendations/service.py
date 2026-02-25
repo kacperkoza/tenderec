@@ -1,147 +1,202 @@
 import json
+import logging
+from collections import defaultdict
+from datetime import datetime, timezone
+from itertools import islice
 
+from fastapi.concurrency import run_in_threadpool
+
+from src.companies.schemas import CompanyProfile
+from src.config import settings
+from src.database import get_database
 from src.llm.service import get_openai_client
-from src.recommendations import constants as rec_constants
+from src.organization_classification.constants import (
+    COLLECTION_NAME as ORG_CLASSIFICATION_COLLECTION,
+)
+from src.recommendations.schemas import RecommendationsResponse, TenderRecommendation
+from src.tenders.schemas import Tender
+from src.tenders.service import load_tenders
+
+logger = logging.getLogger(__name__)
+
+COMPANY_PROFILES_COLLECTION = "company_profiles"
+RECOMMENDATIONS_COLLECTION = "recommendations"
+ORG_LIMIT = 1
 
 
-MATCHING_SYSTEM_PROMPT = """\
-Jesteś ekspertem od polskiego rynku zamówień publicznych i analizy dopasowania firm do branż.
+SYSTEM_PROMPT = """\
+You are a Polish public procurement expert specializing in matching tenders to company profiles.
 
-Dostajesz:
-1. Profil firmy (opis, usługi, branża).
-2. Listę branż wraz z organizacjami, które w nich operują.
+You receive:
+1. A company profile — its industries, service categories, and target contracting authorities.
+2. A list of tenders grouped by contracting organization. \
+Each organization has its industries listed in square brackets.
 
-Twoim zadaniem jest ocenić, na ile dana firma pasuje do KAŻDEJ z podanych branż \
-jako potencjalny dostawca/wykonawca usług.
+Your task is to evaluate how well each tender matches the company profile.
 
-Dla każdej branży przyznaj score od 0.0 do 1.0:
-- 1.0 = idealne dopasowanie (firma świadczy dokładnie takie usługi, jakich potrzebują organizacje z tej branży)
-- 0.7-0.9 = wysokie dopasowanie (duże prawdopodobieństwo, że firma może realizować zamówienia)
-- 0.4-0.6 = częściowe dopasowanie (firma mogłaby realizować niektóre zamówienia)
-- 0.1-0.3 = niskie dopasowanie (marginalne szanse)
-- 0.0 = brak dopasowania
+## Scoring (0-100)
 
-Weź pod uwagę:
-- Czy organizacje z danej branży mogą potrzebować usług opisanych w profilu firmy?
-- Czy firma ma kompetencje do realizacji typowych zamówień w tej branży?
-- Czy jest realne, że firma startowałaby w przetargach ogłaszanych przez te organizacje?
+The score consists of two components:
 
-Odpowiedz WYŁĄCZNIE poprawnym JSON-em w formacie:
+1. **Tender name relevance to company activities (0-70 pts)**
+   Evaluate how closely the subject of the tender (tender name) aligns with the company's \
+service categories and competencies. Full match = 70 pts, no relation = 0 pts.
+
+2. **Industry relevance (0-30 pts)**
+   Evaluate how closely the contracting organization's industries align with the company's \
+industries and target authorities. Full match = 30 pts, no relation = 0 pts.
+
+Final score = sum of both components.
+
+## Response format
+
+Respond ONLY with valid JSON:
 {
-  "matches": [
+  "recommendations": [
     {
-      "industry": "<nazwa branży>",
-      "score": <float 0.0-1.0>,
-      "reasoning": "<krótkie uzasadnienie po polsku>"
+      "tender_name": "<tender name>",
+      "score": <0-100>,
+      "name_relevance_score": <0-70>,
+      "name_relevance_reason": "<one sentence reasoning in Polish>",
+      "industry_relevance_score": <0-30>,
+      "industry_relevance_reason": "<one sentence reasoning in Polish>"
     }
   ]
 }
 
-Posortuj wynik od najwyższego score do najniższego.
-Nie dodawaj żadnego tekstu poza JSON-em.\
+Return results sorted descending by score. Include ALL tenders.\
 """
 
 
-def _load_company_profile(company_id: str) -> str:
-    path = rec_constants.COMPANY_DIR / f"{company_id}.md"
-    return path.read_text(encoding="utf-8")
+def _group_tenders_by_organization(
+    tenders: list[Tender],
+) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = defaultdict(list)
+    for tender in tenders:
+        org = tender.metadata.organization
+        grouped[org].append(tender.metadata.name)
+    return dict(grouped)
 
 
-def _load_industries_list() -> list[dict]:
-    with open(rec_constants.INDUSTRIES_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)["industries"]
+async def _get_org_industries() -> dict[str, list[str]]:
+    db = get_database()
+    collection = db[ORG_CLASSIFICATION_COLLECTION]
+    cursor = collection.find({})
+    docs = await cursor.to_list(length=None)
+
+    return {doc["_id"]: [ind["industry"] for ind in doc["industries"]] for doc in docs}
 
 
-def _load_org_to_industry_map() -> dict[str, str]:
-    industries = _load_industries_list()
-    org_map: dict[str, str] = {}
-    for group in industries:
-        for org in group["organizations"]:
-            org_map[org] = group["industry"]
-    return org_map
+def _build_tenders_section(
+    grouped: dict[str, list[str]],
+    org_industries: dict[str, list[str]],
+) -> str:
+    lines: list[str] = []
+    for org, tender_names in grouped.items():
+        industries = org_industries.get(org, [])
+        industries_str = f" [{', '.join(industries)}]" if industries else ""
+
+        lines.append(f"### Organization: {org}{industries_str}")
+        lines.append("Tenders:")
+        for name in tender_names:
+            lines.append(f"{name}")
+        lines.append("")
+
+    return "\n".join(lines)
 
 
-def _load_tenders() -> list[dict]:
-    with open(rec_constants.TENDERS_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)["tenders"]
+def build_user_prompt(
+    profile: CompanyProfile,
+    grouped_tenders: dict[str, list[str]],
+    org_industries: dict[str, list[str]],
+) -> str:
+    company_info = profile.company_info
+    criteria = profile.matching_criteria
+
+    industries = ", ".join(company_info.industries)
+    categories = "\n".join(f"- {cat}" for cat in criteria.service_categories)
+    authorities = ", ".join(criteria.target_authorities)
+    tenders_section = _build_tenders_section(grouped_tenders, org_industries)
+
+    return f"""\
+## Company profile: {company_info.name}
+
+### Industries
+{industries}
+
+### Service categories
+{categories}
+
+### Target contracting authorities
+{authorities}
+
+## Tenders
+
+{tenders_section}\
+"""
 
 
-def match_company_to_industries(company_id: str) -> dict:
-    industries = _load_industries_list()
-    company_profile = _load_company_profile(company_id)
-    industries_text = json.dumps(industries, ensure_ascii=False, indent=2)
-
-    user_prompt = (
-        f"## Profil firmy\n\n{company_profile}\n\n"
-        f"## Lista branż z organizacjami\n\n{industries_text}"
-    )
-
+def _call_llm(user_prompt: str) -> list[TenderRecommendation]:
     client = get_openai_client()
+
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[
-            {"role": "system", "content": MATCHING_SYSTEM_PROMPT},
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
     )
 
-    result = json.loads(response.choices[0].message.content)
-    company_name = rec_constants.COMPANY_REGISTRY.get(company_id, company_id)
-    result["company"] = company_name
-    return result
+    raw = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
+    return [TenderRecommendation(**r) for r in raw["recommendations"]]
 
 
-def get_recommendations(company_id: str, threshold: float = rec_constants.SCORE_THRESHOLD) -> dict:
-    company_name = rec_constants.COMPANY_REGISTRY.get(company_id)
-    if not company_name:
-        raise ValueError(f"Unknown company_id: {company_id}")
+async def _save_recommendations(
+    company_name: str,
+    recommendations: list[TenderRecommendation],
+) -> datetime:
+    db = get_database()
+    collection = db[RECOMMENDATIONS_COLLECTION]
 
-    match_result = match_company_to_industries(company_id)
-
-    relevant_industries: dict[str, dict] = {
-        m["industry"]: m
-        for m in match_result["matches"]
-        if m["score"] >= threshold
+    now = datetime.now(timezone.utc)
+    document = {
+        "_id": company_name,
+        "recommendations": [r.model_dump() for r in recommendations],
+        "created_at": now,
     }
 
-    if not relevant_industries:
-        return {
-            "company_id": company_id,
-            "company": company_name,
-            "threshold": threshold,
-            "total": 0,
-            "recommendations": [],
-        }
+    await collection.replace_one({"_id": company_name}, document, upsert=True)
+    logger.info("Saved %d recommendations for '%s'", len(recommendations), company_name)
+    return now
 
-    org_to_industry = _load_org_to_industry_map()
-    tenders = _load_tenders()
-    recommendations = []
 
-    for tender in tenders:
-        org = tender["metadata"]["organization"]
-        industry = org_to_industry.get(org)
-        if not industry or industry not in relevant_industries:
-            continue
+async def get_company_profile(company_name: str) -> CompanyProfile:
+    db = get_database()
+    collection = db[COMPANY_PROFILES_COLLECTION]
 
-        match = relevant_industries[industry]
-        recommendations.append({
-            "tender_url": tender["tender_url"],
-            "name": tender["metadata"]["name"],
-            "organization": org,
-            "industry": industry,
-            "score": match["score"],
-            "reasoning": match["reasoning"],
-        })
+    document = await collection.find_one({"_id": company_name})
+    if document is None:
+        raise ValueError(f"Company not found: {company_name}")
 
-    recommendations.sort(key=lambda x: (-x["score"], x["name"]))
+    return CompanyProfile(**document["profile"])
 
-    return {
-        "company_id": company_id,
-        "company": company_name,
-        "threshold": threshold,
-        "total": len(recommendations),
-        "recommendations": recommendations,
-    }
 
+async def get_recommendations(company_name: str) -> None:
+    profile = await get_company_profile(company_name)
+
+    tenders = load_tenders()
+    all_grouped = _group_tenders_by_organization(tenders)
+    org_industries = await _get_org_industries()
+
+    limited_grouped = dict(islice(all_grouped.items(), ORG_LIMIT))
+    logger.info(
+        "Processing %d/%d organizations for '%s'",
+        len(limited_grouped),
+        len(all_grouped),
+        company_name,
+    )
+
+    user_prompt = build_user_prompt(profile, limited_grouped, org_industries)
+    print(user_prompt)

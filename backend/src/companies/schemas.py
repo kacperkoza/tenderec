@@ -63,26 +63,29 @@ class CompanyProfileDocument(BaseModel):
     profile: CompanyProfileDoc
     created_at: datetime
 
-    def to_mongo(self) -> dict:
+    def to_mongo(self) -> dict[str, object]:
         return {
             "_id": self.id,
             "profile": self.profile.model_dump(),
             "created_at": self.created_at,
         }
 
-    @staticmethod
-    def from_mongo(doc: dict) -> "CompanyProfileDocument":
-        return CompanyProfileDocument(
-            id=doc["_id"],
-            profile=doc["profile"],
-            created_at=doc["created_at"],
+    @classmethod
+    def from_mongo(cls, doc: dict[str, object]) -> "CompanyProfileDocument":
+        return cls(
+            id=doc["_id"],  # type: ignore[arg-type]
+            profile=doc["profile"],  # type: ignore[arg-type]
+            created_at=doc["created_at"],  # type: ignore[arg-type]
         )
 
-    @staticmethod
+    @classmethod
     def from_domain(
-        company_name: str, profile: CompanyProfile, created_at: datetime
+        cls,
+        company_name: str,
+        profile: CompanyProfile,
+        created_at: datetime,
     ) -> "CompanyProfileDocument":
-        return CompanyProfileDocument(
+        return cls(
             id=company_name,
             profile=CompanyProfileDoc(**profile.model_dump()),
             created_at=created_at,

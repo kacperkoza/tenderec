@@ -99,18 +99,16 @@ async def _load_company_profile(company_name: str) -> str:
     return json.dumps(company["profile"], ensure_ascii=False, indent=2)
 
 
-def _load_industries_list() -> list[dict]:
-    data = get_industries()
-    return data["organizations"]
+async def _load_industries_list() -> list[dict]:
+    data = await get_industries()
+    return [org.model_dump() for org in data.organizations]
 
 
-def _load_org_to_industry_map() -> dict[str, list[str]]:
-    from src.organization_classification.service import _load_from_file
-
-    data = _load_from_file()
+async def _load_org_to_industry_map() -> dict[str, list[str]]:
+    data = await get_industries()
     org_map: dict[str, list[str]] = {}
-    for entry in data["organizations"]:
-        org_map[entry["organization"]] = entry["industries"]
+    for entry in data.organizations:
+        org_map[entry.organization] = [ic.industry for ic in entry.industries]
     return org_map
 
 
@@ -149,7 +147,7 @@ def _score_tenders_via_llm(
 
 
 async def match_company_to_industries(company_name: str) -> dict:
-    industries = _load_industries_list()
+    industries = await _load_industries_list()
     company_profile = await _load_company_profile(company_name)
     industries_text = json.dumps(industries, ensure_ascii=False, indent=2)
 
@@ -177,8 +175,8 @@ async def match_company_to_industries(company_name: str) -> dict:
 async def get_recommendations(
     company_name: str, threshold: float = rec_constants.SCORE_THRESHOLD
 ) -> dict:
-    # 1. Build org -> industries map from file (fast)
-    org_to_industries = _load_org_to_industry_map()
+    # 1. Build org -> industries map from MongoDB
+    org_to_industries = await _load_org_to_industry_map()
 
     # 2. Load tenders and attach industries to each
     tenders = _load_tenders()

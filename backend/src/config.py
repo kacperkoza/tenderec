@@ -22,9 +22,9 @@ class Settings(BaseSettings):
     mongodb_url: str = "mongodb://localhost:27017"
     mongodb_db_name: str = "tenderec"
 
-    # "file" = read industries from organizations_by_industry.json (fast, no LLM cost)
-    # "llm"  = classify on the fly via LLM (slow, uses tokens, we are poor)
-    organization_classification_source: Literal["file", "llm"] = "llm"
+    # "mongodb" = read cached classification from MongoDB (fast, no LLM cost)
+    # "llm"    = classify on the fly via LLM, save results to MongoDB
+    organization_classification_source: Literal["mongodb", "llm"] = "mongodb"
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

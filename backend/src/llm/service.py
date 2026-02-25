@@ -15,4 +15,3 @@ def get_openai_client() -> OpenAI:
             api_key=settings.github_token,
         )
     return _client
-

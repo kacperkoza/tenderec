@@ -1,6 +1,50 @@
 # Tenderec Backend
 
-## Companies
+Tender Recommendation Engine — matches Polish public procurement tenders to company profiles using LLM scoring.
+
+## Prerequisites
+
+- Python 3.12+
+- MongoDB running locally (default: `mongodb://localhost:27017`)
+- GitHub Models API token (saved in `.token` file or set via `GITHUB_TOKEN` env var)
+
+## Setup
+
+```bash
+uv sync --all-extras
+```
+
+Create a `.token` file in the project root with your GitHub Models API token, or set the `GITHUB_TOKEN` environment variable.
+
+Optional `.env` overrides:
+
+```
+MONGODB_URL=mongodb://localhost:27017
+MONGODB_DB_NAME=tenderec
+LLM_MODEL=gpt-4o
+ORGANIZATION_CLASSIFICATION_SOURCE=mongodb
+TENDER_DEADLINE_DATE=2026-01-10
+```
+
+## Running the app
+
+```bash
+fastapi dev main.py
+```
+
+The API will be available at `http://localhost:8000`. Interactive docs at `http://localhost:8000/docs`.
+
+## Running tests
+
+```bash
+uv run pytest tests/ -v
+```
+
+Tests mock both MongoDB and the OpenAI client — no running database or API token required.
+
+## API Endpoints
+
+### Companies
 
 The companies module handles company profile management. 
 A company profile is created by sending a free-text description to `PUT /api/v1/companies/{company_name}`. 
@@ -77,22 +121,41 @@ Result:
 - Support for multiple profiles per company (e.g., different service lines)
 - More detailed geographic targeting (e.g., specific regions or cities)
 - Additional structured data extraction (e.g., company size, certifications)
-- LLM may add additional questions to the company to improve profile quaiality (What size is the company? What certifications do they have? Do they have experience with public tenders?)
+- LLM may add additional questions to the company to improve profile quality (What size is the company? What certifications do they have? Do they have experience with public tenders?)
 
 
-## organization classification
+### Organization Classification
 
-multi-level filtering from cheapest to the most expensive, with the following levels:  
-- **Level 1: Basic Classification** - Classify organizations into broad categories (e.g., public sector, private sector, non-profit) based on minimal information such as name and description
-- level 2: Industry Classification - Classify organizations into specific industries (e.g., healthcare, education, construction) using more detailed information from the description
+`GET /api/v1/organizations/industries` classifies contracting authorities into 2-3 industries each, based on their name and tender history.
 
+- Default source: `mongodb` (reads cached results, no LLM cost)
+- Set `ORGANIZATION_CLASSIFICATION_SOURCE=llm` to reclassify via LLM and save to MongoDB
+- Organizations are classified in batches of 80 per LLM call
+- Only tenders with deadlines after the reference date are included
 
-Limitations:
-- free 4o model have 8000 context limit. for classification of 1400 tenders, we would need to perform 30 requests
-Due to this limitation analyzing files is super hard or impossible.
-
+```bash
+curl -X GET "http://localhost:8000/api/v1/organizations/industries" | jq
 ```
-openai.APIStatusError: Error code: 413 - {'error': {'code': 'tokens_limit_reached', 'message': 'Request body too large for gpt-4o model. Max size: 8000 tokens.', 'details': 'Request body too large for gpt-4o model. Max size: 8000 tokens.'}}
+
+### Recommendations (Tender Matching)
+
+`POST /api/v1/recommendations/match` scores each tender against a company profile using 3 criteria (max 100 pts total):
+
+| Criterion | Max pts | What it measures |
+|-----------|---------|------------------|
+| `subject_match` | 50 | How well the tender matches company services |
+| `service_vs_delivery` | 30 | Service/works vs pure goods delivery |
+| `authority_profile` | 20 | Does the contracting authority match target clients |
+
+Each criterion includes a `score` and `reasoning` (in Polish), plus an overall `reasoning`.
+
+Tenders are processed in 20 batches. Results are saved to MongoDB after each batch.
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/recommendations/match?company_name=greenworks" | jq
 ```
-```
-openai.RateLimitError: Error code: 429 - {'error': {'code': 'RateLimitReached', 'message': 'Rate limit of 100 per 86400s exceeded for UserByModelByDay. Please wait 9971 seconds before retrying.', 'details': 'Rate limit of 100 per 86400s exceeded for UserByModelByDay. Please wait 9971 seconds before retrying.'}}```
+
+## Limitations
+
+- GitHub Models free tier has an 8000 token context limit for gpt-4o, requiring batched requests
+- Daily rate limit of 100 requests per model — classification of 678 organizations requires multiple batches across days

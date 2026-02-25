@@ -19,10 +19,10 @@ Jesteś ekspertem od polskiego rynku zamówień publicznych i klasyfikacji bran�
 Dostajesz nazwę organizacji oraz listę przetargów, które ta organizacja ogłosiła.
 
 Twoim zadaniem jest:
-1. Na podstawie nazwy organizacji i nazw jej przetargów — przypisz organizację \
-do 2 lub 3 branż (top branże, od najbardziej pasującej).
-Pierwsza (najważniejsza) branża niech bazuje na nazwie organizacji, a kolejne branże \
-niech bazują na nazwie organizacji i nazwach przetargów.
+1. Na podstawie nazwy organizacji i nazw jej przetargów — przypisz organizacji \
+od 1 lub 3 branż (top branże, od najbardziej pasującej).
+- Pierwsza (najważniejsza) branża niech bazuje na nazwie organizacji.
+Kolejne branże na nazwie przetargów.
 2. Dla KAŻDEJ przypisanej branży dodaj krótkie uzasadnienie po polsku (1-2 zdania), \
 dlaczego ta branża pasuje — odnieś się do konkretnych przetargów.
 3. Użyj zwięzłych, polskich nazw branż (np. "Energetyka", "Górnictwo", \
@@ -124,18 +124,24 @@ async def _load_from_mongo() -> ClassifyResponse:
 async def _classify_via_llm() -> ClassifyResponse:
     all_tenders = _load_tenders()
     grouped = _group_by_organization(all_tenders)
+    grouped = dict(list(grouped.items())[:1])
 
     all_organizations: list[dict] = []
 
     for i, (org_name, tender_names) in enumerate(grouped.items(), 1):
         logger.info(
-            "Classifying organization %d/%d: '%s'",
+            "Classifying organization %d/%d: '%s' (%d tenders)",
             i,
             len(grouped),
             org_name,
+            len(tender_names),
         )
         classified = await run_in_threadpool(
             _classify_organization, org_name, tender_names
+        )
+        logger.info(
+            "Result after classification: %s",
+            json.dumps(classified, ensure_ascii=False),
         )
         all_organizations.append(classified)
 

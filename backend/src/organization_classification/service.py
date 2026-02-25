@@ -61,7 +61,7 @@ def _load_tenders() -> list[dict]:
 
 
 def _filter_by_deadline(tenders: list[dict]) -> list[dict]:
-    today = constants.TODAY
+    today = constants.get_deadline_reference_date()
     result = []
     for t in tenders:
         deadline_str = t["metadata"]["submission_deadline"]
@@ -97,7 +97,7 @@ def _classify_batch(org_batch: dict[str, list[str]]) -> list[dict]:
     user_prompt = _build_user_prompt(org_batch)
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[

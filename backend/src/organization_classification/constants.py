@@ -1,8 +1,12 @@
 from datetime import date
 
+from src.config import settings
 from src.constants import TENDERS_PATH as TENDERS_PATH
 
 COLLECTION_NAME = "organization_classifications"
 
-# Test data are from the past, so we set a fixed "today" date to ensure the filtering logic works as expected.
-TODAY = date(2026, 1, 10)
+
+def get_deadline_reference_date() -> date:
+    if settings.tender_deadline_date is not None:
+        return settings.tender_deadline_date
+    return date.today()

@@ -6,9 +6,11 @@ from fastapi.concurrency import run_in_threadpool
 from pymongo import ReplaceOne
 
 from src.companies.service import get_company
+from src.config import settings
 from src.database import get_database
 from src.llm.service import get_openai_client
 from src.recommendations import constants as rec_constants
+from src.recommendations.schemas import MatchCompanyResponse
 
 logger = logging.getLogger(__name__)
 
@@ -73,18 +75,18 @@ Nie dodawaj żadnego tekstu poza JSON-em.\
 
 async def _load_company_profile_text(company_name: str) -> str:
     company = await get_company(company_name)
-    profile = company["profile"]
+    profile = company.profile
 
-    info = profile["company_info"]
-    criteria = profile["matching_criteria"]
+    info = profile.company_info
+    criteria = profile.matching_criteria
 
     lines = [
-        f"Nazwa firmy: {info['name']}",
-        f"Branże: {', '.join(info['industries'])}",
-        f"Kraj działania: {criteria['geography']['primary_country']}",
-        f"Kategorie usług: {', '.join(criteria['service_categories'])}",
-        f"Kody CPV: {', '.join(criteria['cpv_codes'])}",
-        f"Preferowani zamawiający: {', '.join(criteria['target_authorities'])}",
+        f"Nazwa firmy: {info.name}",
+        f"Branże: {', '.join(info.industries)}",
+        f"Kraj działania: {criteria.geography.primary_country}",
+        f"Kategorie usług: {', '.join(criteria.service_categories)}",
+        f"Kody CPV: {', '.join(criteria.cpv_codes)}",
+        f"Preferowani zamawiający: {', '.join(criteria.target_authorities)}",
     ]
     return "\n".join(lines)
 
@@ -103,7 +105,7 @@ def _classify_batch(company_profile_text: str, tender_lines: list[str]) -> list[
 
     client = get_openai_client()
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[
@@ -146,7 +148,7 @@ async def _save_matches_to_mongo(company_name: str, matches: list[dict]) -> None
         )
 
 
-async def match_company_to_tenders(company_name: str) -> dict:
+async def match_company_to_tenders(company_name: str) -> MatchCompanyResponse:
     company_profile_text = await _load_company_profile_text(company_name)
     tenders = _load_tenders()
 
@@ -175,7 +177,7 @@ async def match_company_to_tenders(company_name: str) -> dict:
 
     all_matches.sort(key=lambda x: -x["total_score"])
 
-    return {
-        "company_name": company_name,
-        "matches": all_matches,
-    }
+    return MatchCompanyResponse(
+        company_name=company_name,
+        matches=all_matches,
+    )

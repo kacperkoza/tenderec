@@ -15,7 +15,6 @@ async def match_company(
     company_name: str = Query(default="greenworks"),
 ) -> MatchCompanyResponse:
     try:
-        result = await match_company_to_tenders(company_name)
+        return await match_company_to_tenders(company_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-    return MatchCompanyResponse(**result)

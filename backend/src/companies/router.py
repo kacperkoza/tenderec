@@ -21,10 +21,9 @@ router = APIRouter(prefix="/companies", tags=["companies"])
 )
 async def get_company_profile(company_name: str) -> CompanyProfileResponse:
     try:
-        result = await get_company(company_name)
+        return await get_company(company_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-    return CompanyProfileResponse(**result)
 
 
 @router.put(
@@ -40,8 +39,7 @@ async def upsert_company_profile(
     profile = await run_in_threadpool(
         extract_company_profile, company_name, request.description
     )
-    result = await create_company_profile(
+    return await create_company_profile(
         company_name=company_name,
         profile=profile,
     )
-    return CompanyProfileResponse(**result)

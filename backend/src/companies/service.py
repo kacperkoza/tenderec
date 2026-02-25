@@ -1,6 +1,8 @@
 import json
 from datetime import datetime, timezone
 
+from src.companies.schemas import CompanyProfile, CompanyProfileResponse
+from src.config import settings
 from src.database import get_database
 from src.llm.service import get_openai_client
 
@@ -53,7 +55,7 @@ Nie dodawaj żadnego tekstu poza JSON-em.\
 """
 
 
-async def get_company(company_name: str) -> dict:
+async def get_company(company_name: str) -> CompanyProfileResponse:
     db = get_database()
     collection = db[COLLECTION_NAME]
 
@@ -61,20 +63,20 @@ async def get_company(company_name: str) -> dict:
     if document is None:
         raise ValueError(f"Company not found: {company_name}")
 
-    return {
-        "company_name": document["_id"],
-        "profile": document["profile"],
-        "created_at": document["created_at"],
-    }
+    return CompanyProfileResponse(
+        company_name=document["_id"],
+        profile=document["profile"],
+        created_at=document["created_at"],
+    )
 
 
-def extract_company_profile(company_name: str, description: str) -> dict:
+def extract_company_profile(company_name: str, description: str) -> CompanyProfile:
     client = get_openai_client()
 
     user_prompt = f"## Nazwa firmy\n\n{company_name}\n\n## Opis firmy\n\n{description}"
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=settings.llm_model,
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[
@@ -83,24 +85,27 @@ def extract_company_profile(company_name: str, description: str) -> dict:
         ],
     )
 
-    return json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
+    raw = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
+    return CompanyProfile(**raw)
 
 
-async def create_company_profile(company_name: str, profile: dict) -> dict:
+async def create_company_profile(
+    company_name: str, profile: CompanyProfile
+) -> CompanyProfileResponse:
     db = get_database()
     collection = db[COLLECTION_NAME]
 
     now = datetime.now(timezone.utc)
     document = {
         "_id": company_name,
-        "profile": profile,
+        "profile": profile.model_dump(),
         "created_at": now,
     }
 
     await collection.replace_one({"_id": company_name}, document, upsert=True)
 
-    return {
-        "company_name": company_name,
-        "profile": profile,
-        "created_at": now,
-    }
+    return CompanyProfileResponse(
+        company_name=company_name,
+        profile=profile,
+        created_at=now,
+    )

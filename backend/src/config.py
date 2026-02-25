@@ -1,3 +1,4 @@
+from datetime import date
 from pathlib import Path
 from typing import Literal
 
@@ -25,6 +26,12 @@ class Settings(BaseSettings):
     # "mongodb" = read cached classification from MongoDB (fast, no LLM cost)
     # "llm"    = classify on the fly via LLM, save results to MongoDB
     organization_classification_source: Literal["mongodb", "llm"] = "mongodb"
+
+    llm_model: str = "gpt-4o"
+
+    # Override tender deadline reference date (YYYY-MM-DD). If not set, uses today's date.
+    # Useful for test data from the past, e.g. TENDER_DEADLINE_DATE=2026-01-10
+    tender_deadline_date: date | None = None
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -19,6 +21,7 @@ class TenderRecommendation(BaseModel):
     industry: str
     score: float = Field(ge=0, le=1)
     reasoning: str
+    tender_size: Literal["mały", "średni", "duży"]
 
 
 class RecommendationsResponse(BaseModel):

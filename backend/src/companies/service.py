@@ -1,4 +1,6 @@
 import json
+import logging
+
 from datetime import datetime, timezone
 
 from src.companies.schemas import CompanyProfile, CompanyProfileResponse
@@ -53,6 +55,7 @@ na podstawie kontekstu branżowego.
 
 Nie dodawaj żadnego tekstu poza JSON-em.\
 """
+logger = logging.getLogger(__name__)
 
 
 async def get_company(company_name: str) -> CompanyProfileResponse:
@@ -62,12 +65,13 @@ async def get_company(company_name: str) -> CompanyProfileResponse:
     document = await collection.find_one({"_id": company_name})
     if document is None:
         raise ValueError(f"Company not found: {company_name}")
-
-    return CompanyProfileResponse(
+    company = CompanyProfileResponse(
         company_name=document["_id"],
         profile=document["profile"],
         created_at=document["created_at"],
     )
+    logger.info("Get company profile: '%s'", company_name)
+    return company
 
 
 def extract_company_profile(company_name: str, description: str) -> CompanyProfile:
@@ -90,7 +94,7 @@ def extract_company_profile(company_name: str, description: str) -> CompanyProfi
 
 
 async def create_company_profile(
-    company_name: str, profile: CompanyProfile
+        company_name: str, profile: CompanyProfile
 ) -> CompanyProfileResponse:
     db = get_database()
     collection = db[COLLECTION_NAME]

@@ -1,7 +1,13 @@
+import logging
 from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
 
 from fastapi import FastAPI
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+)
 
 from src.companies.router import router as companies_router
 from src.config import settings

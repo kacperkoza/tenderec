@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, status
 from fastapi.concurrency import run_in_threadpool
 
@@ -11,7 +13,10 @@ from src.companies.service import (
     get_company,
 )
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/companies", tags=["companies"])
+
 
 @router.get(
     "/{company_name}",
@@ -19,10 +24,13 @@ router = APIRouter(prefix="/companies", tags=["companies"])
     description="Get company profile from database by company name",
 )
 async def get_company_profile(company_name: str) -> CompanyProfileResponse:
+    logger.info("GET company profile: '%s'", company_name)
     try:
-        return await get_company(company_name)
+        result = await get_company(company_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+    logger.info("Company data for '%s': %s", company_name, result.model_dump_json())
+    return result
 
 
 @router.put(
@@ -35,10 +43,15 @@ async def upsert_company_profile(
     company_name: str,
     request: CreateCompanyProfileRequest,
 ) -> CompanyProfileResponse:
+    logger.info("PUT company profile: '%s'", company_name)
     profile = await run_in_threadpool(
         extract_company_profile, company_name, request.description
     )
-    return await create_company_profile(
+    result = await create_company_profile(
         company_name=company_name,
         profile=profile,
     )
+    logger.info(
+        "Created company data for '%s': %s", company_name, result.model_dump_json()
+    )
+    return result

@@ -3,7 +3,6 @@ import logging
 from collections import defaultdict
 
 from fastapi.concurrency import run_in_threadpool
-from pymongo import ReplaceOne
 
 from src.config import settings
 from src.database import get_database
@@ -85,24 +84,16 @@ def _classify_organization(org_name: str, tender_names: list[str]) -> dict:
     return json.loads(raw)  # type: ignore[arg-type]
 
 
-async def _save_to_mongo(organizations: list[dict]) -> None:
+async def _save_one_to_mongo(organization: dict) -> None:
     db = get_database()
     collection = db[constants.COLLECTION_NAME]
 
-    operations = []
-    for org in organizations:
-        doc = {
-            "_id": org["organization"],
-            "industries": org["industries"],
-        }
-        operations.append(doc)
-
-    if operations:
-        bulk_ops = [
-            ReplaceOne({"_id": doc["_id"]}, doc, upsert=True) for doc in operations
-        ]
-        await collection.bulk_write(bulk_ops)
-        logger.info("Saved %d organization classifications to MongoDB", len(operations))
+    doc = {
+        "_id": organization["organization"],
+        "industries": organization["industries"],
+    }
+    await collection.replace_one({"_id": doc["_id"]}, doc, upsert=True)
+    logger.info("Saved classification for '%s' to MongoDB", doc["_id"])
 
 
 async def _load_from_mongo() -> ClassifyResponse:
@@ -125,8 +116,6 @@ async def _classify_via_llm() -> ClassifyResponse:
     all_tenders = _load_tenders()
     grouped = _group_by_organization(all_tenders)
 
-    all_organizations: list[dict] = []
-
     for i, (org_name, tender_names) in enumerate(grouped.items(), 1):
         logger.info(
             "Classifying organization %d/%d: '%s' (%d tenders)",
@@ -142,10 +131,9 @@ async def _classify_via_llm() -> ClassifyResponse:
             "Result after classification: %s",
             json.dumps(classified, ensure_ascii=False),
         )
-        all_organizations.append(classified)
+        await _save_one_to_mongo(classified)
 
-    await _save_to_mongo(all_organizations)
-    return ClassifyResponse(organizations=all_organizations)
+    return await _load_from_mongo()
 
 
 async def get_industries() -> ClassifyResponse:

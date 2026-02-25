@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     # "llm"    = classify on the fly via LLM, save results to MongoDB
     organization_classification_source: Literal["mongodb", "llm"] = "mongodb"
 
+    # "mongodb" = read cached recommendations from MongoDB, filtered by match levels
+    # "llm"    = generate recommendations via LLM, save each to MongoDB
+    recommendations_source: Literal["mongodb", "llm"] = "mongodb"
+
     llm_model: str = "gpt-4o-mini"
 
     # Override tender deadline reference date (YYYY-MM-DD). If not set, uses today's date.

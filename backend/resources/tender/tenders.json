@@ -2,6 +2,22 @@
   "target_date": "2026-01-07",
   "count": 1412,
   "tenders": [
+     {
+      "tender_url": "https://platformazakupowa.pl/transakcja/1243605",
+      "metadata": {
+        "name": "Usługa uprzątnięcia po sezonie świątecznym 4 szt. świerków z terenu Miasta Starachowice",
+        "organization": "Urząd Miejski Starachowice",
+        "submission_deadline": "2026-01-12 08:15",
+        "initiation_date": "2026-01-08",
+        "procedure_type": null,
+        "source_type": "platformazakupowa"
+      },
+      "files_count": 2,
+      "file_urls": [
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190351708_tender_1243605_details.txt",
+        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190341899_zapytanie ofertowe choinki  2025 uprzątnięcie.odt"
+      ]
+    },
     {
       "tender_url": "https://platformazakupowa.pl/transakcja/1243607",
       "metadata": {
@@ -1668,22 +1684,6 @@
         "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190332613_tender_1244049_details.txt",
         "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190329116_Formularz oferty 14_01_2026.docx",
         "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190333296_Ogłoszenie o udzielanym zamówieniu 14_01_2026.pdf"
-      ]
-    },
-    {
-      "tender_url": "https://platformazakupowa.pl/transakcja/1243605",
-      "metadata": {
-        "name": "Usługa uprzątnięcia po sezonie świątecznym 4 szt. świerków z terenu Miasta Starachowice",
-        "organization": "Urząd Miejski Starachowice",
-        "submission_deadline": "2026-01-12 08:15",
-        "initiation_date": "2026-01-08",
-        "procedure_type": null,
-        "source_type": "platformazakupowa"
-      },
-      "files_count": 2,
-      "file_urls": [
-        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190351708_tender_1243605_details.txt",
-        "https://minerva-stored-files.s3.eu-north-1.amazonaws.com/20260108T190341899_zapytanie ofertowe choinki  2025 uprzątnięcie.odt"
       ]
     },
     {

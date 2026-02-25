@@ -27,20 +27,21 @@ async def get_company_profile(company_name: str) -> CompanyProfileResponse:
     return CompanyProfileResponse(**result)
 
 
-@router.post(
-    "/",
+@router.put(
+    "/{company_name}",
     response_model=CompanyProfileResponse,
     status_code=status.HTTP_201_CREATED,
     description="Extracts structured company profile from description using LLM and saves to database",
 )
-async def create_profile(
+async def upsert_company_profile(
+    company_name: str,
     request: CreateCompanyProfileRequest,
 ) -> CompanyProfileResponse:
     profile = await run_in_threadpool(
-        extract_company_profile, request.company_name, request.description
+        extract_company_profile, company_name, request.description
     )
     result = await create_company_profile(
-        company_name=request.company_name,
+        company_name=company_name,
         profile=profile,
     )
     return CompanyProfileResponse(**result)

@@ -90,16 +90,17 @@ async def create_company_profile(company_name: str, profile: dict) -> dict:
     db = get_database()
     collection = db[COLLECTION_NAME]
 
+    now = datetime.now(timezone.utc)
     document = {
         "_id": company_name,
         "profile": profile,
-        "created_at": datetime.now(timezone.utc),
+        "created_at": now,
     }
 
-    await collection.insert_one(document)
+    await collection.replace_one({"_id": company_name}, document, upsert=True)
 
     return {
         "company_name": company_name,
         "profile": profile,
-        "created_at": document["created_at"],
+        "created_at": now,
     }

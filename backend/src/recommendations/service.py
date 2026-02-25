@@ -1,5 +1,6 @@
 import json
 
+from src.companies.service import get_company
 from src.llm.service import get_openai_client
 from src.organization_classification.service import get_industries
 from src.recommendations import constants as rec_constants
@@ -93,9 +94,9 @@ Nie dodawaj żadnego tekstu poza JSON-em.\
 """
 
 
-def _load_company_profile(company_id: str) -> str:
-    path = rec_constants.COMPANY_DIR / f"{company_id}.md"
-    return path.read_text(encoding="utf-8")
+async def _load_company_profile(company_name: str) -> str:
+    company = await get_company(company_name)
+    return json.dumps(company["profile"], ensure_ascii=False, indent=2)
 
 
 def _load_industries_list() -> list[dict]:
@@ -147,9 +148,9 @@ def _score_tenders_via_llm(
     return json.loads(response.choices[0].message.content)["results"]
 
 
-def match_company_to_industries(company_id: str) -> dict:
+async def match_company_to_industries(company_name: str) -> dict:
     industries = _load_industries_list()
-    company_profile = _load_company_profile(company_id)
+    company_profile = await _load_company_profile(company_name)
     industries_text = json.dumps(industries, ensure_ascii=False, indent=2)
 
     user_prompt = (
@@ -168,19 +169,14 @@ def match_company_to_industries(company_id: str) -> dict:
         ],
     )
 
-    result = json.loads(response.choices[0].message.content)
-    company_name = rec_constants.COMPANY_REGISTRY.get(company_id, company_id)
+    result = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
     result["company"] = company_name
     return result
 
 
-def get_recommendations(
-    company_id: str, threshold: float = rec_constants.SCORE_THRESHOLD
+async def get_recommendations(
+    company_name: str, threshold: float = rec_constants.SCORE_THRESHOLD
 ) -> dict:
-    company_name = rec_constants.COMPANY_REGISTRY.get(company_id)
-    if not company_name:
-        raise ValueError(f"Unknown company_id: {company_id}")
-
     # 1. Build org -> industries map from file (fast)
     org_to_industries = _load_org_to_industry_map()
 
@@ -198,8 +194,8 @@ def get_recommendations(
         for t in tenders
     ]
 
-    # 3. Load company profile
-    company_profile = _load_company_profile(company_id)
+    # 3. Load company profile from MongoDB
+    company_profile = await _load_company_profile(company_name)
 
     # 4. Send to LLM for per-tender scoring
     scored = _score_tenders_via_llm(company_profile, tenders_with_industry)
@@ -227,8 +223,7 @@ def get_recommendations(
     recommendations.sort(key=lambda x: (-x["score"], x["name"]))
 
     return {
-        "company_id": company_id,
-        "company": company_name,
+        "company_name": company_name,
         "threshold": threshold,
         "total": len(recommendations),
         "recommendations": recommendations,

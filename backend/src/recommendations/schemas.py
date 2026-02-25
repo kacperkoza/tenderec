@@ -25,9 +25,7 @@ class TenderRecommendation(BaseModel):
 
 
 class RecommendationsResponse(BaseModel):
-    company_id: str
-    company: str
+    company_name: str
     threshold: float
     total: int
     recommendations: list[TenderRecommendation]
-

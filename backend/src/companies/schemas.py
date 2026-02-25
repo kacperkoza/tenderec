@@ -4,11 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class CreateCompanyProfileRequest(BaseModel):
-    company_name: str = Field(min_length=1, max_length=256)
     description: str = Field(min_length=1)
 
 
-class Geography(BaseModel):
+class CompanyGeography(BaseModel):
     primary_country: str
 
 
@@ -16,7 +15,7 @@ class MatchingCriteria(BaseModel):
     service_categories: list[str]
     cpv_codes: list[str]
     target_authorities: list[str]
-    geography: Geography
+    geography: CompanyGeography
 
 
 class CompanyInfo(BaseModel):

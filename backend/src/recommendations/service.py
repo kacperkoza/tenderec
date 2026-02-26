@@ -14,7 +14,7 @@ from src.organization_classification.constants import (
 )
 from src.recommendations.schemas import MatchLevel, TenderRecommendation
 from src.tenders.schemas import Tender
-from src.tenders.service import load_tenders
+from src.tenders.service import get_tender_by_name, load_tenders
 
 logger = logging.getLogger(__name__)
 
@@ -171,9 +171,11 @@ async def _save_recommendation(
     collection = db[RECOMMENDATIONS_COLLECTION]
 
     now = datetime.now(timezone.utc)
-    document = {
-        "company": company_name,
+    doc_id = {
+        "company_name": company_name,
         "tender_name": recommendation.tender_name,
+    }
+    document = {
         "organization": recommendation.organization,
         "name_match": recommendation.name_match,
         "name_reason": recommendation.name_reason,
@@ -182,7 +184,7 @@ async def _save_recommendation(
         "created_at": now,
     }
 
-    await collection.insert_one(document)
+    await collection.replace_one({"_id": doc_id}, document, upsert=True)
     logger.info(
         "Saved recommendation for tender '%s' (company '%s'): name=%s, industry=%s",
         recommendation.tender_name,
@@ -213,7 +215,7 @@ async def _load_from_mongo(
 
     cursor = collection.find(
         {
-            "company": company_name,
+            "_id.company_name": company_name,
             "name_match": name_match,
             "industry_match": industry_match,
         }
@@ -227,9 +229,9 @@ async def _load_from_mongo(
 
     return [
         TenderRecommendation(
-            tender_name=doc["tender_name"],
+            tender_name=doc["_id"]["tender_name"],
             organization=doc.get("organization")
-            or org_lookup.get(doc["tender_name"], ""),
+            or org_lookup.get(doc["_id"]["tender_name"], ""),
             name_match=doc["name_match"],
             name_reason=doc["name_reason"],
             industry_match=doc["industry_match"],
@@ -287,7 +289,7 @@ async def _classify_via_llm(company_name: str) -> None:
     await asyncio.gather(*tasks)
 
     executor.shutdown(wait=False)
-    logger.info("Finished processing all %d tenders for '%s'", total, company_name)
+    logger.info("Fingished processing all %d tenders for '%s'", total, company_name)
 
 
 async def get_recommendations(
@@ -301,3 +303,26 @@ async def get_recommendations(
         await _classify_via_llm(company_name)
 
     return await _load_from_mongo(company_name, name_match, industry_match)
+
+
+async def refresh_recommendation(
+    company_name: str,
+    tender_name: str,
+) -> TenderRecommendation:
+    tender = get_tender_by_name(tender_name)
+    if tender is None:
+        raise ValueError(f"Tender not found: {tender_name}")
+
+    profile = await get_company_profile(company_name)
+    org_industries = await _get_org_industries()
+    feedbacks = await _get_feedbacks(company_name)
+
+    user_prompt = build_user_prompt(profile, tender, org_industries, feedbacks)
+
+    loop = asyncio.get_event_loop()
+    recommendation = await loop.run_in_executor(
+        None, _call_llm, user_prompt, tender.metadata.name, tender.metadata.organization
+    )
+
+    await _save_recommendation(company_name, recommendation)
+    return recommendation

@@ -4,6 +4,6 @@ class CompanyNotFound(Exception):
         super().__init__(f"Company not found: {company_name}")
 
 
-class LLMExtractionError(Exception):
+class ProfileExtractionError(Exception):
     def __init__(self, message: str) -> None:
         super().__init__(message)

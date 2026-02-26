@@ -9,20 +9,27 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
 )
 
-from src.companies.router import router as companies_router
+from src.companies.company_service import CompanyService
+from src.companies.company_router import router as companies_router
 from src.config import settings
-from src.database import connect_to_mongo, close_mongo_connection
-from src.feedback.router import router as feedback_router
-from src.organization_classification.router import (
+from src.database import connect_to_mongo, close_mongo_connection, get_database
+from src.feedback.feedback_router import router as feedback_router
+from src.llm.llm_service import llm_service
+from src.organization_classification.classification_router import (
     router as organization_classification_router,
 )
-from src.recommendations.router import router as recommendations_router
-from src.tenders.router import router as tenders_router
+from src.recommendations.recommendation_router import router as recommendations_router
+from src.tenders.tender_router import router as tenders_router
 
 
 @asynccontextmanager
-async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     await connect_to_mongo()
+    db = get_database()
+    client = llm_service.get_client()
+
+    app.state.company_service = CompanyService(db=db, client=client)
+
     yield
     await close_mongo_connection()
 

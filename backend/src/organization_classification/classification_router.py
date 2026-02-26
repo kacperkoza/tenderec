@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 
-from src.organization_classification.schemas import ClassifyResponse
-from src.organization_classification.service import get_industries
+from src.organization_classification.classification_schemas import ClassifyResponse
+from src.organization_classification.classification_service import (
+    classification_service,
+)
 
 router = APIRouter(prefix="/organizations", tags=["organizations"])
 
@@ -13,4 +15,4 @@ router = APIRouter(prefix="/organizations", tags=["organizations"])
     "Source (MongoDB or LLM) is controlled by ORGANIZATION_CLASSIFICATION_SOURCE env var.",
 )
 async def get_organizations_by_industry() -> ClassifyResponse:
-    return await get_industries()
+    return await classification_service.get_industries()

@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -13,23 +14,27 @@ class CreateCompanyProfileRequest(BaseModel):
 # --- Domain ---
 
 
-class CompanyGeography(BaseModel):
+@dataclass
+class CompanyGeography:
     primary_country: str
 
 
-class MatchingCriteria(BaseModel):
+@dataclass
+class MatchingCriteria:
     service_categories: list[str]
     cpv_codes: list[str]
     target_authorities: list[str]
     geography: CompanyGeography
 
 
-class CompanyInfo(BaseModel):
+@dataclass
+class CompanyInfo:
     name: str
     industries: list[str]
 
 
-class CompanyProfile(BaseModel):
+@dataclass
+class CompanyProfile:
     company_info: CompanyInfo
     matching_criteria: MatchingCriteria
 
@@ -37,44 +42,40 @@ class CompanyProfile(BaseModel):
 # --- Document (MongoDB) ---
 
 
-class CompanyGeographyDoc(BaseModel):
-    primary_country: str
-
-
-class MatchingCriteriaDoc(BaseModel):
-    service_categories: list[str]
-    cpv_codes: list[str]
-    target_authorities: list[str]
-    geography: CompanyGeographyDoc
-
-
-class CompanyInfoDoc(BaseModel):
-    name: str
-    industries: list[str]
-
-
-class CompanyProfileDoc(BaseModel):
-    company_info: CompanyInfoDoc
-    matching_criteria: MatchingCriteriaDoc
-
-
-class CompanyProfileDocument(BaseModel):
+@dataclass
+class CompanyProfileDocument:
     id: str
-    profile: CompanyProfileDoc
+    profile: CompanyProfile
     created_at: datetime
 
     def to_mongo(self) -> dict[str, object]:
         return {
             "_id": self.id,
-            "profile": self.profile.model_dump(),
+            "profile": asdict(self.profile),
             "created_at": self.created_at,
         }
 
     @classmethod
     def from_mongo(cls, doc: dict[str, object]) -> "CompanyProfileDocument":
+        raw_profile: dict = doc["profile"]  # type: ignore[assignment]
+        profile = CompanyProfile(
+            company_info=CompanyInfo(**raw_profile["company_info"]),
+            matching_criteria=MatchingCriteria(
+                geography=CompanyGeography(
+                    **raw_profile["matching_criteria"]["geography"]
+                ),
+                service_categories=raw_profile["matching_criteria"][
+                    "service_categories"
+                ],
+                cpv_codes=raw_profile["matching_criteria"]["cpv_codes"],
+                target_authorities=raw_profile["matching_criteria"][
+                    "target_authorities"
+                ],
+            ),
+        )
         return cls(
             id=doc["_id"],  # type: ignore[arg-type]
-            profile=doc["profile"],  # type: ignore[arg-type]
+            profile=profile,
             created_at=doc["created_at"],  # type: ignore[arg-type]
         )
 
@@ -87,15 +88,27 @@ class CompanyProfileDocument(BaseModel):
     ) -> "CompanyProfileDocument":
         return cls(
             id=company_name,
-            profile=CompanyProfileDoc(**profile.model_dump()),
+            profile=profile,
             created_at=created_at,
         )
 
     def to_response(self) -> "CompanyProfileResponse":
-        profile_data = self.profile.model_dump()
         return CompanyProfileResponse(
             company_name=self.id,
-            profile=CompanyProfileResponseBody(**profile_data),
+            profile=CompanyProfileResponseBody(
+                company_info=CompanyInfoResponse(
+                    name=self.profile.company_info.name,
+                    industries=self.profile.company_info.industries,
+                ),
+                matching_criteria=MatchingCriteriaResponse(
+                    service_categories=self.profile.matching_criteria.service_categories,
+                    cpv_codes=self.profile.matching_criteria.cpv_codes,
+                    target_authorities=self.profile.matching_criteria.target_authorities,
+                    geography=CompanyGeographyResponse(
+                        primary_country=self.profile.matching_criteria.geography.primary_country,
+                    ),
+                ),
+            ),
             created_at=self.created_at,
         )
 

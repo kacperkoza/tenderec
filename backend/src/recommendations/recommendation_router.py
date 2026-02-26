@@ -2,12 +2,12 @@ import logging
 
 from fastapi import APIRouter, HTTPException, Query
 
-from src.recommendations.schemas import (
+from src.recommendations.recommendation_schemas import (
     MatchLevel,
     RecommendationsResponse,
     TenderRecommendation,
 )
-from src.recommendations.service import get_recommendations, refresh_recommendation
+from src.recommendations.recommendation_service import recommendation_service
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,9 @@ async def recommendations_endpoint(
     ),
 ) -> RecommendationsResponse:
     try:
-        recommendations = await get_recommendations(company, name_match, industry_match)
+        recommendations = await recommendation_service.get_recommendations(
+            company, name_match, industry_match
+        )
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
@@ -52,6 +54,6 @@ async def refresh_recommendation_endpoint(
     tender_name: str,
 ) -> TenderRecommendation:
     try:
-        return await refresh_recommendation(company, tender_name)
+        return await recommendation_service.refresh_recommendation(company, tender_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

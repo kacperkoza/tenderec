@@ -1,15 +1,17 @@
+from dataclasses import dataclass
 from datetime import date, datetime
 
 from pydantic import BaseModel
 
 
-class TenderMetadata(BaseModel):
+@dataclass
+class TenderMetadata:
     name: str
     organization: str
     submission_deadline: str
     initiation_date: str
     procedure_type: str | None = None
-    source_type: str
+    source_type: str = ""
 
     @property
     def deadline_date(self) -> date:
@@ -21,7 +23,8 @@ class TenderMetadata(BaseModel):
         raise ValueError(f"Invalid deadline format: {self.submission_deadline}")
 
 
-class Tender(BaseModel):
+@dataclass
+class Tender:
     tender_url: str
     metadata: TenderMetadata
     files_count: int

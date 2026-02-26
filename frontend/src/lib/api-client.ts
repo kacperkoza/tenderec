@@ -1,6 +1,9 @@
 import type {
   CompanyProfile,
   CreateCompanyRequest,
+  CreateFeedbackRequest,
+  Feedback,
+  FeedbackListResponse,
   RecommendationsParams,
   RecommendationsResponse,
 } from "@/types/api";
@@ -60,6 +63,40 @@ export async function getRecommendations(
 
   if (!res.ok) {
     throw new Error(`Nie udalo sie pobrac rekomendacji: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function getFeedbacks(
+  company: string
+): Promise<FeedbackListResponse> {
+  const res = await fetch(
+    `${API_BASE}/feedback/${encodeURIComponent(company)}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Nie udalo sie pobrac opinii: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function createFeedback(
+  company: string,
+  data: CreateFeedbackRequest
+): Promise<Feedback> {
+  const res = await fetch(
+    `${API_BASE}/feedback/${encodeURIComponent(company)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Nie udalo sie dodac opinii: ${res.status}`);
   }
 
   return res.json();

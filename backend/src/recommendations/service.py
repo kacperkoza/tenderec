@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from src.companies.schemas import CompanyProfile
 from src.config import settings
 from src.database import get_database
+from src.feedback.constants import COLLECTION_NAME as FEEDBACK_COLLECTION
 from src.llm.service import get_openai_client
 from src.organization_classification.constants import (
     COLLECTION_NAME as ORG_CLASSIFICATION_COLLECTION,
@@ -27,6 +28,8 @@ You are a Polish public procurement expert specializing in matching tenders to c
 You receive:
 1. A company profile — its industries, service categories, and target contracting authorities.
 2. A single tender with its contracting organization and the organization's industries.
+3. Optionally, user feedback on previously rejected tenders — use it to understand the user's \
+preferences and adjust your scoring accordingly.
 
 Your task is to evaluate the tender against the company profile on TWO separate axes.
 
@@ -52,6 +55,12 @@ and target contracting authorities.
 - PARTIAL_MATCH example: company targets municipal authorities → organization is a regional government.
 - NO_MATCH example: company targets municipal authorities → organization is a private tech corporation.
 
+## User feedback
+
+If user feedback on rejected tenders is provided, treat it as additional signal about the user's \
+preferences. For example, if the user says "too short deadline" for a tender, penalize similar \
+tenders. If they say "not our area", it reinforces NO_MATCH on the name axis.
+
 ## Response format
 
 Respond ONLY with valid JSON:
@@ -73,10 +82,19 @@ async def _get_org_industries() -> dict[str, list[str]]:
     return {doc["_id"]: [ind["industry"] for ind in doc["industries"]] for doc in docs}
 
 
+async def _get_feedbacks(company_name: str) -> list[str]:
+    db = get_database()
+    collection = db[FEEDBACK_COLLECTION]
+    cursor = collection.find({"company_name": company_name})
+    docs = await cursor.to_list(length=None)
+    return [doc["feedback_comment"] for doc in docs]
+
+
 def build_user_prompt(
     profile: CompanyProfile,
     tender: Tender,
     org_industries: dict[str, list[str]],
+    feedbacks: list[str],
 ) -> str:
     company_info = profile.company_info
     criteria = profile.matching_criteria
@@ -89,7 +107,7 @@ def build_user_prompt(
     org_ind = org_industries.get(org, [])
     org_ind_str = f"\n**Industries:** {', '.join(org_ind)}" if org_ind else ""
 
-    return f"""\
+    prompt = f"""\
 ## Company profile: {company_info.name}
 
 ### Company's Industries
@@ -105,6 +123,16 @@ def build_user_prompt(
 **Name:** {tender.metadata.name}
 **Organization:** {org}{org_ind_str}\
 """
+
+    if feedbacks:
+        feedback_lines = "\n".join(f"- {fb}" for fb in feedbacks)
+        prompt += f"""
+
+## User feedback on previously rejected tenders
+{feedback_lines}\
+"""
+
+    return prompt
 
 
 def _call_llm(
@@ -216,6 +244,7 @@ async def _classify_via_llm(company_name: str) -> None:
 
     tenders = load_tenders()
     org_industries = await _get_org_industries()
+    feedbacks = await _get_feedbacks(company_name)
 
     total = len(tenders)
     logger.info(
@@ -234,7 +263,7 @@ async def _classify_via_llm(company_name: str) -> None:
             logger.info(
                 "[%d/%d] Evaluating tender: '%s'", index, total, tender.metadata.name
             )
-            user_prompt = build_user_prompt(profile, tender, org_industries)
+            user_prompt = build_user_prompt(profile, tender, org_industries, feedbacks)
             recommendation = await loop.run_in_executor(
                 executor,
                 _call_llm,

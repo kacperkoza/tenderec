@@ -53,3 +53,17 @@ export interface RecommendationsParams {
   name_match?: MatchLevel;
   industry_match?: MatchLevel;
 }
+
+export interface Feedback {
+  id: string;
+  feedback_comment: string;
+}
+
+export interface FeedbackListResponse {
+  company_name: string;
+  feedbacks: Feedback[];
+}
+
+export interface CreateFeedbackRequest {
+  feedback_comment: string;
+}

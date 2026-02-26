@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRecommendations } from "@/hooks/use-recommendations";
+import { useCreateFeedback } from "@/hooks/use-feedback";
 import {
   useTenderSwipeStore,
   type SwipeDirection,
@@ -16,6 +17,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import type { TenderRecommendation } from "@/types/api";
 
 export default function TendersPage() {
   const router = useRouter();
@@ -24,6 +35,12 @@ export default function TendersPage() {
   });
 
   const { swiped, swipe, getLiked, clearAll } = useTenderSwipeStore();
+  const { mutate: sendFeedback, isPending: isSendingFeedback } =
+    useCreateFeedback();
+
+  const [rejectedTender, setRejectedTender] =
+    useState<TenderRecommendation | null>(null);
+  const [feedbackText, setFeedbackText] = useState("");
 
   const unswiped = useMemo(() => {
     if (!data?.recommendations) return [];
@@ -37,9 +54,34 @@ export default function TendersPage() {
       const current = visibleCards[0];
       if (!current) return;
       swipe(current, direction);
+
+      if (direction === "left") {
+        setRejectedTender(current);
+        setFeedbackText("");
+      }
     },
     [visibleCards, swipe]
   );
+
+  function handleSkipFeedback() {
+    setRejectedTender(null);
+    setFeedbackText("");
+  }
+
+  function handleSendFeedback() {
+    if (!rejectedTender || !feedbackText.trim()) return;
+
+    const comment = `[Odrzucony przetarg: ${rejectedTender.tender_name}] ${feedbackText.trim()}`;
+    sendFeedback(
+      { company: "greenworks", data: { feedback_comment: comment } },
+      {
+        onSettled: () => {
+          setRejectedTender(null);
+          setFeedbackText("");
+        },
+      }
+    );
+  }
 
   const liked = getLiked();
 
@@ -159,6 +201,39 @@ export default function TendersPage() {
           </ul>
         </div>
       )}
+
+      <Dialog
+        open={rejectedTender !== null}
+        onOpenChange={(open) => {
+          if (!open) handleSkipFeedback();
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Dlaczego odrzucasz ten przetarg?</DialogTitle>
+            <DialogDescription>
+              {rejectedTender?.tender_name}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            placeholder="Np. nie pasuje do naszej branży, za krótki termin..."
+            value={feedbackText}
+            onChange={(e) => setFeedbackText(e.target.value)}
+            rows={3}
+          />
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="ghost" onClick={handleSkipFeedback}>
+              Pomiń
+            </Button>
+            <Button
+              onClick={handleSendFeedback}
+              disabled={!feedbackText.trim() || isSendingFeedback}
+            >
+              {isSendingFeedback ? "Wysyłanie..." : "Wyślij"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

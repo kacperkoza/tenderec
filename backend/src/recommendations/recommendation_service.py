@@ -85,19 +85,27 @@ class RecommendationService:
         self.llm_client = llm_client
 
     async def _get_org_industries(self) -> dict[str, list[str]]:
+        logger.info("Loading organization industries from MongoDB")
         collection = self.db[ORG_CLASSIFICATION_COLLECTION]
         cursor = collection.find({})
         docs = await cursor.to_list(length=None)
 
-        return {
+        result = {
             doc["_id"]: [ind["industry"] for ind in doc["industries"]] for doc in docs
         }
+        logger.info("Loaded industries for %d organizations", len(result))
+        return result
 
     async def _get_feedbacks(self, company_name: str) -> list[str]:
+        logger.info("Loading feedbacks for company '%s'", company_name)
         collection = self.db[FEEDBACK_COLLECTION]
         cursor = collection.find({"company_name": company_name})
         docs = await cursor.to_list(length=None)
-        return [doc["feedback_comment"] for doc in docs]
+        feedbacks = [doc["feedback_comment"] for doc in docs]
+        logger.info(
+            "Loaded %d feedbacks for company '%s'", len(feedbacks), company_name
+        )
+        return feedbacks
 
     @staticmethod
     def build_user_prompt(
@@ -147,6 +155,7 @@ class RecommendationService:
     async def _call_llm(
         self, user_prompt: str, tender_name: str, organization: str
     ) -> TenderRecommendation:
+        logger.info("Calling LLM for tender='%s', org='%s'", tender_name, organization)
         response = await self.llm_client.ainvoke(
             [
                 SystemMessage(content=SYSTEM_PROMPT),
@@ -156,9 +165,16 @@ class RecommendationService:
         )
 
         raw = json.loads(response.content)  # type: ignore[arg-type]
-        return TenderRecommendation(
+        recommendation = TenderRecommendation(
             tender_name=tender_name, organization=organization, **raw
         )
+        logger.info(
+            "LLM result for tender='%s': name_match=%s, industry_match=%s",
+            tender_name,
+            recommendation.name_match,
+            recommendation.industry_match,
+        )
+        return recommendation
 
     @staticmethod
     def _should_skip(recommendation: TenderRecommendation) -> bool:
@@ -199,10 +215,12 @@ class RecommendationService:
         )
 
     async def _get_company_profile(self, company_name: str) -> CompanyProfile:
+        logger.info("Loading company profile for '%s'", company_name)
         collection = self.db[COMPANY_PROFILES_COLLECTION]
 
         document = await collection.find_one({"_id": company_name})
         if document is None:
+            logger.warning("Company not found: '%s'", company_name)
             raise ValueError(f"Company not found: {company_name}")
 
         raw_profile: dict = document["profile"]  # type: ignore[assignment]
@@ -228,6 +246,12 @@ class RecommendationService:
         name_match: MatchLevel,
         industry_match: MatchLevel,
     ) -> list[TenderRecommendation]:
+        logger.info(
+            "Loading recommendations from MongoDB for company='%s', name_match=%s, industry_match=%s",
+            company_name,
+            name_match,
+            industry_match,
+        )
         collection = self.db[RECOMMENDATIONS_COLLECTION]
 
         cursor = collection.find(
@@ -261,6 +285,7 @@ class RecommendationService:
         ]
 
     async def _classify_via_llm(self, company_name: str) -> None:
+        logger.info("Starting LLM classification for company '%s'", company_name)
         profile = await self._get_company_profile(company_name)
 
         tenders = tender_service.load_tenders()
@@ -317,19 +342,38 @@ class RecommendationService:
         industry_match: MatchLevel,
     ) -> list[TenderRecommendation]:
         source = settings.recommendations_source
+        logger.info(
+            "Getting recommendations for company='%s' (source=%s, name_match=%s, industry_match=%s)",
+            company_name,
+            source,
+            name_match,
+            industry_match,
+        )
 
         if source == "llm":
             await self._classify_via_llm(company_name)
 
-        return await self._load_from_mongo(company_name, name_match, industry_match)
+        results = await self._load_from_mongo(company_name, name_match, industry_match)
+        logger.info(
+            "Returning %d recommendations for company='%s'",
+            len(results),
+            company_name,
+        )
+        return results
 
     async def refresh_recommendation(
         self,
         company_name: str,
         tender_name: str,
     ) -> TenderRecommendation:
+        logger.info(
+            "Refreshing recommendation for company='%s', tender='%s'",
+            company_name,
+            tender_name,
+        )
         tender = tender_service.get_tender_by_name(tender_name)
         if tender is None:
+            logger.warning("Tender not found for refresh: '%s'", tender_name)
             raise ValueError(f"Tender not found: {tender_name}")
 
         profile = await self._get_company_profile(company_name)
@@ -345,4 +389,10 @@ class RecommendationService:
         )
 
         await self._save_recommendation(company_name, recommendation)
+        logger.info(
+            "Refresh complete for tender='%s': name_match=%s, industry_match=%s",
+            tender_name,
+            recommendation.name_match,
+            recommendation.industry_match,
+        )
         return recommendation

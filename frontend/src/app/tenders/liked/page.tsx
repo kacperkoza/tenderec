@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { TenderChat } from "@/components/tenders/tender-chat";
 
 const matchLabels: Record<MatchLevel, string> = {
-  PERFECT_MATCH: "Idealne",
+  PERFECT_MATCH: "Bardzo dobre",
   PARTIAL_MATCH: "Czesciowe",
   DONT_KNOW: "Niepewne",
   NO_MATCH: "Brak",

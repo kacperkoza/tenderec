@@ -1,0 +1,231 @@
+# Tenderec — full stack Docker Compose
+#
+# Services:
+#   - frontend:       Next.js app         http://localhost:3000
+#   - backend:        FastAPI app          http://localhost:8000
+#   - mongo:          MongoDB              localhost:27017
+#   - langfuse-web:   Langfuse UI          http://localhost:3100  (admin@tenderec.local / admin123)
+#   - langfuse-worker, clickhouse, minio, redis, postgres: Langfuse infrastructure
+#
+# Usage:
+#   cp backend/.env.example backend/.env   # set OPENAI_API_KEY
+#   docker compose up -d
+#   docker compose down          (stop, keep data)
+#   docker compose down -v       (stop, remove all data)
+
+services:
+
+  # ─── Application ────────────────────────────────────────────
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://backend:8000
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      BACKEND_URL: http://backend:8000
+    depends_on:
+      backend:
+        condition: service_started
+
+  backend:
+    build:
+      context: ./backend
+    restart: always
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGODB_URL: mongodb://mongo:27017
+      MONGODB_DB_NAME: tenderec
+      LANGFUSE_BASE_URL: http://langfuse-web:3000
+      LANGFUSE_SECRET_KEY: sk-lf-tenderec-dev
+      LANGFUSE_PUBLIC_KEY: pk-lf-tenderec-dev
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:7
+    restart: always
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  # ─── Langfuse (LLM Observability) ──────────────────────────
+
+  langfuse-worker:
+    image: docker.io/langfuse/langfuse-worker:3
+    restart: always
+    depends_on: &langfuse-depends-on
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    ports:
+      - 127.0.0.1:3030:3030
+    environment: &langfuse-worker-env
+      NEXTAUTH_URL: http://localhost:3100
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      SALT: tenderec-langfuse-salt
+      ENCRYPTION_KEY: 930550747d5b8267b1cad2b4be9157a53a134b6e56cfc86932cb2411fbef2adb
+      TELEMETRY_ENABLED: "false"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: auto
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_EVENT_UPLOAD_PREFIX: events/
+      LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_MEDIA_UPLOAD_REGION: auto
+      LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: http://localhost:9090
+      LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: media/
+      LANGFUSE_S3_BATCH_EXPORT_ENABLED: "false"
+      LANGFUSE_S3_BATCH_EXPORT_BUCKET: langfuse
+      LANGFUSE_S3_BATCH_EXPORT_PREFIX: exports/
+      LANGFUSE_S3_BATCH_EXPORT_REGION: auto
+      LANGFUSE_S3_BATCH_EXPORT_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_BATCH_EXPORT_EXTERNAL_ENDPOINT: http://localhost:9090
+      LANGFUSE_S3_BATCH_EXPORT_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_BATCH_EXPORT_FORCE_PATH_STYLE: "true"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_AUTH: myredissecret
+      REDIS_TLS_ENABLED: "false"
+
+  langfuse-web:
+    image: docker.io/langfuse/langfuse:3
+    restart: always
+    depends_on: *langfuse-depends-on
+    ports:
+      - 3100:3000
+    environment:
+      <<: *langfuse-worker-env
+      NEXTAUTH_SECRET: tenderec-langfuse-nextauth-secret
+      # Auto-initialize org, project, and API keys on first startup
+      LANGFUSE_INIT_ORG_ID: tenderec-org
+      LANGFUSE_INIT_ORG_NAME: Tenderec
+      LANGFUSE_INIT_PROJECT_ID: tenderec-project
+      LANGFUSE_INIT_PROJECT_NAME: Tenderec Agent
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-tenderec-dev
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-tenderec-dev
+      LANGFUSE_INIT_USER_EMAIL: admin@tenderec.local
+      LANGFUSE_INIT_USER_NAME: Admin
+      LANGFUSE_INIT_USER_PASSWORD: admin123
+
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server
+    restart: always
+    user: "101:101"
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+    volumes:
+      - langfuse_clickhouse_data:/var/lib/clickhouse
+      - langfuse_clickhouse_logs:/var/log/clickhouse-server
+    ports:
+      - 127.0.0.1:8123:8123
+      - 127.0.0.1:9000:9000
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 1s
+
+  minio:
+    image: cgr.dev/chainguard/minio
+    restart: always
+    entrypoint: sh
+    command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" --console-address ":9001" /data'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: miniosecret
+    ports:
+      - 9090:9000
+      - 127.0.0.1:9091:9001
+    volumes:
+      - langfuse_minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 1s
+      timeout: 5s
+      retries: 5
+      start_period: 1s
+
+  redis:
+    image: docker.io/redis:7
+    restart: always
+    command: >
+      --requirepass myredissecret
+      --maxmemory-policy noeviction
+    ports:
+      - 127.0.0.1:6379:6379
+    volumes:
+      - langfuse_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+
+  postgres:
+    image: docker.io/postgres:17
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      TZ: UTC
+      PGTZ: UTC
+    ports:
+      - 127.0.0.1:5433:5432
+    volumes:
+      - langfuse_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  mongo_data:
+    driver: local
+  langfuse_postgres_data:
+    driver: local
+  langfuse_clickhouse_data:
+    driver: local
+  langfuse_clickhouse_logs:
+    driver: local
+  langfuse_minio_data:
+    driver: local
+  langfuse_redis_data:
+    driver: local

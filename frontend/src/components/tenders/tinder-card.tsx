@@ -14,7 +14,7 @@ import type { SwipeDirection } from "@/stores/tender-swipe-store";
 const SWIPE_THRESHOLD = 100;
 
 const matchLabels: Record<MatchLevel, string> = {
-  PERFECT_MATCH: "Idealne",
+  PERFECT_MATCH: "Bardzo dobre",
   PARTIAL_MATCH: "Częściowe",
   DONT_KNOW: "Niepewne",
   NO_MATCH: "Brak",
@@ -157,13 +157,13 @@ export function TinderCard({ tender, onSwipe, isTop }: TinderCardProps) {
             </summary>
             <div className="mt-3 space-y-4">
               <div className="space-y-2">
-                <MatchBadge level={tender.name_match} label="Dopasowanie nazwy" />
+                <MatchBadge level={tender.name_match} label="Nazwa przetargu" />
                 <p className="text-xs text-muted-foreground">
                   {tender.name_reason}
                 </p>
               </div>
               <div className="space-y-2">
-                <MatchBadge level={tender.industry_match} label="Dopasowanie branży" />
+                <MatchBadge level={tender.industry_match} label="Branża zamawiającego" />
                 <p className="text-xs text-muted-foreground">
                   {tender.industry_reason}
                 </p>

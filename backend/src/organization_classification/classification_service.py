@@ -74,6 +74,9 @@ class ClassificationService:
     async def _classify_organization(
         self, org_name: str, tender_names: list[str]
     ) -> dict:
+        logger.info(
+            "Classifying organization '%s' with %d tenders", org_name, len(tender_names)
+        )
         user_prompt = self._build_user_prompt(org_name, tender_names)
 
         response = await self.llm_client.ainvoke(
@@ -97,6 +100,7 @@ class ClassificationService:
         logger.info(f"Saved classification for '{doc['_id']}' to MongoDB")
 
     async def _load_from_mongo(self) -> ClassifyResponse:
+        logger.info("Loading organization classifications from MongoDB")
         collection = self.db[constants.COLLECTION_NAME]
         cursor = collection.find({})
         docs = await cursor.to_list(length=None)
@@ -108,6 +112,9 @@ class ClassificationService:
             }
             for doc in docs
         ]
+        logger.info(
+            "Loaded %d organization classifications from MongoDB", len(organizations)
+        )
         return ClassifyResponse(organizations=organizations)
 
     async def _classify_via_llm(self) -> ClassifyResponse:
@@ -128,6 +135,7 @@ class ClassificationService:
 
     async def get_industries(self) -> ClassifyResponse:
         source = settings.organization_classification_source
+        logger.info("Getting industries (source=%s)", source)
 
         if source == "mongodb":
             return await self._load_from_mongo()

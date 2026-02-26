@@ -13,6 +13,7 @@ from langgraph.prebuilt import create_react_agent
 
 from src.constants import TENDERS_PATH
 from src.companies.company_service import CompanyService
+from src.llm.langfuse_client import LangfuseTrace
 from src.tenders.tender_constants import (
     MAX_EXTRACTED_TEXT_CHARS,
     MAX_FILE_SIZE_BYTES,
@@ -26,9 +27,10 @@ logger = logging.getLogger(__name__)
 
 @lru_cache(maxsize=1)
 def _load_tenders() -> list[Tender]:
+    logger.info("Loading tenders from %s", TENDERS_PATH)
     with open(TENDERS_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
-    return [
+    tenders = [
         Tender(
             tender_url=t["tender_url"],
             metadata=TenderMetadata(**t["metadata"]),
@@ -37,6 +39,8 @@ def _load_tenders() -> list[Tender]:
         )
         for t in data["tenders"]
     ]
+    logger.info("Loaded %d tenders", len(tenders))
+    return tenders
 
 
 def _get_tender_by_name(name: str) -> Tender | None:
@@ -289,8 +293,15 @@ class TenderService:
     async def ask_question(
         self, tender_name: str, question: str, company_name: str
     ) -> str:
+        logger.info(
+            "Ask question for tender='%s', company='%s': '%s'",
+            tender_name,
+            company_name,
+            question,
+        )
         tender = _get_tender_by_name(tender_name)
         if tender is None:
+            logger.warning("Tender not found for question: '%s'", tender_name)
             raise ValueError(f"Tender not found: {tender_name}")
 
         user_message = (
@@ -299,15 +310,62 @@ class TenderService:
             f"Question: {question}"
         )
 
+        trace = LangfuseTrace(
+            name="tender-agent-question",
+            user_id=company_name,
+            tags=["tender-chat"],
+        )
+
         result = await self.agent.ainvoke(
             {"messages": [{"role": "user", "content": user_message}]}
         )
 
         ai_messages = [m for m in result["messages"] if m.type == "ai" and m.content]
         if not ai_messages:
+            logger.warning("No AI response generated for tender='%s'", tender_name)
+            await trace.flush(
+                input_data={"tender_name": tender_name, "question": question},
+                output_data={"answer": None, "error": "No AI response generated"},
+            )
             return "Unable to generate an answer."
 
-        return ai_messages[-1].content  # type: ignore[return-value]
+        answer: str = ai_messages[-1].content  # type: ignore[assignment]
+
+        # Build a map of tool_call_id -> tool output content
+        tool_outputs: dict[str, str] = {}
+        for msg in result["messages"]:
+            if msg.type == "tool":
+                tool_outputs[msg.tool_call_id] = msg.content
+
+        # Record tool calls as spans with both input and output
+        for msg in result["messages"]:
+            if msg.type == "ai" and hasattr(msg, "tool_calls") and msg.tool_calls:
+                for tc in msg.tool_calls:
+                    trace.add_span(
+                        name=f"tool:{tc['name']}",
+                        input_data=tc.get("args"),
+                        output_data=tool_outputs.get(tc.get("id", "")),
+                    )
+
+        # Record the final generation
+        trace.add_generation(
+            name="agent-response",
+            model="gpt-4o-mini",
+            input_messages=user_message,
+            output_message=answer,
+        )
+
+        await trace.flush(
+            input_data={"tender_name": tender_name, "question": question},
+            output_data={"answer": answer},
+        )
+
+        logger.info(
+            "Agent answered question for tender='%s' (answer length: %d chars)",
+            tender_name,
+            len(answer),
+        )
+        return answer
 
 
 class _TenderServiceCompat:

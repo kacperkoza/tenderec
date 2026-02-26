@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, Depends
 
 from src.organization_classification.classification_dependencies import (
@@ -5,6 +7,8 @@ from src.organization_classification.classification_dependencies import (
 )
 from src.organization_classification.classification_schemas import ClassifyResponse
 from src.organization_classification.classification_service import ClassificationService
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/organizations", tags=["organizations"])
 
@@ -18,4 +22,7 @@ router = APIRouter(prefix="/organizations", tags=["organizations"])
 async def get_organizations_by_industry(
     service: ClassificationService = Depends(get_classification_service),
 ) -> ClassifyResponse:
-    return await service.get_industries()
+    logger.info("GET organizations by industry")
+    result = await service.get_industries()
+    logger.info("Returning %d organization classifications", len(result.organizations))
+    return result

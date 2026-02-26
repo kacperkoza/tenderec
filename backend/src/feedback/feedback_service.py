@@ -18,6 +18,7 @@ class FeedbackService:
         self.db = db
 
     async def get_feedbacks(self, company_name: str) -> FeedbackListResponse:
+        logger.info("Loading feedbacks for company '%s'", company_name)
         collection = self.db[COLLECTION_NAME]
 
         cursor = collection.find({"company_name": company_name})
@@ -27,11 +28,13 @@ class FeedbackService:
             FeedbackDocument.from_mongo(doc).to_response() for doc in documents
         ]
 
+        logger.info("Found %d feedbacks for company '%s'", len(feedbacks), company_name)
         return FeedbackListResponse(company_name=company_name, feedbacks=feedbacks)
 
     async def create_feedback(
         self, company_name: str, feedback_comment: str
     ) -> FeedbackResponse:
+        logger.info("Creating feedback for company '%s'", company_name)
         collection = self.db[COLLECTION_NAME]
 
         feedback_id = str(uuid.uuid4())

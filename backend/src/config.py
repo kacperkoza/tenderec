@@ -28,6 +28,12 @@ class Settings(BaseSettings):
     # Useful for test data from the past, e.g. TENDER_DEADLINE_DATE=2026-01-10
     tender_deadline_date: date | None = None
 
+    # Langfuse LLM observability (self-hosted)
+    langfuse_secret_key: str = ""
+    langfuse_public_key: str = ""
+    langfuse_base_url: str = "http://localhost:3100"
+    langfuse_enabled: bool = True
+
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
 

@@ -35,7 +35,7 @@ const NAME_MATCH_LEVELS: MatchLevel[] = [
 ];
 
 const MATCH_LEVEL_LABELS: Record<MatchLevel, string> = {
-  PERFECT_MATCH: "Idealne dopasowanie",
+  PERFECT_MATCH: "Bardzo dobre dopasowanie",
   PARTIAL_MATCH: "Częściowe dopasowanie",
   DONT_KNOW: "Trudno ocenić",
   NO_MATCH: "Brak dopasowania",

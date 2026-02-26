@@ -26,13 +26,16 @@ class CompanyService:
         self.llm_client = llm_client
 
     async def get_company(self, company_name: str) -> CompanyProfileResponse | None:
+        logger.info("Looking up company profile: '%s'", company_name)
         collection = self.db[COLLECTION_NAME]
 
         raw = await collection.find_one({"_id": company_name})
         if raw is None:
+            logger.warning("Company profile not found: '%s'", company_name)
             return None
 
         document = CompanyProfileDocument.from_mongo(raw)
+        logger.info("Found company profile: '%s'", company_name)
         return document.to_response()
 
     async def extract_company_profile(
@@ -71,6 +74,7 @@ class CompanyService:
     async def save_company_profile(
         self, company_name: str, profile: CompanyProfile
     ) -> CompanyProfileResponse:
+        logger.info("Saving company profile: '%s'", company_name)
         collection = self.db[COLLECTION_NAME]
 
         document = CompanyProfileDocument.from_domain(
@@ -83,4 +87,5 @@ class CompanyService:
             {"_id": company_name}, document.to_mongo(), upsert=True
         )
 
+        logger.info("Company profile saved successfully: '%s'", company_name)
         return document.to_response()

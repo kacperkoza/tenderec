@@ -35,13 +35,25 @@ async def recommendations_endpoint(
         description="Required industry match level",
     ),
 ) -> RecommendationsResponse:
+    logger.info(
+        "GET recommendations for company='%s', name_match=%s, industry_match=%s",
+        company,
+        name_match,
+        industry_match,
+    )
     try:
         recommendations = await service.get_recommendations(
             company, name_match, industry_match
         )
     except ValueError as e:
+        logger.warning("Recommendations failed for company='%s': %s", company, e)
         raise HTTPException(status_code=404, detail=str(e))
 
+    logger.info(
+        "Returning %d recommendations for company='%s'",
+        len(recommendations),
+        company,
+    )
     return RecommendationsResponse(
         company=company,
         recommendations=recommendations,
@@ -58,7 +70,26 @@ async def refresh_recommendation_endpoint(
     tender_name: str,
     service: RecommendationService = Depends(get_recommendation_service),
 ) -> TenderRecommendation:
+    logger.info(
+        "POST refresh recommendation for company='%s', tender='%s'",
+        company,
+        tender_name,
+    )
     try:
-        return await service.refresh_recommendation(company, tender_name)
+        result = await service.refresh_recommendation(company, tender_name)
     except ValueError as e:
+        logger.warning(
+            "Refresh failed for company='%s', tender='%s': %s",
+            company,
+            tender_name,
+            e,
+        )
         raise HTTPException(status_code=404, detail=str(e))
+
+    logger.info(
+        "Refreshed recommendation for tender='%s': name_match=%s, industry_match=%s",
+        tender_name,
+        result.name_match,
+        result.industry_match,
+    )
+    return result

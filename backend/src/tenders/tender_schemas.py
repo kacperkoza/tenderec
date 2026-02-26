@@ -46,6 +46,7 @@ class TenderResponse(BaseModel):
 class TenderQuestionRequest(BaseModel):
     tender_name: str
     question: str
+    company_name: str
 
 
 class TenderQuestionResponse(BaseModel):

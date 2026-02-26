@@ -84,6 +84,7 @@ export interface TenderDetails {
 export interface TenderQuestionRequest {
   tender_name: string;
   question: string;
+  company_name: string;
 }
 
 export interface TenderQuestionResponse {

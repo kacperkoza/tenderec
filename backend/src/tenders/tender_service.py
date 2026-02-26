@@ -1,14 +1,24 @@
+import asyncio
+import io
 import json
 import logging
 from datetime import date
 from functools import lru_cache
+from urllib.parse import unquote, urlparse
 
-from langchain_core.tools import tool
+import httpx
+from langchain_core.tools import BaseTool, tool
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 
 from src.constants import TENDERS_PATH
-from src.tenders.tender_constants import TENDER_AGENT_SYSTEM_PROMPT
+from src.companies.company_service import CompanyService
+from src.tenders.tender_constants import (
+    MAX_EXTRACTED_TEXT_CHARS,
+    MAX_FILE_SIZE_BYTES,
+    SUPPORTED_FILE_EXTENSIONS,
+    TENDER_AGENT_SYSTEM_PROMPT,
+)
 from src.tenders.tender_schemas import Tender, TenderMetadata
 
 logger = logging.getLogger(__name__)
@@ -123,20 +133,148 @@ def get_today_date() -> str:
     return str(date.today())
 
 
+def _get_file_extension(url: str) -> str:
+    """Extract lowercase file extension from a URL path."""
+    path = unquote(urlparse(url).path)
+    dot_index = path.rfind(".")
+    if dot_index == -1:
+        return ""
+    return path[dot_index:].lower()
+
+
+def _extract_text_from_pdf(content: bytes) -> str:
+    from pypdf import PdfReader
+
+    reader = PdfReader(io.BytesIO(content))
+    pages: list[str] = []
+    for page in reader.pages:
+        text = page.extract_text()
+        if text:
+            pages.append(text)
+    return "\n\n".join(pages)
+
+
+def _extract_text_from_docx(content: bytes) -> str:
+    from docx import Document
+
+    doc = Document(io.BytesIO(content))
+    paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
+    return "\n\n".join(paragraphs)
+
+
+def _extract_text_from_txt(content: bytes) -> str:
+    for encoding in ("utf-8", "cp1250", "latin-1"):
+        try:
+            return content.decode(encoding)
+        except (UnicodeDecodeError, ValueError):
+            continue
+    return content.decode("utf-8", errors="replace")
+
+
+def _extract_text(content: bytes, extension: str) -> str:
+    if extension == ".pdf":
+        return _extract_text_from_pdf(content)
+    if extension == ".docx":
+        return _extract_text_from_docx(content)
+    if extension == ".txt":
+        return _extract_text_from_txt(content)
+    return f"Unsupported file format: {extension}"
+
+
+@tool
+async def read_file_content(file_url: str) -> str:
+    """Download a tender file from its URL and extract the text content.
+    Use this when the user asks about the contents of a specific tender document.
+    Supports PDF, DOCX, and TXT files. First call get_tender_files to get file URLs,
+    then use this tool with one of those URLs.
+    """
+    extension = _get_file_extension(file_url)
+    if extension not in SUPPORTED_FILE_EXTENSIONS:
+        return (
+            f"Cannot read file with extension '{extension}'. "
+            f"Supported formats: {', '.join(sorted(SUPPORTED_FILE_EXTENSIONS))}."
+        )
+
+    try:
+        async with httpx.AsyncClient(timeout=60.0, follow_redirects=True) as client:
+            response = await client.get(file_url)
+            response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        return f"Failed to download file: HTTP {exc.response.status_code}"
+    except httpx.RequestError as exc:
+        return f"Failed to download file: {exc}"
+
+    if len(response.content) > MAX_FILE_SIZE_BYTES:
+        size_mb = len(response.content) / (1024 * 1024)
+        return f"File too large ({size_mb:.1f} MB). Maximum supported size is {MAX_FILE_SIZE_BYTES // (1024 * 1024)} MB."
+
+    try:
+        text = await asyncio.to_thread(_extract_text, response.content, extension)
+    except Exception as exc:
+        logger.exception("Failed to extract text from %s", file_url)
+        return f"Failed to extract text from file: {exc}"
+
+    if not text.strip():
+        return "The file appears to be empty or contains no extractable text (e.g., scanned image PDF)."
+
+    if len(text) > MAX_EXTRACTED_TEXT_CHARS:
+        text = (
+            text[:MAX_EXTRACTED_TEXT_CHARS]
+            + "\n\n[... content truncated due to length ...]"
+        )
+
+    return text
+
+
 AGENT_TOOLS = [
     get_tender_details,
     search_tenders,
     list_tenders_by_organization,
     get_tender_files,
     get_today_date,
+    read_file_content,
 ]
 
 
+def _build_company_tool(company_service: CompanyService) -> BaseTool:
+    @tool
+    async def get_company_info(company_name: str) -> str:
+        """Get the profile of the user's company from the database.
+        Returns company name, industries, service categories, CPV codes,
+        target authorities, and geography. Use this when the user asks
+        about their company, wants to compare a tender to their profile,
+        or asks whether a tender is relevant for them.
+        """
+        profile_response = await company_service.get_company(company_name)
+        if profile_response is None:
+            return f"Company '{company_name}' not found in the database."
+
+        profile = profile_response.profile
+        info = profile.company_info
+        criteria = profile.matching_criteria
+
+        return (
+            f"Company: {info.name}\n"
+            f"Industries: {', '.join(info.industries)}\n"
+            f"Service categories: {', '.join(criteria.service_categories)}\n"
+            f"CPV codes: {', '.join(criteria.cpv_codes)}\n"
+            f"Target authorities: {', '.join(criteria.target_authorities)}\n"
+            f"Geography: {criteria.geography.primary_country}"
+        )
+
+    return get_company_info  # type: ignore[return-value]
+
+
 class TenderService:
-    def __init__(self, llm_client: ChatOpenAI) -> None:
+    def __init__(
+        self,
+        llm_client: ChatOpenAI,
+        company_service: CompanyService,
+    ) -> None:
+        tools = [*AGENT_TOOLS, _build_company_tool(company_service)]
         self.agent = create_react_agent(
             model=llm_client,
-            tools=AGENT_TOOLS,
+            tools=tools,
             prompt=TENDER_AGENT_SYSTEM_PROMPT,
         )
 
@@ -148,13 +286,16 @@ class TenderService:
     def get_tender_by_name(name: str) -> Tender | None:
         return _get_tender_by_name(name)
 
-    async def ask_question(self, tender_name: str, question: str) -> str:
+    async def ask_question(
+        self, tender_name: str, question: str, company_name: str
+    ) -> str:
         tender = _get_tender_by_name(tender_name)
         if tender is None:
             raise ValueError(f"Tender not found: {tender_name}")
 
         user_message = (
-            f'The user is asking about the tender named: "{tender_name}"\n\n'
+            f'The user is asking about the tender named: "{tender_name}"\n'
+            f'The user\'s company name is: "{company_name}"\n\n'
             f"Question: {question}"
         )
 

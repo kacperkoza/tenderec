@@ -58,7 +58,9 @@ async def ask_tender_question(
     service: TenderService = Depends(get_tender_service),
 ) -> TenderQuestionResponse:
     try:
-        answer = await service.ask_question(body.tender_name, body.question)
+        answer = await service.ask_question(
+            body.tender_name, body.question, body.company_name
+        )
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -126,6 +126,14 @@ Refresh recommendation for a specific tender.
 curl -X POST 'http://localhost:8000/api/v1/tenders/recommendations/greenworks/Utrzymanie%20czysto%C5%9Bci%20porz%C4%85dku%20oraz%20zieleni%20miejskiej%20na%20terenie%20zrewitalizowanej%20cz%C4%99%C5%9Bci%20rynku%20w%20m.%20Ryman%C3%B3w%20oraz%20w%20wybranych%20obiektach%20na%20terenie%20Gminy%20Ryman%C3%B3w/refresh'
 ```
 
+Usługi leśne
+Jaki jest zakres umowy?
+
+
+
+
+
+
 **Later improvements may include:**
 - Support for multiple profiles per company (e.g., different service lines)
 - More detailed geographic targeting (e.g., specific regions or cities)

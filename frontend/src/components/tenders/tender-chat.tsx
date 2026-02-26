@@ -16,6 +16,12 @@ interface TenderChatProps {
   tenderName: string;
 }
 
+const PREDEFINED_QUESTIONS = [
+  "Jaki jest zakres prac w ramach tego przetargu?",
+  "Jakie sa kary umowne?",
+  "Jaki jest termin skladania ofert?",
+];
+
 export function TenderChat({ tenderName }: TenderChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -36,9 +42,7 @@ export function TenderChat({ tenderName }: TenderChatProps) {
     }
   }, [isOpen]);
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const question = input.trim();
+  function sendQuestion(question: string) {
     if (!question || isPending) return;
 
     setMessages((prev) => [...prev, { role: "user", content: question }]);
@@ -61,6 +65,11 @@ export function TenderChat({ tenderName }: TenderChatProps) {
         ]);
       },
     });
+  }
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    sendQuestion(input.trim());
   }
 
   return (
@@ -109,9 +118,24 @@ export function TenderChat({ tenderName }: TenderChatProps) {
             className="max-h-64 space-y-3 overflow-y-auto p-3"
           >
             {messages.length === 0 && (
-              <p className="text-xs text-muted-foreground text-center py-4">
-                Zadaj pytanie dotyczace tego przetargu
-              </p>
+              <div className="space-y-2 py-2">
+                <p className="text-xs text-muted-foreground text-center">
+                  Zadaj pytanie lub wybierz jedno z ponizszych
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {PREDEFINED_QUESTIONS.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onClick={() => sendQuestion(q)}
+                      disabled={isPending}
+                      className="rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {messages.map((msg, i) => (

@@ -40,7 +40,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.recommendation_service = RecommendationService(
         db=db, llm_client=llm_client
     )
-    app.state.tender_service = TenderService(llm_client=llm_client)
+    app.state.tender_service = TenderService(
+        llm_client=llm_client,
+        company_service=app.state.company_service,
+    )
 
     yield
     await close_mongo_connection()

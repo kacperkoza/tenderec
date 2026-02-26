@@ -1,17 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { TenderRecommendation } from "@/types/api";
 
 export type SwipeDirection = "left" | "right";
 
 export interface SwipedTender {
-  tender_name: string;
+  tender: TenderRecommendation;
   direction: SwipeDirection;
   timestamp: number;
 }
 
 interface TenderSwipeState {
   swiped: Record<string, SwipedTender>;
-  swipe: (tenderName: string, direction: SwipeDirection) => void;
+  swipe: (tender: TenderRecommendation, direction: SwipeDirection) => void;
   isLiked: (tenderName: string) => boolean;
   isDisliked: (tenderName: string) => boolean;
   isSwiped: (tenderName: string) => boolean;
@@ -24,12 +25,12 @@ export const useTenderSwipeStore = create<TenderSwipeState>()(
     (set, get) => ({
       swiped: {},
 
-      swipe: (tenderName, direction) =>
+      swipe: (tender, direction) =>
         set((state) => ({
           swiped: {
             ...state.swiped,
-            [tenderName]: {
-              tender_name: tenderName,
+            [tender.tender_name]: {
+              tender,
               direction,
               timestamp: Date.now(),
             },
@@ -46,6 +47,10 @@ export const useTenderSwipeStore = create<TenderSwipeState>()(
 
       clearAll: () => set({ swiped: {} }),
     }),
-    { name: "tenderec-swipes" }
+    {
+      name: "tenderec-swipes",
+      version: 1,
+      migrate: () => ({ swiped: {} }),
+    }
   )
 );

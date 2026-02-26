@@ -2,8 +2,9 @@ import json
 import logging
 from datetime import datetime, timezone
 
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import AsyncOpenAI
 
 from src.companies.company_constants import COLLECTION_NAME, EXTRACTION_SYSTEM_PROMPT
 from src.companies.company_exceptions import ProfileExtractionError
@@ -15,13 +16,12 @@ from src.companies.company_schemas import (
     CompanyProfileResponse,
     MatchingCriteria,
 )
-from src.config import settings
 
 logger = logging.getLogger(__name__)
 
 
 class CompanyService:
-    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: ChatOpenAI) -> None:
         self.db = db
         self.llm_client = llm_client
 
@@ -41,18 +41,16 @@ class CompanyService:
         user_prompt = f"## Company name\n\n{company_name}\n\n## Company description\n\n{description}"
 
         logger.info(f"LLM request start for company '{company_name}'")
-        response = await self.llm_client.chat.completions.create(
-            model=settings.llm_model,
-            temperature=0.2,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": EXTRACTION_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
+        response = await self.llm_client.ainvoke(
+            [
+                SystemMessage(content=EXTRACTION_SYSTEM_PROMPT),
+                HumanMessage(content=user_prompt),
             ],
+            response_format={"type": "json_object"},
         )
 
-        raw_content = response.choices[0].message.content
-        if raw_content is None:
+        raw_content = response.content
+        if not raw_content:
             raise ProfileExtractionError(
                 f"LLM returned empty response for company '{company_name}'"
             )

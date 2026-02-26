@@ -2,8 +2,9 @@ import json
 import logging
 from collections import defaultdict
 
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import AsyncOpenAI
 
 from src.config import settings
 from src.organization_classification import classification_constants as constants
@@ -47,7 +48,7 @@ Do not include any text outside of the JSON.\
 
 
 class ClassificationService:
-    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: ChatOpenAI) -> None:
         self.db = db
         self.llm_client = llm_client
 
@@ -75,18 +76,15 @@ class ClassificationService:
     ) -> dict:
         user_prompt = self._build_user_prompt(org_name, tender_names)
 
-        response = await self.llm_client.chat.completions.create(
-            model=settings.llm_model,
-            temperature=0.2,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
+        response = await self.llm_client.ainvoke(
+            [
+                SystemMessage(content=SYSTEM_PROMPT),
+                HumanMessage(content=user_prompt),
             ],
+            response_format={"type": "json_object"},
         )
 
-        raw = response.choices[0].message.content
-        return json.loads(raw)  # type: ignore[arg-type]
+        return json.loads(response.content)  # type: ignore[arg-type]
 
     async def _save_one_to_mongo(self, organization: dict) -> None:
         collection = self.db[constants.COLLECTION_NAME]

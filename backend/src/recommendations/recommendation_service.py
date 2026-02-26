@@ -3,8 +3,9 @@ import json
 import logging
 from datetime import datetime, timezone
 
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import AsyncOpenAI
 
 from src.companies.company_schemas import (
     CompanyGeography,
@@ -79,7 +80,7 @@ Respond ONLY with valid JSON:
 
 
 class RecommendationService:
-    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: ChatOpenAI) -> None:
         self.db = db
         self.llm_client = llm_client
 
@@ -146,17 +147,15 @@ class RecommendationService:
     async def _call_llm(
         self, user_prompt: str, tender_name: str, organization: str
     ) -> TenderRecommendation:
-        response = await self.llm_client.chat.completions.create(
-            model=settings.llm_model,
-            temperature=0.2,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
+        response = await self.llm_client.ainvoke(
+            [
+                SystemMessage(content=SYSTEM_PROMPT),
+                HumanMessage(content=user_prompt),
             ],
+            response_format={"type": "json_object"},
         )
 
-        raw = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
+        raw = json.loads(response.content)  # type: ignore[arg-type]
         return TenderRecommendation(
             tender_name=tender_name, organization=organization, **raw
         )

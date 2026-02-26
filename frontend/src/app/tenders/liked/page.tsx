@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useTenderSwipeStore } from "@/stores/tender-swipe-store";
+import { useTenderSwipeStore, type SwipedTender } from "@/stores/tender-swipe-store";
+import { useTender } from "@/hooks/use-tender";
 import type { MatchLevel } from "@/types/api";
 import {
   Card,
@@ -47,6 +48,97 @@ function MatchBadge({ level, label }: { level: MatchLevel; label: string }) {
   );
 }
 
+function getFileName(url: string): string {
+  const parts = url.split("/");
+  const full = decodeURIComponent(parts[parts.length - 1]);
+  const withoutTimestamp = full.replace(/^\d{8}T\d+_/, "");
+  return withoutTimestamp;
+}
+
+function getPlatformName(url: string): string {
+  try {
+    const hostname = new URL(url).hostname.replace("www.", "");
+    return hostname;
+  } catch {
+    return "źródło";
+  }
+}
+
+function LikedTenderCard({ item }: { item: SwipedTender }) {
+  const { data: details, isLoading } = useTender(item.tender.tender_name);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg leading-snug">
+          {item.tender.tender_name}
+        </CardTitle>
+        {details && (
+          <CardDescription className="text-sm">
+            {details.organization}
+          </CardDescription>
+        )}
+        {isLoading && (
+          <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
+        )}
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex flex-wrap gap-3">
+          <MatchBadge level={item.tender.name_match} label="Nazwa" />
+          <MatchBadge level={item.tender.industry_match} label="Branża" />
+        </div>
+
+        {isLoading && (
+          <div className="space-y-2">
+            <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
+          </div>
+        )}
+
+        {details && (
+          <div className="space-y-2 text-sm">
+            <div className="flex items-start gap-2">
+              <span className="shrink-0 text-muted-foreground">Termin składania:</span>
+              <span>{details.submission_deadline}</span>
+            </div>
+
+            <a
+              href={details.tender_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-blue-600 underline underline-offset-2 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              Przejdź do [{getPlatformName(details.tender_url)}]
+            </a>
+
+            {details.file_urls.length > 0 && (
+              <div>
+                <span className="text-muted-foreground">
+                  Pliki ({details.files_count}):
+                </span>
+                <ul className="mt-1 space-y-1 pl-4">
+                  {details.file_urls.map((url) => (
+                    <li key={url}>
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 underline underline-offset-2 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        {getFileName(url)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function LikedTendersPage() {
   const { getLiked } = useTenderSwipeStore();
   const liked = getLiked().sort((a, b) => b.timestamp - a.timestamp);
@@ -87,37 +179,7 @@ export default function LikedTendersPage() {
       ) : (
         <div className="space-y-3">
           {liked.map((item) => (
-            <Card key={item.tender.tender_name}>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base leading-snug">
-                  {item.tender.tender_name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <div className="flex flex-wrap gap-3">
-                    <MatchBadge
-                      level={item.tender.name_match}
-                      label="Nazwa"
-                    />
-                    <MatchBadge
-                      level={item.tender.industry_match}
-                      label="Branża"
-                    />
-                  </div>
-                  {item.tender.name_reason && (
-                    <p className="text-xs text-muted-foreground">
-                      {item.tender.name_reason}
-                    </p>
-                  )}
-                  {item.tender.industry_reason && (
-                    <p className="text-xs text-muted-foreground">
-                      {item.tender.industry_reason}
-                    </p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <LikedTenderCard key={item.tender.tender_name} item={item} />
           ))}
         </div>
       )}

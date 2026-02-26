@@ -12,6 +12,7 @@ class MatchLevel(StrEnum):
 
 class TenderRecommendation(BaseModel):
     tender_name: str
+    organization: str
     name_match: MatchLevel
     name_reason: str
     industry_match: MatchLevel

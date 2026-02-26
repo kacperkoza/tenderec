@@ -155,4 +155,4 @@ curl -X GET "http://localhost:8000/api/v1/organizations/industries" | jq
 1. Use vector datase 
 - use vector databases for more efficient tender retrieval and matching without LLM scoring of all tenders
 - point places in documents that confirm LLM reasoning (e.g., "LLM says this tender matches because of CPV code 77310000-6, which corresponds to maintenance of green areas. The tender includes this CPV code in its metadata.")
-2. Use orchestrator agent who work with subagent responsible for specific tasks (e.g., company profile extraction, tender retrieval, matching explanation)
+2. Use orchestrator agent who work with subagent responsible for specific tasks (e.g., company profile extraction, tender retrieval, matching explanation)gs

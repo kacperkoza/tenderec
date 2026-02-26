@@ -81,6 +81,12 @@ export default function TendersPage() {
     [visibleCards, swipe]
   );
 
+  const handleSkip = useCallback(() => {
+    const current = visibleCards[0];
+    if (!current) return;
+    swipe(current, "left");
+  }, [visibleCards, swipe]);
+
   function dismissRejectDialog() {
     if (!rejectedTender) return;
     swipe(rejectedTender, "left");
@@ -235,7 +241,7 @@ export default function TendersPage() {
             ))}
           </div>
 
-          <SwipeButtons onSwipe={handleSwipe} disabled={allDone} />
+          <SwipeButtons onSwipe={handleSwipe} onSkip={handleSkip} disabled={allDone} />
 
           <p className="text-center text-xs text-muted-foreground">
             {unswiped.length} z {data?.recommendations.length ?? 0} pozostało

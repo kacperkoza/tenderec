@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useRecommendations } from "@/hooks/use-recommendations";
 import {
   useTenderSwipeStore,
@@ -17,27 +18,25 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function TendersPage() {
+  const router = useRouter();
   const { data, isLoading, error, refetch } = useRecommendations({
     company: "greenworks",
   });
 
-  const { swipe, isSwiped, getLiked, clearAll } = useTenderSwipeStore();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { swiped, swipe, getLiked, clearAll } = useTenderSwipeStore();
 
   const unswiped = useMemo(() => {
     if (!data?.recommendations) return [];
-    return data.recommendations.filter((r) => !isSwiped(r.tender_name));
-  }, [data, isSwiped]);
+    return data.recommendations.filter((r) => !swiped[r.tender_name]);
+  }, [data, swiped]);
 
-  // Reset index when unswiped list changes
   const visibleCards = unswiped.slice(0, 2);
 
   const handleSwipe = useCallback(
     (direction: SwipeDirection) => {
       const current = visibleCards[0];
       if (!current) return;
-      swipe(current.tender_name, direction);
-      setCurrentIndex((i) => i + 1);
+      swipe(current, direction);
     },
     [visibleCards, swipe]
   );
@@ -92,29 +91,33 @@ export default function TendersPage() {
       {allDone ? (
         <Card>
           <CardHeader>
-            <CardTitle>To już wszystko!</CardTitle>
+            <CardTitle>Przejrzano wszystko na dziś!</CardTitle>
             <CardDescription>
-              Przejrzano wszystkie rekomendacje.
-              {liked.length > 0 && (
+              {liked.length > 0 ? (
                 <span>
-                  {" "}
                   Polubiono {liked.length}{" "}
                   {liked.length === 1
                     ? "przetarg"
                     : liked.length < 5
                       ? "przetargi"
                       : "przetargów"}
-                  .
+                  . Czy chcesz przejść do listy polubionych przetargów?
                 </span>
+              ) : (
+                <span>Nie polubiono żadnych przetargów.</span>
               )}
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex gap-2">
+          <CardContent className="flex flex-col gap-3">
+            {liked.length > 0 && (
+              <Button onClick={() => router.push("/tenders/liked")}>
+                Przejdź do polubionych
+              </Button>
+            )}
             <Button
               variant="outline"
               onClick={() => {
                 clearAll();
-                setCurrentIndex(0);
               }}
             >
               Zacznij od nowa
@@ -149,8 +152,8 @@ export default function TendersPage() {
           </h2>
           <ul className="space-y-1">
             {liked.map((item) => (
-              <li key={item.tender_name} className="text-sm">
-                {item.tender_name}
+              <li key={item.tender.tender_name} className="text-sm">
+                {item.tender.tender_name}
               </li>
             ))}
           </ul>

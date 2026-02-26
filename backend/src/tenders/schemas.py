@@ -26,3 +26,15 @@ class Tender(BaseModel):
     metadata: TenderMetadata
     files_count: int
     file_urls: list[str]
+
+
+class TenderResponse(BaseModel):
+    tender_url: str
+    name: str
+    organization: str
+    submission_deadline: str
+    initiation_date: str
+    procedure_type: str | None = None
+    source_type: str
+    files_count: int
+    file_urls: list[str]

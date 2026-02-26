@@ -67,3 +67,15 @@ export interface FeedbackListResponse {
 export interface CreateFeedbackRequest {
   feedback_comment: string;
 }
+
+export interface TenderDetails {
+  tender_url: string;
+  name: string;
+  organization: string;
+  submission_deadline: string;
+  initiation_date: string;
+  procedure_type: string | null;
+  source_type: string;
+  files_count: number;
+  file_urls: string[];
+}

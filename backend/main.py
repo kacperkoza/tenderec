@@ -23,6 +23,7 @@ from src.organization_classification.classification_service import Classificatio
 from src.recommendations.recommendation_router import router as recommendations_router
 from src.recommendations.recommendation_service import RecommendationService
 from src.tenders.tender_router import router as tenders_router
+from src.tenders.tender_service import TenderService
 
 
 @asynccontextmanager
@@ -39,6 +40,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.recommendation_service = RecommendationService(
         db=db, llm_client=llm_client
     )
+    app.state.tender_service = TenderService(llm_client=llm_client)
 
     yield
     await close_mongo_connection()

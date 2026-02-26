@@ -80,3 +80,14 @@ export interface TenderDetails {
   files_count: number;
   file_urls: string[];
 }
+
+export interface TenderQuestionRequest {
+  tender_name: string;
+  question: string;
+}
+
+export interface TenderQuestionResponse {
+  tender_name: string;
+  question: string;
+  answer: string;
+}

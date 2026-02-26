@@ -41,3 +41,14 @@ class TenderResponse(BaseModel):
     source_type: str
     files_count: int
     file_urls: list[str]
+
+
+class TenderQuestionRequest(BaseModel):
+    tender_name: str
+    question: str
+
+
+class TenderQuestionResponse(BaseModel):
+    tender_name: str
+    question: str
+    answer: str

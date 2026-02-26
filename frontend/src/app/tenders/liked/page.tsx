@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { TenderChat } from "@/components/tenders/tender-chat";
 
 const matchLabels: Record<MatchLevel, string> = {
   PERFECT_MATCH: "Idealne",
@@ -138,6 +139,9 @@ function LikedTenderCard({ item }: { item: SwipedTender }) {
             <MatchBadge level={item.tender.industry_match} label="Branża" />
           </div>
         </div>
+
+        <hr className="border-border" />
+        <TenderChat tenderName={item.tender.tender_name} />
       </CardContent>
     </Card>
   );

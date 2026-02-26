@@ -53,17 +53,20 @@ export default function TendersPage() {
     (direction: SwipeDirection) => {
       const current = visibleCards[0];
       if (!current) return;
-      swipe(current, direction);
 
       if (direction === "left") {
         setRejectedTender(current);
         setFeedbackText("");
+      } else {
+        swipe(current, direction);
       }
     },
     [visibleCards, swipe]
   );
 
-  function handleSkipFeedback() {
+  function dismissRejectDialog() {
+    if (!rejectedTender) return;
+    swipe(rejectedTender, "left");
     setRejectedTender(null);
     setFeedbackText("");
   }
@@ -76,8 +79,7 @@ export default function TendersPage() {
       { company: "greenworks", data: { feedback_comment: comment } },
       {
         onSettled: () => {
-          setRejectedTender(null);
-          setFeedbackText("");
+          dismissRejectDialog();
         },
       }
     );
@@ -205,7 +207,7 @@ export default function TendersPage() {
       <Dialog
         open={rejectedTender !== null}
         onOpenChange={(open) => {
-          if (!open) handleSkipFeedback();
+          if (!open) dismissRejectDialog();
         }}
       >
         <DialogContent>
@@ -222,7 +224,7 @@ export default function TendersPage() {
             rows={3}
           />
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="ghost" onClick={handleSkipFeedback}>
+            <Button variant="ghost" onClick={dismissRejectDialog}>
               Pomiń
             </Button>
             <Button

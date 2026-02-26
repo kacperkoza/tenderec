@@ -189,21 +189,6 @@ export default function TendersPage() {
         </>
       )}
 
-      {liked.length > 0 && !allDone && (
-        <div className="border-t pt-4">
-          <h2 className="mb-2 text-sm font-medium text-muted-foreground">
-            Polubione ({liked.length})
-          </h2>
-          <ul className="space-y-1">
-            {liked.map((item) => (
-              <li key={item.tender.tender_name} className="text-sm">
-                {item.tender.tender_name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       <Dialog
         open={rejectedTender !== null}
         onOpenChange={(open) => {

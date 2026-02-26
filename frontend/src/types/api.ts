@@ -37,6 +37,7 @@ export type MatchLevel =
 
 export interface TenderRecommendation {
   tender_name: string;
+  organization: string;
   name_match: MatchLevel;
   name_reason: string;
   industry_match: MatchLevel;

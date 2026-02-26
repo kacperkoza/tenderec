@@ -107,7 +107,9 @@ def build_user_prompt(
 """
 
 
-def _call_llm(user_prompt: str, tender_name: str) -> TenderRecommendation:
+def _call_llm(
+    user_prompt: str, tender_name: str, organization: str
+) -> TenderRecommendation:
     client = get_openai_client()
 
     response = client.chat.completions.create(
@@ -121,7 +123,9 @@ def _call_llm(user_prompt: str, tender_name: str) -> TenderRecommendation:
     )
 
     raw = json.loads(response.choices[0].message.content)  # type: ignore[arg-type]
-    return TenderRecommendation(tender_name=tender_name, **raw)
+    return TenderRecommendation(
+        tender_name=tender_name, organization=organization, **raw
+    )
 
 
 def _should_skip(recommendation: TenderRecommendation) -> bool:
@@ -142,6 +146,7 @@ async def _save_recommendation(
     document = {
         "company": company_name,
         "tender_name": recommendation.tender_name,
+        "organization": recommendation.organization,
         "name_match": recommendation.name_match,
         "name_reason": recommendation.name_reason,
         "industry_match": recommendation.industry_match,
@@ -187,9 +192,16 @@ async def _load_from_mongo(
     )
     docs = await cursor.to_list(length=None)
 
+    org_lookup: dict[str, str] = {}
+    needs_lookup = any("organization" not in doc for doc in docs)
+    if needs_lookup:
+        org_lookup = {t.metadata.name: t.metadata.organization for t in load_tenders()}
+
     return [
         TenderRecommendation(
             tender_name=doc["tender_name"],
+            organization=doc.get("organization")
+            or org_lookup.get(doc["tender_name"], ""),
             name_match=doc["name_match"],
             name_reason=doc["name_reason"],
             industry_match=doc["industry_match"],
@@ -224,7 +236,11 @@ async def _classify_via_llm(company_name: str) -> None:
             )
             user_prompt = build_user_prompt(profile, tender, org_industries)
             recommendation = await loop.run_in_executor(
-                executor, _call_llm, user_prompt, tender.metadata.name
+                executor,
+                _call_llm,
+                user_prompt,
+                tender.metadata.name,
+                tender.metadata.organization,
             )
 
             if _should_skip(recommendation):

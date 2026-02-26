@@ -49,7 +49,7 @@ export const useTenderSwipeStore = create<TenderSwipeState>()(
     }),
     {
       name: "tenderec-swipes",
-      version: 1,
+      version: 2,
       migrate: () => ({ swiped: {} }),
     }
   )

@@ -7,14 +7,13 @@ from datetime import datetime, timezone
 from src.companies.schemas import CompanyProfile
 from src.config import settings
 from src.database import get_database
-from src.feedback.constants import COLLECTION_NAME as FEEDBACK_COLLECTION
 from src.llm.service import get_openai_client
 from src.organization_classification.constants import (
     COLLECTION_NAME as ORG_CLASSIFICATION_COLLECTION,
 )
 from src.recommendations.schemas import MatchLevel, TenderRecommendation
 from src.tenders.schemas import Tender
-from src.tenders.service import get_tender_by_name, load_tenders
+from src.tenders.service import load_tenders
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +27,6 @@ You are a Polish public procurement expert specializing in matching tenders to c
 You receive:
 1. A company profile — its industries, service categories, and target contracting authorities.
 2. A single tender with its contracting organization and the organization's industries.
-3. Optionally, user feedback on previously rejected tenders — use it to understand the user's \
-preferences and adjust your scoring accordingly.
 
 Your task is to evaluate the tender against the company profile on TWO separate axes.
 
@@ -55,12 +52,6 @@ and target contracting authorities.
 - PARTIAL_MATCH example: company targets municipal authorities → organization is a regional government.
 - NO_MATCH example: company targets municipal authorities → organization is a private tech corporation.
 
-## User feedback
-
-If user feedback on rejected tenders is provided, treat it as additional signal about the user's \
-preferences. For example, if the user says "too short deadline" for a tender, penalize similar \
-tenders. If they say "not our area", it reinforces NO_MATCH on the name axis.
-
 ## Response format
 
 Respond ONLY with valid JSON:
@@ -82,19 +73,10 @@ async def _get_org_industries() -> dict[str, list[str]]:
     return {doc["_id"]: [ind["industry"] for ind in doc["industries"]] for doc in docs}
 
 
-async def _get_feedbacks(company_name: str) -> list[str]:
-    db = get_database()
-    collection = db[FEEDBACK_COLLECTION]
-    cursor = collection.find({"company_name": company_name})
-    docs = await cursor.to_list(length=None)
-    return [doc["feedback_comment"] for doc in docs]
-
-
 def build_user_prompt(
     profile: CompanyProfile,
     tender: Tender,
     org_industries: dict[str, list[str]],
-    feedbacks: list[str],
 ) -> str:
     company_info = profile.company_info
     criteria = profile.matching_criteria
@@ -107,7 +89,7 @@ def build_user_prompt(
     org_ind = org_industries.get(org, [])
     org_ind_str = f"\n**Industries:** {', '.join(org_ind)}" if org_ind else ""
 
-    prompt = f"""\
+    return f"""\
 ## Company profile: {company_info.name}
 
 ### Company's Industries
@@ -123,16 +105,6 @@ def build_user_prompt(
 **Name:** {tender.metadata.name}
 **Organization:** {org}{org_ind_str}\
 """
-
-    if feedbacks:
-        feedback_lines = "\n".join(f"- {fb}" for fb in feedbacks)
-        prompt += f"""
-
-## User feedback on previously rejected tenders
-{feedback_lines}\
-"""
-
-    return prompt
 
 
 def _call_llm(
@@ -171,11 +143,9 @@ async def _save_recommendation(
     collection = db[RECOMMENDATIONS_COLLECTION]
 
     now = datetime.now(timezone.utc)
-    doc_id = {
-        "company_name": company_name,
-        "tender_name": recommendation.tender_name,
-    }
     document = {
+        "company": company_name,
+        "tender_name": recommendation.tender_name,
         "organization": recommendation.organization,
         "name_match": recommendation.name_match,
         "name_reason": recommendation.name_reason,
@@ -184,7 +154,7 @@ async def _save_recommendation(
         "created_at": now,
     }
 
-    await collection.replace_one({"_id": doc_id}, document, upsert=True)
+    await collection.insert_one(document)
     logger.info(
         "Saved recommendation for tender '%s' (company '%s'): name=%s, industry=%s",
         recommendation.tender_name,
@@ -215,7 +185,7 @@ async def _load_from_mongo(
 
     cursor = collection.find(
         {
-            "_id.company_name": company_name,
+            "company": company_name,
             "name_match": name_match,
             "industry_match": industry_match,
         }
@@ -229,9 +199,9 @@ async def _load_from_mongo(
 
     return [
         TenderRecommendation(
-            tender_name=doc["_id"]["tender_name"],
+            tender_name=doc["tender_name"],
             organization=doc.get("organization")
-            or org_lookup.get(doc["_id"]["tender_name"], ""),
+            or org_lookup.get(doc["tender_name"], ""),
             name_match=doc["name_match"],
             name_reason=doc["name_reason"],
             industry_match=doc["industry_match"],
@@ -246,7 +216,6 @@ async def _classify_via_llm(company_name: str) -> None:
 
     tenders = load_tenders()
     org_industries = await _get_org_industries()
-    feedbacks = await _get_feedbacks(company_name)
 
     total = len(tenders)
     logger.info(
@@ -265,7 +234,7 @@ async def _classify_via_llm(company_name: str) -> None:
             logger.info(
                 "[%d/%d] Evaluating tender: '%s'", index, total, tender.metadata.name
             )
-            user_prompt = build_user_prompt(profile, tender, org_industries, feedbacks)
+            user_prompt = build_user_prompt(profile, tender, org_industries)
             recommendation = await loop.run_in_executor(
                 executor,
                 _call_llm,
@@ -289,7 +258,7 @@ async def _classify_via_llm(company_name: str) -> None:
     await asyncio.gather(*tasks)
 
     executor.shutdown(wait=False)
-    logger.info("Fingished processing all %d tenders for '%s'", total, company_name)
+    logger.info("Finished processing all %d tenders for '%s'", total, company_name)
 
 
 async def get_recommendations(
@@ -303,26 +272,3 @@ async def get_recommendations(
         await _classify_via_llm(company_name)
 
     return await _load_from_mongo(company_name, name_match, industry_match)
-
-
-async def refresh_recommendation(
-    company_name: str,
-    tender_name: str,
-) -> TenderRecommendation:
-    tender = get_tender_by_name(tender_name)
-    if tender is None:
-        raise ValueError(f"Tender not found: {tender_name}")
-
-    profile = await get_company_profile(company_name)
-    org_industries = await _get_org_industries()
-    feedbacks = await _get_feedbacks(company_name)
-
-    user_prompt = build_user_prompt(profile, tender, org_industries, feedbacks)
-
-    loop = asyncio.get_event_loop()
-    recommendation = await loop.run_in_executor(
-        None, _call_llm, user_prompt, tender.metadata.name, tender.metadata.organization
-    )
-
-    await _save_recommendation(company_name, recommendation)
-    return recommendation

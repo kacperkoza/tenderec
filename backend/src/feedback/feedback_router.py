@@ -20,7 +20,7 @@ router = APIRouter(prefix="/feedback", tags=["feedback"])
     description="Get all feedback comments for a company",
 )
 async def get_company_feedbacks(company_name: str) -> FeedbackListResponse:
-    logger.info("GET feedbacks for company: '%s'", company_name)
+    logger.info(f"GET feedbacks for company: '{company_name}'")
     return await feedback_service.get_feedbacks(company_name)
 
 
@@ -37,7 +37,7 @@ async def create_company_feedback(
     company_name: str,
     request: CreateFeedbackRequest,
 ) -> FeedbackResponse:
-    logger.info("POST feedback for company: '%s'", company_name)
+    logger.info(f"POST feedback for company: '{company_name}'")
     return await feedback_service.create_feedback(
         company_name, request.feedback_comment
     )

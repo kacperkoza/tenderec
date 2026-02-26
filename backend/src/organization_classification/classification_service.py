@@ -2,9 +2,8 @@ import json
 import logging
 from collections import defaultdict
 
-from fastapi.concurrency import run_in_threadpool
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from src.config import settings
 from src.database import get_database
@@ -52,7 +51,7 @@ Do not include any text outside of the JSON.\
 class ClassificationService:
     def __init__(self) -> None:
         self._db: AsyncIOMotorDatabase | None = None
-        self._client: OpenAI | None = None
+        self._client: AsyncOpenAI | None = None
 
     @property
     def db(self) -> AsyncIOMotorDatabase:
@@ -61,7 +60,7 @@ class ClassificationService:
         return self._db
 
     @property
-    def client(self) -> OpenAI:
+    def client(self) -> AsyncOpenAI:
         if self._client is None:
             self._client = llm_service.get_client()
         return self._client
@@ -85,10 +84,12 @@ class ClassificationService:
         tenders = "\n".join(f"- {name}" for name in tender_names)
         return f"## Organization: {org_name}\n\n### Tenders:\n{tenders}"
 
-    def _classify_organization(self, org_name: str, tender_names: list[str]) -> dict:
+    async def _classify_organization(
+        self, org_name: str, tender_names: list[str]
+    ) -> dict:
         user_prompt = self._build_user_prompt(org_name, tender_names)
 
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},
@@ -109,7 +110,7 @@ class ClassificationService:
             "industries": organization["industries"],
         }
         await collection.replace_one({"_id": doc["_id"]}, doc, upsert=True)
-        logger.info("Saved classification for '%s' to MongoDB", doc["_id"])
+        logger.info(f"Saved classification for '{doc['_id']}' to MongoDB")
 
     async def _load_from_mongo(self) -> ClassifyResponse:
         collection = self.db[constants.COLLECTION_NAME]
@@ -129,20 +130,13 @@ class ClassificationService:
         all_tenders = self._load_tenders()
         grouped = self._group_by_organization(all_tenders)
 
-        for i, (org_name, tender_names) in enumerate(grouped.items(), 1):
+        for index, (org_name, tender_names) in enumerate(grouped.items(), 1):
             logger.info(
-                "Classifying organization %d/%d: '%s' (%d tenders)",
-                i,
-                len(grouped),
-                org_name,
-                len(tender_names),
+                f"Classifying organization {index}/{len(grouped)}: '{org_name}' ({len(tender_names)} tenders)"
             )
-            classified = await run_in_threadpool(
-                self._classify_organization, org_name, tender_names
-            )
+            classified = await self._classify_organization(org_name, tender_names)
             logger.info(
-                "Result after classification: %s",
-                json.dumps(classified, ensure_ascii=False),
+                f"Result after classification: {json.dumps(classified, ensure_ascii=False)}"
             )
             await self._save_one_to_mongo(classified)
 

@@ -1,7 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, Request, status
-from fastapi.concurrency import run_in_threadpool
+from fastapi import APIRouter, Depends, status
 
 from src.companies.company_service import CompanyService
 from src.companies.company_dependencies import get_company_service, valid_company_name
@@ -26,7 +25,7 @@ router = APIRouter(prefix="/companies", tags=["companies"])
 async def get_company_profile(
     company: CompanyProfileResponse = Depends(valid_company_name),
 ) -> CompanyProfileResponse:
-    logger.info("GET company profile: '%s'", company.company_name)
+    logger.info(f"GET company profile: '{company.company_name}'")
     return company
 
 
@@ -44,15 +43,13 @@ async def upsert_company_profile(
     request: CreateCompanyProfileRequest,
     service: CompanyService = Depends(get_company_service),
 ) -> CompanyProfileResponse:
-    logger.info("PUT company profile: '%s'", company_name)
-    profile = await run_in_threadpool(
-        service.extract_company_profile, company_name, request.description
-    )
+    logger.info(f"PUT company profile: '{company_name}'")
+    profile = await service.extract_company_profile(company_name, request.description)
     result = await service.save_company_profile(
         company_name=company_name,
         profile=profile,
     )
     logger.info(
-        "Created company data for '%s': %s", company_name, result.model_dump_json()
+        f"Created company data for '{company_name}': {result.model_dump_json()}"
     )
     return result

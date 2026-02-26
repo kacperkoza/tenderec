@@ -49,7 +49,7 @@ class FeedbackService:
         )
 
         await collection.insert_one(document.to_mongo())
-        logger.info("Created feedback '%s' for company '%s'", feedback_id, company_name)
+        logger.info(f"Created feedback '{feedback_id}' for company '{company_name}'")
 
         return document.to_response()
 

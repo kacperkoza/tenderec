@@ -1,11 +1,10 @@
 import asyncio
 import json
 import logging
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from src.companies.company_schemas import (
     CompanyGeography,
@@ -84,7 +83,7 @@ Respond ONLY with valid JSON:
 class RecommendationService:
     def __init__(self) -> None:
         self._db: AsyncIOMotorDatabase | None = None
-        self._client: OpenAI | None = None
+        self._client: AsyncOpenAI | None = None
 
     @property
     def db(self) -> AsyncIOMotorDatabase:
@@ -93,7 +92,7 @@ class RecommendationService:
         return self._db
 
     @property
-    def client(self) -> OpenAI:
+    def client(self) -> AsyncOpenAI:
         if self._client is None:
             self._client = llm_service.get_client()
         return self._client
@@ -158,10 +157,10 @@ class RecommendationService:
 
         return prompt
 
-    def _call_llm(
+    async def _call_llm(
         self, user_prompt: str, tender_name: str, organization: str
     ) -> TenderRecommendation:
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},
@@ -292,8 +291,6 @@ class RecommendationService:
         )
 
         semaphore = asyncio.Semaphore(LLM_CONCURRENCY)
-        executor = ThreadPoolExecutor(max_workers=LLM_CONCURRENCY)
-        loop = asyncio.get_event_loop()
 
         async def _process_tender(index: int, tender: Tender) -> None:
             async with semaphore:
@@ -306,9 +303,7 @@ class RecommendationService:
                 user_prompt = self.build_user_prompt(
                     profile, tender, org_industries, feedbacks
                 )
-                recommendation = await loop.run_in_executor(
-                    executor,
-                    self._call_llm,
+                recommendation = await self._call_llm(
                     user_prompt,
                     tender.metadata.name,
                     tender.metadata.organization,
@@ -328,8 +323,7 @@ class RecommendationService:
         tasks = [_process_tender(i, tender) for i, tender in enumerate(tenders, 1)]
         await asyncio.gather(*tasks)
 
-        executor.shutdown(wait=False)
-        logger.info("Finished processing all %d tenders for '%s'", total, company_name)
+        logger.info(f"Finished processing all {total} tenders for '{company_name}'")
 
     async def get_recommendations(
         self,
@@ -359,10 +353,7 @@ class RecommendationService:
 
         user_prompt = self.build_user_prompt(profile, tender, org_industries, feedbacks)
 
-        loop = asyncio.get_event_loop()
-        recommendation = await loop.run_in_executor(
-            None,
-            self._call_llm,
+        recommendation = await self._call_llm(
             user_prompt,
             tender.metadata.name,
             tender.metadata.organization,

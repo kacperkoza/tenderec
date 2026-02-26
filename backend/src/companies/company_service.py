@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timezone
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from src.companies.company_constants import COLLECTION_NAME, EXTRACTION_SYSTEM_PROMPT
 from src.companies.company_exceptions import ProfileExtractionError
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 class CompanyService:
-    def __init__(self, db: AsyncIOMotorDatabase, client: OpenAI) -> None:
+    def __init__(self, db: AsyncIOMotorDatabase, client: AsyncOpenAI) -> None:
         self.db = db
         self.client = client
 
@@ -35,13 +35,13 @@ class CompanyService:
         document = CompanyProfileDocument.from_mongo(raw)
         return document.to_response()
 
-    def extract_company_profile(
+    async def extract_company_profile(
         self, company_name: str, description: str
     ) -> CompanyProfile:
         user_prompt = f"## Company name\n\n{company_name}\n\n## Company description\n\n{description}"
 
-        logger.info("LLM request start for company '%s'", company_name)
-        response = self.client.chat.completions.create(
+        logger.info(f"LLM request start for company '{company_name}'")
+        response = await self.client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},
@@ -57,7 +57,7 @@ class CompanyService:
                 f"LLM returned empty response for company '{company_name}'"
             )
 
-        logger.info("LLM response for company '%s': %s", company_name, raw_content)
+        logger.info(f"LLM response for company '{company_name}': {raw_content}")
 
         data = json.loads(raw_content)
         return CompanyProfile(

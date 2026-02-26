@@ -1,12 +1,8 @@
 import type {
   CompanyProfile,
   CreateCompanyRequest,
-  CreateFeedbackRequest,
-  Feedback,
-  FeedbackListResponse,
   RecommendationsParams,
   RecommendationsResponse,
-  TenderDetails,
 } from "@/types/api";
 
 const API_BASE = "/api/v1";
@@ -64,56 +60,6 @@ export async function getRecommendations(
 
   if (!res.ok) {
     throw new Error(`Nie udalo sie pobrac rekomendacji: ${res.status}`);
-  }
-
-  return res.json();
-}
-
-export async function getFeedbacks(
-  company: string
-): Promise<FeedbackListResponse> {
-  const res = await fetch(
-    `${API_BASE}/feedback/${encodeURIComponent(company)}`
-  );
-
-  if (!res.ok) {
-    throw new Error(`Nie udalo sie pobrac opinii: ${res.status}`);
-  }
-
-  return res.json();
-}
-
-export async function createFeedback(
-  company: string,
-  data: CreateFeedbackRequest
-): Promise<Feedback> {
-  const res = await fetch(
-    `${API_BASE}/feedback/${encodeURIComponent(company)}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error(`Nie udalo sie dodac opinii: ${res.status}`);
-  }
-
-  return res.json();
-}
-
-export async function getTender(name: string): Promise<TenderDetails> {
-  const res = await fetch(
-    `${API_BASE}/tenders/${encodeURIComponent(name)}`
-  );
-
-  if (res.status === 404) {
-    throw new NotFoundError("Przetarg nie zostal znaleziony");
-  }
-
-  if (!res.ok) {
-    throw new Error(`Nie udalo sie pobrac przetargu: ${res.status}`);
   }
 
   return res.json();

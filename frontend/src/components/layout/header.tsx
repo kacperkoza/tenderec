@@ -6,8 +6,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/companies/greenworks", label: "Profil firmy", match: "/companies" },
-  { href: "/tenders", label: "Przetargi", match: "/tenders", exact: true },
-  { href: "/tenders/liked", label: "Polubione", match: "/tenders/liked" },
+  { href: "/tenders", label: "Przetargi", match: "/tenders" },
 ];
 
 export function Header() {
@@ -20,25 +19,20 @@ export function Header() {
           Tenderec
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-          {navLinks.map((link) => {
-            const isActive = link.exact
-              ? pathname === link.match
-              : pathname.startsWith(link.match);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "transition-colors hover:text-foreground",
-                  isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-                )}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "transition-colors hover:text-foreground",
+                pathname.startsWith(link.match)
+                  ? "text-foreground"
+                  : "text-muted-foreground"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </header>

@@ -37,7 +37,6 @@ export type MatchLevel =
 
 export interface TenderRecommendation {
   tender_name: string;
-  organization: string;
   name_match: MatchLevel;
   name_reason: string;
   industry_match: MatchLevel;
@@ -53,30 +52,4 @@ export interface RecommendationsParams {
   company: string;
   name_match?: MatchLevel;
   industry_match?: MatchLevel;
-}
-
-export interface Feedback {
-  id: string;
-  feedback_comment: string;
-}
-
-export interface FeedbackListResponse {
-  company_name: string;
-  feedbacks: Feedback[];
-}
-
-export interface CreateFeedbackRequest {
-  feedback_comment: string;
-}
-
-export interface TenderDetails {
-  tender_url: string;
-  name: string;
-  organization: string;
-  submission_deadline: string;
-  initiation_date: string;
-  procedure_type: string | null;
-  source_type: string;
-  files_count: number;
-  file_urls: string[];
 }

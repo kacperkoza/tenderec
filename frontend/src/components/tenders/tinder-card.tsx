@@ -143,33 +143,25 @@ export function TinderCard({ tender, onSwipe, isTop }: TinderCardProps) {
           <CardTitle className="text-lg leading-snug">
             {tender.tender_name}
           </CardTitle>
-          <p className="text-sm font-medium">{tender.organization}</p>
         </CardHeader>
 
-        <CardContent>
-          <details
-            className="rounded-lg border bg-muted/40 p-3"
-            open
-            onPointerDown={(e) => e.stopPropagation()}
-          >
-            <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">
-              Szczegóły dopasowania
-            </summary>
-            <div className="mt-3 space-y-4">
-              <div className="space-y-2">
-                <MatchBadge level={tender.name_match} label="Dopasowanie nazwy" />
-                <p className="text-xs text-muted-foreground">
-                  {tender.name_reason}
-                </p>
-              </div>
-              <div className="space-y-2">
-                <MatchBadge level={tender.industry_match} label="Dopasowanie branży" />
-                <p className="text-xs text-muted-foreground">
-                  {tender.industry_reason}
-                </p>
-              </div>
-            </div>
-          </details>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <MatchBadge level={tender.name_match} label="Dopasowanie nazwy" />
+            <p className="text-xs text-muted-foreground">
+              {tender.name_reason}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <MatchBadge
+              level={tender.industry_match}
+              label="Dopasowanie branży"
+            />
+            <p className="text-xs text-muted-foreground">
+              {tender.industry_reason}
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -1,9 +1,7 @@
 "use client";
 
-import { useMemo, useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState, useCallback } from "react";
 import { useRecommendations } from "@/hooks/use-recommendations";
-import { useCreateFeedback } from "@/hooks/use-feedback";
 import {
   useTenderSwipeStore,
   type SwipeDirection,
@@ -17,73 +15,32 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import type { TenderRecommendation } from "@/types/api";
 
 export default function TendersPage() {
-  const router = useRouter();
   const { data, isLoading, error, refetch } = useRecommendations({
     company: "greenworks",
   });
 
-  const { swiped, swipe, getLiked, clearAll } = useTenderSwipeStore();
-  const { mutate: sendFeedback, isPending: isSendingFeedback } =
-    useCreateFeedback();
-
-  const [rejectedTender, setRejectedTender] =
-    useState<TenderRecommendation | null>(null);
-  const [feedbackText, setFeedbackText] = useState("");
+  const { swipe, isSwiped, getLiked, clearAll } = useTenderSwipeStore();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const unswiped = useMemo(() => {
     if (!data?.recommendations) return [];
-    return data.recommendations.filter((r) => !swiped[r.tender_name]);
-  }, [data, swiped]);
+    return data.recommendations.filter((r) => !isSwiped(r.tender_name));
+  }, [data, isSwiped]);
 
+  // Reset index when unswiped list changes
   const visibleCards = unswiped.slice(0, 2);
 
   const handleSwipe = useCallback(
     (direction: SwipeDirection) => {
       const current = visibleCards[0];
       if (!current) return;
-
-      if (direction === "left") {
-        setRejectedTender(current);
-        setFeedbackText("");
-      } else {
-        swipe(current, direction);
-      }
+      swipe(current.tender_name, direction);
+      setCurrentIndex((i) => i + 1);
     },
     [visibleCards, swipe]
   );
-
-  function dismissRejectDialog() {
-    if (!rejectedTender) return;
-    swipe(rejectedTender, "left");
-    setRejectedTender(null);
-    setFeedbackText("");
-  }
-
-  function handleSendFeedback() {
-    if (!rejectedTender || !feedbackText.trim()) return;
-
-    const comment = `[Odrzucony przetarg: ${rejectedTender.tender_name}] ${feedbackText.trim()}`;
-    sendFeedback(
-      { company: "greenworks", data: { feedback_comment: comment } },
-      {
-        onSettled: () => {
-          dismissRejectDialog();
-        },
-      }
-    );
-  }
 
   const liked = getLiked();
 
@@ -135,33 +92,29 @@ export default function TendersPage() {
       {allDone ? (
         <Card>
           <CardHeader>
-            <CardTitle>Przejrzano wszystko na dziś!</CardTitle>
+            <CardTitle>To już wszystko!</CardTitle>
             <CardDescription>
-              {liked.length > 0 ? (
+              Przejrzano wszystkie rekomendacje.
+              {liked.length > 0 && (
                 <span>
+                  {" "}
                   Polubiono {liked.length}{" "}
                   {liked.length === 1
                     ? "przetarg"
                     : liked.length < 5
                       ? "przetargi"
                       : "przetargów"}
-                  . Czy chcesz przejść do listy polubionych przetargów?
+                  .
                 </span>
-              ) : (
-                <span>Nie polubiono żadnych przetargów.</span>
               )}
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            {liked.length > 0 && (
-              <Button onClick={() => router.push("/tenders/liked")}>
-                Przejdź do polubionych
-              </Button>
-            )}
+          <CardContent className="flex gap-2">
             <Button
               variant="outline"
               onClick={() => {
                 clearAll();
+                setCurrentIndex(0);
               }}
             >
               Zacznij od nowa
@@ -189,38 +142,20 @@ export default function TendersPage() {
         </>
       )}
 
-      <Dialog
-        open={rejectedTender !== null}
-        onOpenChange={(open) => {
-          if (!open) dismissRejectDialog();
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Dlaczego odrzucasz ten przetarg?</DialogTitle>
-            <DialogDescription>
-              {rejectedTender?.tender_name}
-            </DialogDescription>
-          </DialogHeader>
-          <Textarea
-            placeholder="Np. nie pasuje do naszej branży, za krótki termin..."
-            value={feedbackText}
-            onChange={(e) => setFeedbackText(e.target.value)}
-            rows={3}
-          />
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="ghost" onClick={dismissRejectDialog}>
-              Pomiń
-            </Button>
-            <Button
-              onClick={handleSendFeedback}
-              disabled={!feedbackText.trim() || isSendingFeedback}
-            >
-              {isSendingFeedback ? "Wysyłanie..." : "Wyślij"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {liked.length > 0 && !allDone && (
+        <div className="border-t pt-4">
+          <h2 className="mb-2 text-sm font-medium text-muted-foreground">
+            Polubione ({liked.length})
+          </h2>
+          <ul className="space-y-1">
+            {liked.map((item) => (
+              <li key={item.tender_name} className="text-sm">
+                {item.tender_name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

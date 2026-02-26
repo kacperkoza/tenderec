@@ -6,8 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from openai import AsyncOpenAI
 
 from src.config import settings
-from src.database import get_database
-from src.llm.llm_service import llm_service
 from src.organization_classification import classification_constants as constants
 from src.organization_classification.classification_schemas import ClassifyResponse
 
@@ -49,21 +47,9 @@ Do not include any text outside of the JSON.\
 
 
 class ClassificationService:
-    def __init__(self) -> None:
-        self._db: AsyncIOMotorDatabase | None = None
-        self._client: AsyncOpenAI | None = None
-
-    @property
-    def db(self) -> AsyncIOMotorDatabase:
-        if self._db is None:
-            self._db = get_database()
-        return self._db
-
-    @property
-    def client(self) -> AsyncOpenAI:
-        if self._client is None:
-            self._client = llm_service.get_client()
-        return self._client
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
+        self.db = db
+        self.llm_client = llm_client
 
     @staticmethod
     def _load_tenders() -> list[dict]:
@@ -89,7 +75,7 @@ class ClassificationService:
     ) -> dict:
         user_prompt = self._build_user_prompt(org_name, tender_names)
 
-        response = await self.client.chat.completions.create(
+        response = await self.llm_client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},
@@ -148,6 +134,3 @@ class ClassificationService:
         if source == "mongodb":
             return await self._load_from_mongo()
         return await self._classify_via_llm()
-
-
-classification_service = ClassificationService()

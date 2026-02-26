@@ -3,7 +3,6 @@ import uuid
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from src.database import get_database
 from src.feedback.feedback_constants import COLLECTION_NAME
 from src.feedback.feedback_schemas import (
     FeedbackDocument,
@@ -15,14 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class FeedbackService:
-    def __init__(self) -> None:
-        self._db: AsyncIOMotorDatabase | None = None
-
-    @property
-    def db(self) -> AsyncIOMotorDatabase:
-        if self._db is None:
-            self._db = get_database()
-        return self._db
+    def __init__(self, db: AsyncIOMotorDatabase) -> None:
+        self.db = db
 
     async def get_feedbacks(self, company_name: str) -> FeedbackListResponse:
         collection = self.db[COLLECTION_NAME]
@@ -52,6 +45,3 @@ class FeedbackService:
         logger.info(f"Created feedback '{feedback_id}' for company '{company_name}'")
 
         return document.to_response()
-
-
-feedback_service = FeedbackService()

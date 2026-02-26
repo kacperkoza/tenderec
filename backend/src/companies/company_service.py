@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 
 
 class CompanyService:
-    def __init__(self, db: AsyncIOMotorDatabase, client: AsyncOpenAI) -> None:
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
         self.db = db
-        self.client = client
+        self.llm_client = llm_client
 
     async def get_company(self, company_name: str) -> CompanyProfileResponse | None:
         collection = self.db[COLLECTION_NAME]
@@ -41,7 +41,7 @@ class CompanyService:
         user_prompt = f"## Company name\n\n{company_name}\n\n## Company description\n\n{description}"
 
         logger.info(f"LLM request start for company '{company_name}'")
-        response = await self.client.chat.completions.create(
+        response = await self.llm_client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},

@@ -13,9 +13,7 @@ from src.companies.company_schemas import (
     MatchingCriteria,
 )
 from src.config import settings
-from src.database import get_database
 from src.feedback.feedback_constants import COLLECTION_NAME as FEEDBACK_COLLECTION
-from src.llm.llm_service import llm_service
 from src.organization_classification.classification_constants import (
     COLLECTION_NAME as ORG_CLASSIFICATION_COLLECTION,
 )
@@ -81,21 +79,9 @@ Respond ONLY with valid JSON:
 
 
 class RecommendationService:
-    def __init__(self) -> None:
-        self._db: AsyncIOMotorDatabase | None = None
-        self._client: AsyncOpenAI | None = None
-
-    @property
-    def db(self) -> AsyncIOMotorDatabase:
-        if self._db is None:
-            self._db = get_database()
-        return self._db
-
-    @property
-    def client(self) -> AsyncOpenAI:
-        if self._client is None:
-            self._client = llm_service.get_client()
-        return self._client
+    def __init__(self, db: AsyncIOMotorDatabase, llm_client: AsyncOpenAI) -> None:
+        self.db = db
+        self.llm_client = llm_client
 
     async def _get_org_industries(self) -> dict[str, list[str]]:
         collection = self.db[ORG_CLASSIFICATION_COLLECTION]
@@ -160,7 +146,7 @@ class RecommendationService:
     async def _call_llm(
         self, user_prompt: str, tender_name: str, organization: str
     ) -> TenderRecommendation:
-        response = await self.client.chat.completions.create(
+        response = await self.llm_client.chat.completions.create(
             model=settings.llm_model,
             temperature=0.2,
             response_format={"type": "json_object"},
@@ -361,6 +347,3 @@ class RecommendationService:
 
         await self._save_recommendation(company_name, recommendation)
         return recommendation
-
-
-recommendation_service = RecommendationService()

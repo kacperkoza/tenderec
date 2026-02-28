@@ -20,7 +20,7 @@ from src.tenders.tender_constants import (
     SUPPORTED_FILE_EXTENSIONS,
     TENDER_AGENT_SYSTEM_PROMPT,
 )
-from src.tenders.tender_schemas import Tender, TenderMetadata
+from src.tenders.tender_schemas import Tender
 
 logger = logging.getLogger(__name__)
 
@@ -30,15 +30,7 @@ def _load_tenders() -> list[Tender]:
     logger.info("Loading tenders from %s", TENDERS_PATH)
     with open(TENDERS_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
-    tenders = [
-        Tender(
-            tender_url=t["tender_url"],
-            metadata=TenderMetadata(**t["metadata"]),
-            files_count=t["files_count"],
-            file_urls=t["file_urls"],
-        )
-        for t in data["tenders"]
-    ]
+    tenders = [Tender.from_json(t) for t in data["tenders"]]
     logger.info("Loaded %d tenders", len(tenders))
     return tenders
 
@@ -66,9 +58,6 @@ def _format_tender(tender: Tender) -> str:
 
 @tool
 def get_tender_details(tender_name: str) -> str:
-    """Look up full details of a tender by its exact name.
-    Returns name, organization, deadlines, dates, procedure type, file URLs, etc.
-    """
     tender = _get_tender_by_name(tender_name)
     if tender is None:
         return f"Tender '{tender_name}' not found."
@@ -77,10 +66,6 @@ def get_tender_details(tender_name: str) -> str:
 
 @tool
 def search_tenders(query: str) -> str:
-    """Search for tenders whose name contains the given query (case-insensitive).
-    Returns a list of matching tender names with their organizations.
-    Use this when the user provides a partial or approximate tender name.
-    """
     query_lower = query.lower()
     matches = [t for t in _load_tenders() if query_lower in t.metadata.name.lower()]
     if not matches:
@@ -97,9 +82,6 @@ def search_tenders(query: str) -> str:
 
 @tool
 def list_tenders_by_organization(organization: str) -> str:
-    """List all tenders from a given organization (case-insensitive partial match).
-    Returns tender names and deadlines.
-    """
     org_lower = organization.lower()
     matches = [
         t for t in _load_tenders() if org_lower in t.metadata.organization.lower()
@@ -119,7 +101,6 @@ def list_tenders_by_organization(organization: str) -> str:
 
 @tool
 def get_tender_files(tender_name: str) -> str:
-    """Get the list of attached file URLs for a specific tender by its exact name."""
     tender = _get_tender_by_name(tender_name)
     if tender is None:
         return f"Tender '{tender_name}' not found."
@@ -133,12 +114,10 @@ def get_tender_files(tender_name: str) -> str:
 
 @tool
 def get_today_date() -> str:
-    """Get today's date. Useful for comparing against tender deadlines."""
     return str(date.today())
 
 
 def _get_file_extension(url: str) -> str:
-    """Extract lowercase file extension from a URL path."""
     path = unquote(urlparse(url).path)
     dot_index = path.rfind(".")
     if dot_index == -1:
@@ -187,11 +166,6 @@ def _extract_text(content: bytes, extension: str) -> str:
 
 @tool
 async def read_file_content(file_url: str) -> str:
-    """Download a tender file from its URL and extract the text content.
-    Use this when the user asks about the contents of a specific tender document.
-    Supports PDF, DOCX, and TXT files. First call get_tender_files to get file URLs,
-    then use this tool with one of those URLs.
-    """
     extension = _get_file_extension(file_url)
     if extension not in SUPPORTED_FILE_EXTENSIONS:
         return (
@@ -243,12 +217,6 @@ AGENT_TOOLS = [
 def _build_company_tool(company_service: CompanyService) -> BaseTool:
     @tool
     async def get_company_info(company_name: str) -> str:
-        """Get the profile of the user's company from the database.
-        Returns company name, industries, service categories, CPV codes,
-        target authorities, and geography. Use this when the user asks
-        about their company, wants to compare a tender to their profile,
-        or asks whether a tender is relevant for them.
-        """
         profile_response = await company_service.get_company(company_name)
         if profile_response is None:
             return f"Company '{company_name}' not found in the database."
@@ -331,14 +299,32 @@ class TenderService:
 
         answer: str = ai_messages[-1].content  # type: ignore[assignment]
 
-        # Build a map of tool_call_id -> tool output content
+        await self._record_agent_trace(
+            trace, result["messages"], user_message, answer, tender_name, question
+        )
+
+        logger.info(
+            "Agent answered question for tender='%s' (answer length: %d chars)",
+            tender_name,
+            len(answer),
+        )
+        return answer
+
+    @staticmethod
+    async def _record_agent_trace(
+        trace: LangfuseTrace,
+        messages: list,
+        user_message: str,
+        answer: str,
+        tender_name: str,
+        question: str,
+    ) -> None:
         tool_outputs: dict[str, str] = {}
-        for msg in result["messages"]:
+        for msg in messages:
             if msg.type == "tool":
                 tool_outputs[msg.tool_call_id] = msg.content
 
-        # Record tool calls as spans with both input and output
-        for msg in result["messages"]:
+        for msg in messages:
             if msg.type == "ai" and hasattr(msg, "tool_calls") and msg.tool_calls:
                 for tc in msg.tool_calls:
                     trace.add_span(
@@ -347,7 +333,6 @@ class TenderService:
                         output_data=tool_outputs.get(tc.get("id", "")),
                     )
 
-        # Record the final generation
         trace.add_generation(
             name="agent-response",
             model="gpt-4o-mini",
@@ -359,27 +344,3 @@ class TenderService:
             input_data={"tender_name": tender_name, "question": question},
             output_data={"answer": answer},
         )
-
-        logger.info(
-            "Agent answered question for tender='%s' (answer length: %d chars)",
-            tender_name,
-            len(answer),
-        )
-        return answer
-
-
-class _TenderServiceCompat:
-    """Lightweight accessor for tender data without LLM dependency.
-    Used by other services (e.g. recommendations) that only need data lookups.
-    """
-
-    @staticmethod
-    def load_tenders() -> list[Tender]:
-        return _load_tenders()
-
-    @staticmethod
-    def get_tender_by_name(name: str) -> Tender | None:
-        return _get_tender_by_name(name)
-
-
-tender_service = _TenderServiceCompat()

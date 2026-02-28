@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -38,6 +38,18 @@ class CompanyProfile:
     company_info: CompanyInfo
     matching_criteria: MatchingCriteria
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "CompanyProfile":
+        return cls(
+            company_info=CompanyInfo(**data["company_info"]),
+            matching_criteria=MatchingCriteria(
+                geography=CompanyGeography(**data["matching_criteria"]["geography"]),
+                service_categories=data["matching_criteria"]["service_categories"],
+                cpv_codes=data["matching_criteria"]["cpv_codes"],
+                target_authorities=data["matching_criteria"]["target_authorities"],
+            ),
+        )
+
 
 # --- Document (MongoDB) ---
 
@@ -57,25 +69,9 @@ class CompanyProfileDocument:
 
     @classmethod
     def from_mongo(cls, doc: dict[str, object]) -> "CompanyProfileDocument":
-        raw_profile: dict = doc["profile"]  # type: ignore[assignment]
-        profile = CompanyProfile(
-            company_info=CompanyInfo(**raw_profile["company_info"]),
-            matching_criteria=MatchingCriteria(
-                geography=CompanyGeography(
-                    **raw_profile["matching_criteria"]["geography"]
-                ),
-                service_categories=raw_profile["matching_criteria"][
-                    "service_categories"
-                ],
-                cpv_codes=raw_profile["matching_criteria"]["cpv_codes"],
-                target_authorities=raw_profile["matching_criteria"][
-                    "target_authorities"
-                ],
-            ),
-        )
         return cls(
             id=doc["_id"],  # type: ignore[arg-type]
-            profile=profile,
+            profile=CompanyProfile.from_dict(doc["profile"]),  # type: ignore[arg-type]
             created_at=doc["created_at"],  # type: ignore[arg-type]
         )
 

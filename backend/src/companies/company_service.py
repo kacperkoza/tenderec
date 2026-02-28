@@ -9,12 +9,9 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.companies.company_constants import COLLECTION_NAME, EXTRACTION_SYSTEM_PROMPT
 from src.companies.company_exceptions import ProfileExtractionError
 from src.companies.company_schemas import (
-    CompanyGeography,
-    CompanyInfo,
     CompanyProfile,
     CompanyProfileDocument,
     CompanyProfileResponse,
-    MatchingCriteria,
 )
 
 logger = logging.getLogger(__name__)
@@ -61,15 +58,7 @@ class CompanyService:
         logger.info(f"LLM response for company '{company_name}': {raw_content}")
 
         data = json.loads(raw_content)
-        return CompanyProfile(
-            company_info=CompanyInfo(**data["company_info"]),
-            matching_criteria=MatchingCriteria(
-                geography=CompanyGeography(**data["matching_criteria"]["geography"]),
-                service_categories=data["matching_criteria"]["service_categories"],
-                cpv_codes=data["matching_criteria"]["cpv_codes"],
-                target_authorities=data["matching_criteria"]["target_authorities"],
-            ),
-        )
+        return CompanyProfile.from_dict(data)
 
     async def save_company_profile(
         self, company_name: str, profile: CompanyProfile

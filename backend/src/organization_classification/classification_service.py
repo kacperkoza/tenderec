@@ -7,44 +7,19 @@ from langchain_openai import ChatOpenAI
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.config import settings
-from src.organization_classification import classification_constants as constants
-from src.organization_classification.classification_schemas import ClassifyResponse
+from src.constants import TENDERS_PATH
+from src.organization_classification.classification_constants import (
+    CLASSIFICATION_SYSTEM_PROMPT,
+    COLLECTION_NAME,
+)
+from src.organization_classification.classification_schemas import (
+    ClassifyResponse,
+    IndustryClassificationEntry,
+    OrganizationClassificationData,
+    OrganizationClassificationDocument,
+)
 
 logger = logging.getLogger(__name__)
-
-SYSTEM_PROMPT = """\
-You are an expert in the Polish public procurement market and industry classification of organizations.
-
-You receive an organization name and a list of tenders published by that organization.
-
-Your task:
-1. Assign the organization 1 to 3 industries (from most relevant to least).
-- The first industry must be based EXCLUSIVELY on the organization name (ignore tenders).
-- Additional industries (max 2) should only be added if the tenders indicate industries \
-DIFFERENT from the first one. If the tenders align with the first industry, do not add more.
-2. For EACH assigned industry, provide a short reasoning in Polish (1-2 sentences). \
-For the first industry, refer to the organization name. For the rest, refer to specific tenders.
-3. Use concise Polish industry names (e.g. "Energetyka", "Górnictwo", \
-"Administracja samorządowa", "Transport kolejowy", "Przemysł chemiczny", etc.).
-4. The first industry in the list = the most relevant one.
-
-Respond ONLY with valid JSON in the following format:
-{
-  "organization": "<organization name>",
-  "industries": [
-    {
-      "industry": "<industry 1 - best match>",
-      "reasoning": "<reasoning in Polish>"
-    },
-    {
-      "industry": "<industry 2>",
-      "reasoning": "<reasoning in Polish>"
-    }
-  ]
-}
-
-Do not include any text outside of the JSON.\
-"""
 
 
 class ClassificationService:
@@ -54,7 +29,7 @@ class ClassificationService:
 
     @staticmethod
     def _load_tenders() -> list[dict]:
-        with open(constants.TENDERS_PATH, "r", encoding="utf-8") as f:
+        with open(TENDERS_PATH, "r", encoding="utf-8") as f:
             return json.load(f)["tenders"]
 
     @staticmethod
@@ -73,7 +48,7 @@ class ClassificationService:
 
     async def _classify_organization(
         self, org_name: str, tender_names: list[str]
-    ) -> dict:
+    ) -> OrganizationClassificationData:
         logger.info(
             "Classifying organization '%s' with %d tenders", org_name, len(tender_names)
         )
@@ -81,35 +56,36 @@ class ClassificationService:
 
         response = await self.llm_client.ainvoke(
             [
-                SystemMessage(content=SYSTEM_PROMPT),
+                SystemMessage(content=CLASSIFICATION_SYSTEM_PROMPT),
                 HumanMessage(content=user_prompt),
             ],
             response_format={"type": "json_object"},
         )
 
-        return json.loads(response.content)  # type: ignore[arg-type]
+        raw = json.loads(response.content)  # type: ignore[arg-type]
+        return OrganizationClassificationData(
+            organization=raw["organization"],
+            industries=[
+                IndustryClassificationEntry(**ind) for ind in raw["industries"]
+            ],
+        )
 
-    async def _save_one_to_mongo(self, organization: dict) -> None:
-        collection = self.db[constants.COLLECTION_NAME]
-
-        doc = {
-            "_id": organization["organization"],
-            "industries": organization["industries"],
-        }
-        await collection.replace_one({"_id": doc["_id"]}, doc, upsert=True)
-        logger.info(f"Saved classification for '{doc['_id']}' to MongoDB")
+    async def _save_one_to_mongo(
+        self, document: OrganizationClassificationDocument
+    ) -> None:
+        collection = self.db[COLLECTION_NAME]
+        mongo_doc = document.to_mongo()
+        await collection.replace_one({"_id": mongo_doc["_id"]}, mongo_doc, upsert=True)
+        logger.info("Saved classification for '%s' to MongoDB", document.id)
 
     async def _load_from_mongo(self) -> ClassifyResponse:
         logger.info("Loading organization classifications from MongoDB")
-        collection = self.db[constants.COLLECTION_NAME]
+        collection = self.db[COLLECTION_NAME]
         cursor = collection.find({})
         docs = await cursor.to_list(length=None)
 
         organizations = [
-            {
-                "organization": doc["_id"],
-                "industries": doc["industries"],
-            }
+            OrganizationClassificationDocument.from_mongo(doc).to_response()
             for doc in docs
         ]
         logger.info(
@@ -123,13 +99,20 @@ class ClassificationService:
 
         for index, (org_name, tender_names) in enumerate(grouped.items(), 1):
             logger.info(
-                f"Classifying organization {index}/{len(grouped)}: '{org_name}' ({len(tender_names)} tenders)"
+                "Classifying organization %d/%d: '%s' (%d tenders)",
+                index,
+                len(grouped),
+                org_name,
+                len(tender_names),
             )
             classified = await self._classify_organization(org_name, tender_names)
             logger.info(
-                f"Result after classification: {json.dumps(classified, ensure_ascii=False)}"
+                "Classification result for '%s': %s",
+                org_name,
+                [ind.industry for ind in classified.industries],
             )
-            await self._save_one_to_mongo(classified)
+            document = OrganizationClassificationDocument.from_domain(classified)
+            await self._save_one_to_mongo(document)
 
         return await self._load_from_mongo()
 

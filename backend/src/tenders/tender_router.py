@@ -39,17 +39,7 @@ async def get_tender(
     logger.info(
         "Returning tender '%s' (org: '%s')", tender_name, tender.metadata.organization
     )
-    return TenderResponse(
-        tender_url=tender.tender_url,
-        name=tender.metadata.name,
-        organization=tender.metadata.organization,
-        submission_deadline=tender.metadata.submission_deadline,
-        initiation_date=tender.metadata.initiation_date,
-        procedure_type=tender.metadata.procedure_type,
-        source_type=tender.metadata.source_type,
-        files_count=tender.files_count,
-        file_urls=tender.file_urls,
-    )
+    return tender.to_response()
 
 
 @router.post(

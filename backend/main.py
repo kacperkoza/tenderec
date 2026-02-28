@@ -12,10 +12,10 @@ logging.basicConfig(
 from src.companies.company_service import CompanyService
 from src.companies.company_router import router as companies_router
 from src.config import settings
-from src.database import connect_to_mongo, close_mongo_connection, get_database
+from src.database import connect_to_mongo, close_mongo_connection
 from src.feedback.feedback_router import router as feedback_router
 from src.feedback.feedback_service import FeedbackService
-from src.llm.llm_service import LLMService
+from src.llm.llm_service import create_llm_client
 from src.organization_classification.classification_router import (
     router as organization_classification_router,
 )
@@ -28,21 +28,20 @@ from src.tenders.tender_service import TenderService
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    await connect_to_mongo()
-    db = get_database()
-    llm_client = LLMService().get_client()
+    db = await connect_to_mongo()
+    llm_client = create_llm_client()
 
     app.state.company_service = CompanyService(db=db, llm_client=llm_client)
     app.state.feedback_service = FeedbackService(db=db)
     app.state.classification_service = ClassificationService(
         db=db, llm_client=llm_client
     )
-    app.state.recommendation_service = RecommendationService(
-        db=db, llm_client=llm_client
-    )
     app.state.tender_service = TenderService(
         llm_client=llm_client,
         company_service=app.state.company_service,
+    )
+    app.state.recommendation_service = RecommendationService(
+        db=db, llm_client=llm_client, tender_service=app.state.tender_service
     )
 
     yield

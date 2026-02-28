@@ -7,91 +7,56 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from src.companies.company_schemas import (
-    CompanyGeography,
-    CompanyInfo,
-    CompanyProfile,
-    MatchingCriteria,
+from src.companies.company_constants import (
+    COLLECTION_NAME as COMPANY_PROFILES_COLLECTION,
 )
+from src.companies.company_schemas import CompanyProfile, CompanyProfileDocument
 from src.config import settings
 from src.feedback.feedback_constants import COLLECTION_NAME as FEEDBACK_COLLECTION
 from src.organization_classification.classification_constants import (
     COLLECTION_NAME as ORG_CLASSIFICATION_COLLECTION,
 )
-from src.recommendations.recommendation_schemas import MatchLevel, TenderRecommendation
+from src.organization_classification.classification_schemas import (
+    OrganizationClassificationDocument,
+)
+from src.recommendations.recommendation_constants import (
+    COLLECTION_NAME as RECOMMENDATIONS_COLLECTION,
+    LLM_CONCURRENCY,
+    RECOMMENDATION_SYSTEM_PROMPT,
+)
+from src.recommendations.recommendation_schemas import (
+    MatchLevel,
+    RecommendationDocument,
+    RecommendationResult,
+    TenderRecommendation,
+)
 from src.tenders.tender_schemas import Tender
-from src.tenders.tender_service import tender_service
+from src.tenders.tender_service import TenderService
 
 logger = logging.getLogger(__name__)
 
-COMPANY_PROFILES_COLLECTION = "company_profiles"
-RECOMMENDATIONS_COLLECTION = "recommendations"
-LLM_CONCURRENCY = 5
-
-SYSTEM_PROMPT = """\
-You are a Polish public procurement expert specializing in matching tenders to company profiles.
-
-You receive:
-1. A company profile — its industries, service categories, and target contracting authorities.
-2. A single tender with its contracting organization and the organization's industries.
-3. Optionally, user feedback on previously rejected tenders — use it to understand the user's \
-preferences and adjust your scoring accordingly.
-
-Your task is to evaluate the tender against the company profile on TWO separate axes.
-
-## Match levels
-
-For each axis assign one of:
-
-- **PERFECT_MATCH** — direct, obvious match.
-- **PARTIAL_MATCH** — plausible but indirect match.
-- **DONT_KNOW** — not enough information to judge.
-- **NO_MATCH** — completely unrelated.
-
-### Axis 1 — Tender name vs. company activities (name_match)
-How closely the subject of the tender aligns with the company's service categories and competencies.
-- PERFECT_MATCH example: company plants trees → tender is about planting trees.
-- PARTIAL_MATCH example: company plants trees → tender is about street revitalization (likely includes greenery).
-- NO_MATCH example: company plants trees → tender is about IT services.
-
-### Axis 2 — Organization industry vs. company industries (industry_match)
-How closely the contracting organization's industries align with the company's industries \
-and target contracting authorities.
-- PERFECT_MATCH example: company targets municipal authorities → organization is a city municipality.
-- PARTIAL_MATCH example: company targets municipal authorities → organization is a regional government.
-- NO_MATCH example: company targets municipal authorities → organization is a private tech corporation.
-
-## User feedback
-
-If user feedback on rejected tenders is provided, treat it as additional signal about the user's \
-preferences. For example, if the user says "too short deadline" for a tender, penalize similar \
-tenders. If they say "not our area", it reinforces NO_MATCH on the name axis.
-
-## Response format
-
-Respond ONLY with valid JSON:
-{
-  "name_match": "PERFECT_MATCH" | "PARTIAL_MATCH" | "DONT_KNOW" | "NO_MATCH",
-  "name_reason": "<one sentence reasoning in Polish>",
-  "industry_match": "PERFECT_MATCH" | "PARTIAL_MATCH" | "DONT_KNOW" | "NO_MATCH",
-  "industry_reason": "<one sentence reasoning in Polish>"
-}\
-"""
-
 
 class RecommendationService:
-    def __init__(self, db: AsyncIOMotorDatabase, llm_client: ChatOpenAI) -> None:
+    def __init__(
+        self,
+        db: AsyncIOMotorDatabase,
+        llm_client: ChatOpenAI,
+        tender_service: TenderService,
+    ) -> None:
         self.db = db
         self.llm_client = llm_client
+        self.tender_service = tender_service
 
     async def _get_org_industries(self) -> dict[str, list[str]]:
         logger.info("Loading organization industries from MongoDB")
         collection = self.db[ORG_CLASSIFICATION_COLLECTION]
         cursor = collection.find({})
         docs = await cursor.to_list(length=None)
-
         result = {
-            doc["_id"]: [ind["industry"] for ind in doc["industries"]] for doc in docs
+            doc_obj.id: [ind.industry for ind in doc_obj.industries]
+            for doc_obj in (
+                OrganizationClassificationDocument.from_mongo(doc) for doc in docs
+            )
         }
         logger.info("Loaded industries for %d organizations", len(result))
         return result
@@ -154,91 +119,69 @@ class RecommendationService:
 
     async def _call_llm(
         self, user_prompt: str, tender_name: str, organization: str
-    ) -> TenderRecommendation:
+    ) -> RecommendationResult:
         logger.info("Calling LLM for tender='%s', org='%s'", tender_name, organization)
         response = await self.llm_client.ainvoke(
             [
-                SystemMessage(content=SYSTEM_PROMPT),
+                SystemMessage(content=RECOMMENDATION_SYSTEM_PROMPT),
                 HumanMessage(content=user_prompt),
             ],
             response_format={"type": "json_object"},
         )
 
         raw = json.loads(response.content)  # type: ignore[arg-type]
-        recommendation = TenderRecommendation(
-            tender_name=tender_name, organization=organization, **raw
+        result = RecommendationResult(
+            tender_name=tender_name,
+            organization=organization,
+            name_match=MatchLevel(raw["name_match"]),
+            name_reason=raw["name_reason"],
+            industry_match=MatchLevel(raw["industry_match"]),
+            industry_reason=raw["industry_reason"],
         )
         logger.info(
             "LLM result for tender='%s': name_match=%s, industry_match=%s",
             tender_name,
-            recommendation.name_match,
-            recommendation.industry_match,
+            result.name_match,
+            result.industry_match,
         )
-        return recommendation
+        return result
 
     @staticmethod
-    def _should_skip(recommendation: TenderRecommendation) -> bool:
-        return (
-            recommendation.name_match == MatchLevel.NO_MATCH
-            and recommendation.industry_match
-            in (MatchLevel.NO_MATCH, MatchLevel.DONT_KNOW)
+    def _should_skip(result: RecommendationResult) -> bool:
+        return result.name_match == MatchLevel.NO_MATCH and result.industry_match in (
+            MatchLevel.NO_MATCH,
+            MatchLevel.DONT_KNOW,
         )
 
     async def _save_recommendation(
         self,
         company_name: str,
-        recommendation: TenderRecommendation,
+        result: RecommendationResult,
     ) -> None:
-        collection = self.db[RECOMMENDATIONS_COLLECTION]
-
         now = datetime.now(timezone.utc)
-        doc_id = {
-            "company_name": company_name,
-            "tender_name": recommendation.tender_name,
-        }
-        document = {
-            "organization": recommendation.organization,
-            "name_match": recommendation.name_match,
-            "name_reason": recommendation.name_reason,
-            "industry_match": recommendation.industry_match,
-            "industry_reason": recommendation.industry_reason,
-            "created_at": now,
-        }
+        document = RecommendationDocument.from_domain(company_name, result, now)
+        mongo_doc = document.to_mongo()
 
-        await collection.replace_one({"_id": doc_id}, document, upsert=True)
+        collection = self.db[RECOMMENDATIONS_COLLECTION]
+        await collection.replace_one({"_id": mongo_doc["_id"]}, mongo_doc, upsert=True)
         logger.info(
             "Saved recommendation for tender '%s' (company '%s'): name=%s, industry=%s",
-            recommendation.tender_name,
+            result.tender_name,
             company_name,
-            recommendation.name_match,
-            recommendation.industry_match,
+            result.name_match,
+            result.industry_match,
         )
 
     async def _get_company_profile(self, company_name: str) -> CompanyProfile:
         logger.info("Loading company profile for '%s'", company_name)
         collection = self.db[COMPANY_PROFILES_COLLECTION]
 
-        document = await collection.find_one({"_id": company_name})
-        if document is None:
+        raw_doc = await collection.find_one({"_id": company_name})
+        if raw_doc is None:
             logger.warning("Company not found: '%s'", company_name)
             raise ValueError(f"Company not found: {company_name}")
 
-        raw_profile: dict = document["profile"]  # type: ignore[assignment]
-        return CompanyProfile(
-            company_info=CompanyInfo(**raw_profile["company_info"]),
-            matching_criteria=MatchingCriteria(
-                geography=CompanyGeography(
-                    **raw_profile["matching_criteria"]["geography"]
-                ),
-                service_categories=raw_profile["matching_criteria"][
-                    "service_categories"
-                ],
-                cpv_codes=raw_profile["matching_criteria"]["cpv_codes"],
-                target_authorities=raw_profile["matching_criteria"][
-                    "target_authorities"
-                ],
-            ),
-        )
+        return CompanyProfileDocument.from_mongo(raw_doc).profile
 
     async def _load_from_mongo(
         self,
@@ -261,34 +204,29 @@ class RecommendationService:
                 "industry_match": industry_match,
             }
         )
-        docs = await cursor.to_list(length=None)
+        raw_docs = await cursor.to_list(length=None)
 
+        documents = [RecommendationDocument.from_mongo(doc) for doc in raw_docs]
+
+        # Back-fill organization for legacy docs that may lack it
         org_lookup: dict[str, str] = {}
-        needs_lookup = any("organization" not in doc for doc in docs)
+        needs_lookup = any(not doc.organization for doc in documents)
         if needs_lookup:
             org_lookup = {
                 t.metadata.name: t.metadata.organization
-                for t in tender_service.load_tenders()
+                for t in self.tender_service.load_tenders()
             }
+            for doc in documents:
+                if not doc.organization:
+                    doc.organization = org_lookup.get(doc.tender_name, "")
 
-        return [
-            TenderRecommendation(
-                tender_name=doc["_id"]["tender_name"],
-                organization=doc.get("organization")
-                or org_lookup.get(doc["_id"]["tender_name"], ""),
-                name_match=doc["name_match"],
-                name_reason=doc["name_reason"],
-                industry_match=doc["industry_match"],
-                industry_reason=doc["industry_reason"],
-            )
-            for doc in docs
-        ]
+        return [doc.to_response() for doc in documents]
 
     async def _classify_via_llm(self, company_name: str) -> None:
         logger.info("Starting LLM classification for company '%s'", company_name)
         profile = await self._get_company_profile(company_name)
 
-        tenders = tender_service.load_tenders()
+        tenders = self.tender_service.load_tenders()
         org_industries = await self._get_org_industries()
         feedbacks = await self._get_feedbacks(company_name)
 
@@ -313,27 +251,27 @@ class RecommendationService:
                 user_prompt = self.build_user_prompt(
                     profile, tender, org_industries, feedbacks
                 )
-                recommendation = await self._call_llm(
+                result = await self._call_llm(
                     user_prompt,
                     tender.metadata.name,
                     tender.metadata.organization,
                 )
 
-                if self._should_skip(recommendation):
+                if self._should_skip(result):
                     logger.info(
                         "Skipping tender '%s' — name=%s, industry=%s",
                         tender.metadata.name,
-                        recommendation.name_match,
-                        recommendation.industry_match,
+                        result.name_match,
+                        result.industry_match,
                     )
                     return
 
-                await self._save_recommendation(company_name, recommendation)
+                await self._save_recommendation(company_name, result)
 
         tasks = [_process_tender(i, tender) for i, tender in enumerate(tenders, 1)]
         await asyncio.gather(*tasks)
 
-        logger.info(f"Finished processing all {total} tenders for '{company_name}'")
+        logger.info("Finished processing all %d tenders for '%s'", total, company_name)
 
     async def get_recommendations(
         self,
@@ -371,7 +309,7 @@ class RecommendationService:
             company_name,
             tender_name,
         )
-        tender = tender_service.get_tender_by_name(tender_name)
+        tender = self.tender_service.get_tender_by_name(tender_name)
         if tender is None:
             logger.warning("Tender not found for refresh: '%s'", tender_name)
             raise ValueError(f"Tender not found: {tender_name}")
@@ -382,17 +320,19 @@ class RecommendationService:
 
         user_prompt = self.build_user_prompt(profile, tender, org_industries, feedbacks)
 
-        recommendation = await self._call_llm(
+        result = await self._call_llm(
             user_prompt,
             tender.metadata.name,
             tender.metadata.organization,
         )
 
-        await self._save_recommendation(company_name, recommendation)
+        await self._save_recommendation(company_name, result)
         logger.info(
             "Refresh complete for tender='%s': name_match=%s, industry_match=%s",
             tender_name,
-            recommendation.name_match,
-            recommendation.industry_match,
+            result.name_match,
+            result.industry_match,
         )
-        return recommendation
+        return RecommendationDocument.from_domain(
+            company_name, result, datetime.now(timezone.utc)
+        ).to_response()

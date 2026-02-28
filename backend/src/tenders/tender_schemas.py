@@ -30,6 +30,28 @@ class Tender:
     files_count: int
     file_urls: list[str]
 
+    @classmethod
+    def from_json(cls, data: dict) -> "Tender":
+        return cls(
+            tender_url=data["tender_url"],
+            metadata=TenderMetadata(**data["metadata"]),
+            files_count=data["files_count"],
+            file_urls=data["file_urls"],
+        )
+
+    def to_response(self) -> "TenderResponse":
+        return TenderResponse(
+            tender_url=self.tender_url,
+            name=self.metadata.name,
+            organization=self.metadata.organization,
+            submission_deadline=self.metadata.submission_deadline,
+            initiation_date=self.metadata.initiation_date,
+            procedure_type=self.metadata.procedure_type,
+            source_type=self.metadata.source_type,
+            files_count=self.files_count,
+            file_urls=self.file_urls,
+        )
+
 
 class TenderResponse(BaseModel):
     tender_url: str

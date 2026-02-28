@@ -1,5 +1,3 @@
-COLLECTION_NAME = "tender_questions"
-
 MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024  # 20 MB
 MAX_EXTRACTED_TEXT_CHARS = 50_000
 SUPPORTED_FILE_EXTENSIONS = frozenset({".pdf", ".docx", ".txt"})

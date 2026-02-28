@@ -63,6 +63,16 @@ services:
       retries: 10
       start_period: 5s
 
+  mongo-seed:
+    image: mongo:7
+    restart: "no"
+    volumes:
+      - ./backend/mongo-seed:/seed:ro
+    depends_on:
+      mongo:
+        condition: service_healthy
+    entrypoint: ["/bin/bash", "/seed/seed-mongo.sh"]
+
   # ─── Langfuse (LLM Observability) ──────────────────────────
 
   langfuse-worker:

@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from pydantic import BaseModel, Field
 
 
@@ -11,7 +13,8 @@ class CreateFeedbackRequest(BaseModel):
 # --- Document (MongoDB) ---
 
 
-class FeedbackDocument(BaseModel):
+@dataclass
+class FeedbackDocument:
     id: str
     company_name: str
     feedback_comment: str

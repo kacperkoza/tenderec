@@ -14,7 +14,7 @@ import type { SwipeDirection } from "@/stores/tender-swipe-store";
 const SWIPE_THRESHOLD = 100;
 
 const matchLabels: Record<MatchLevel, string> = {
-  PERFECT_MATCH: "Idealne",
+  PERFECT_MATCH: "Bardzo dobre",
   PARTIAL_MATCH: "Częściowe",
   DONT_KNOW: "Niepewne",
   NO_MATCH: "Brak",
@@ -157,13 +157,13 @@ export function TinderCard({ tender, onSwipe, isTop }: TinderCardProps) {
             </summary>
             <div className="mt-3 space-y-4">
               <div className="space-y-2">
-                <MatchBadge level={tender.name_match} label="Dopasowanie nazwy" />
+                <MatchBadge level={tender.name_match} label="Nazwa przetargu" />
                 <p className="text-xs text-muted-foreground">
                   {tender.name_reason}
                 </p>
               </div>
               <div className="space-y-2">
-                <MatchBadge level={tender.industry_match} label="Dopasowanie branży" />
+                <MatchBadge level={tender.industry_match} label="Branża zamawiającego" />
                 <p className="text-xs text-muted-foreground">
                   {tender.industry_reason}
                 </p>
@@ -178,10 +178,11 @@ export function TinderCard({ tender, onSwipe, isTop }: TinderCardProps) {
 
 interface SwipeButtonsProps {
   onSwipe: (direction: SwipeDirection) => void;
+  onSkip: () => void;
   disabled: boolean;
 }
 
-export function SwipeButtons({ onSwipe, disabled }: SwipeButtonsProps) {
+export function SwipeButtons({ onSwipe, onSkip, disabled }: SwipeButtonsProps) {
   return (
     <div className="flex items-center justify-center gap-8">
       <button
@@ -203,6 +204,27 @@ export function SwipeButtons({ onSwipe, disabled }: SwipeButtonsProps) {
         >
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <button
+        onClick={onSkip}
+        disabled={disabled}
+        className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-yellow-300 text-yellow-500 transition-colors hover:bg-yellow-50 disabled:opacity-50 dark:border-yellow-600 dark:hover:bg-yellow-950"
+        aria-label="Pomiń"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polygon points="5 4 15 12 5 20 5 4" />
+          <line x1="19" y1="5" x2="19" y2="19" />
         </svg>
       </button>
       <button

@@ -26,12 +26,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { TenderRecommendation } from "@/types/api";
+import type { MatchLevel, TenderRecommendation } from "@/types/api";
+
+const NAME_MATCH_LEVELS: MatchLevel[] = [
+  "PERFECT_MATCH",
+  "PARTIAL_MATCH",
+  "DONT_KNOW",
+];
+
+const MATCH_LEVEL_LABELS: Record<MatchLevel, string> = {
+  PERFECT_MATCH: "Bardzo dobre dopasowanie",
+  PARTIAL_MATCH: "Częściowe dopasowanie",
+  DONT_KNOW: "Trudno ocenić",
+  NO_MATCH: "Brak dopasowania",
+};
 
 export default function TendersPage() {
   const router = useRouter();
+  const [nameMatchIndex, setNameMatchIndex] = useState(0);
+  const currentNameMatch = NAME_MATCH_LEVELS[nameMatchIndex];
+
   const { data, isLoading, error, refetch } = useRecommendations({
     company: "greenworks",
+    name_match: currentNameMatch,
   });
 
   const { swiped, swipe, getLiked, clearAll } = useTenderSwipeStore();
@@ -63,6 +80,12 @@ export default function TendersPage() {
     },
     [visibleCards, swipe]
   );
+
+  const handleSkip = useCallback(() => {
+    const current = visibleCards[0];
+    if (!current) return;
+    swipe(current, "left");
+  }, [visibleCards, swipe]);
 
   function dismissRejectDialog() {
     if (!rejectedTender) return;
@@ -122,6 +145,14 @@ export default function TendersPage() {
   }
 
   const allDone = visibleCards.length === 0;
+  const hasNextLevel = nameMatchIndex < NAME_MATCH_LEVELS.length - 1;
+  const isLastLevel = !hasNextLevel;
+
+  function loadNextLevel() {
+    if (hasNextLevel) {
+      setNameMatchIndex((prev) => prev + 1);
+    }
+  }
 
   return (
     <div className="mx-auto max-w-md space-y-6">
@@ -130,14 +161,21 @@ export default function TendersPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           Przesuń w prawo aby polubić, w lewo aby odrzucić
         </p>
+        <p className="mt-1 text-xs font-medium text-primary">
+          {MATCH_LEVEL_LABELS[currentNameMatch]}
+        </p>
       </div>
 
       {allDone ? (
         <Card>
           <CardHeader>
-            <CardTitle>Przejrzano wszystko na dziś!</CardTitle>
+            <CardTitle>
+              {isLastLevel
+                ? "Przejrzano wszystko!"
+                : `Koniec z: ${MATCH_LEVEL_LABELS[currentNameMatch]}`}
+            </CardTitle>
             <CardDescription>
-              {liked.length > 0 ? (
+              {liked.length > 0 && (
                 <span>
                   Polubiono {liked.length}{" "}
                   {liked.length === 1
@@ -145,16 +183,37 @@ export default function TendersPage() {
                     : liked.length < 5
                       ? "przetargi"
                       : "przetargów"}
-                  . Czy chcesz przejść do listy polubionych przetargów?
+                  .{" "}
+                </span>
+              )}
+              {hasNextLevel ? (
+                <span>
+                  Załadować przetargi z kategorii:{" "}
+                  <strong>
+                    {MATCH_LEVEL_LABELS[NAME_MATCH_LEVELS[nameMatchIndex + 1]]}
+                  </strong>
+                  ?
                 </span>
               ) : (
-                <span>Nie polubiono żadnych przetargów.</span>
+                <span>
+                  {liked.length > 0
+                    ? "Czy chcesz przejść do listy polubionych przetargów?"
+                    : "Nie polubiono żadnych przetargów."}
+                </span>
               )}
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
+            {hasNextLevel && (
+              <Button onClick={loadNextLevel}>
+                Załaduj: {MATCH_LEVEL_LABELS[NAME_MATCH_LEVELS[nameMatchIndex + 1]]}
+              </Button>
+            )}
             {liked.length > 0 && (
-              <Button onClick={() => router.push("/tenders/liked")}>
+              <Button
+                variant={hasNextLevel ? "outline" : "default"}
+                onClick={() => router.push("/tenders/liked")}
+              >
                 Przejdź do polubionych
               </Button>
             )}
@@ -162,6 +221,7 @@ export default function TendersPage() {
               variant="outline"
               onClick={() => {
                 clearAll();
+                setNameMatchIndex(0);
               }}
             >
               Zacznij od nowa
@@ -181,7 +241,7 @@ export default function TendersPage() {
             ))}
           </div>
 
-          <SwipeButtons onSwipe={handleSwipe} disabled={allDone} />
+          <SwipeButtons onSwipe={handleSwipe} onSkip={handleSkip} disabled={allDone} />
 
           <p className="text-center text-xs text-muted-foreground">
             {unswiped.length} z {data?.recommendations.length ?? 0} pozostało

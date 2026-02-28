@@ -1,16 +1,14 @@
 import logging
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 
-from src.feedback.schemas import (
+from src.feedback.feedback_dependencies import get_feedback_service
+from src.feedback.feedback_schemas import (
     CreateFeedbackRequest,
     FeedbackListResponse,
     FeedbackResponse,
 )
-from src.feedback.service import (
-    create_feedback,
-    get_feedbacks,
-)
+from src.feedback.feedback_service import FeedbackService
 
 logger = logging.getLogger(__name__)
 
@@ -22,9 +20,12 @@ router = APIRouter(prefix="/feedback", tags=["feedback"])
     response_model=FeedbackListResponse,
     description="Get all feedback comments for a company",
 )
-async def get_company_feedbacks(company_name: str) -> FeedbackListResponse:
-    logger.info("GET feedbacks for company: '%s'", company_name)
-    return await get_feedbacks(company_name)
+async def get_company_feedbacks(
+    company_name: str,
+    service: FeedbackService = Depends(get_feedback_service),
+) -> FeedbackListResponse:
+    logger.info(f"GET feedbacks for company: '{company_name}'")
+    return await service.get_feedbacks(company_name)
 
 
 @router.post(
@@ -39,6 +40,7 @@ async def get_company_feedbacks(company_name: str) -> FeedbackListResponse:
 async def create_company_feedback(
     company_name: str,
     request: CreateFeedbackRequest,
+    service: FeedbackService = Depends(get_feedback_service),
 ) -> FeedbackResponse:
-    logger.info("POST feedback for company: '%s'", company_name)
-    return await create_feedback(company_name, request.feedback_comment)
+    logger.info(f"POST feedback for company: '{company_name}'")
+    return await service.create_feedback(company_name, request.feedback_comment)

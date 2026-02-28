@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { TenderChat } from "@/components/tenders/tender-chat";
 
 const matchLabels: Record<MatchLevel, string> = {
-  PERFECT_MATCH: "Idealne",
+  PERFECT_MATCH: "Bardzo dobre",
   PARTIAL_MATCH: "Czesciowe",
   DONT_KNOW: "Niepewne",
   NO_MATCH: "Brak",
@@ -83,11 +84,6 @@ function LikedTenderCard({ item }: { item: SwipedTender }) {
         )}
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex flex-wrap gap-3">
-          <MatchBadge level={item.tender.name_match} label="Nazwa" />
-          <MatchBadge level={item.tender.industry_match} label="Branża" />
-        </div>
-
         {isLoading && (
           <div className="space-y-2">
             <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
@@ -134,6 +130,18 @@ function LikedTenderCard({ item }: { item: SwipedTender }) {
             )}
           </div>
         )}
+
+        <hr className="border-border" />
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-muted-foreground">Szczegóły dopasowania:</h4>
+          <div className="flex flex-wrap gap-3">
+            <MatchBadge level={item.tender.name_match} label="Nazwa" />
+            <MatchBadge level={item.tender.industry_match} label="Branża" />
+          </div>
+        </div>
+
+        <hr className="border-border" />
+        <TenderChat tenderName={item.tender.tender_name} />
       </CardContent>
     </Card>
   );

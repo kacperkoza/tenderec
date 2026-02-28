@@ -7,6 +7,8 @@ import type {
   RecommendationsParams,
   RecommendationsResponse,
   TenderDetails,
+  TenderQuestionRequest,
+  TenderQuestionResponse,
 } from "@/types/api";
 
 const API_BASE = "/api/v1";
@@ -114,6 +116,26 @@ export async function getTender(name: string): Promise<TenderDetails> {
 
   if (!res.ok) {
     throw new Error(`Nie udalo sie pobrac przetargu: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function askTenderQuestion(
+  data: TenderQuestionRequest
+): Promise<TenderQuestionResponse> {
+  const res = await fetch(`${API_BASE}/tenders/ask`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (res.status === 404) {
+    throw new NotFoundError("Przetarg nie zostal znaleziony");
+  }
+
+  if (!res.ok) {
+    throw new Error(`Nie udalo sie uzyskac odpowiedzi: ${res.status}`);
   }
 
   return res.json();

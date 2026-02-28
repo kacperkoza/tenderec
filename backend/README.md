@@ -1,158 +1,128 @@
 # Tenderec Backend
 
-Tender Recommendation Engine — matches Polish public procurement tenders to company profiles using LLM scoring.
+Tender Recommendation Engine - matches Polish public procurement tenders to company profiles using LLM-based scoring and Q&A agent for tender details.
 
-## Prerequisites
+## Quick Start (Docker)
+
+1. Set your OpenAI API key:
+   ```bash
+   echo "OPENAI_API_KEY=sk-..." > backend/.env
+   ```
+
+2. Build and start all services (from the repo root):
+   ```bash
+   docker compose up --build -d
+   ```
+
+3. Open in browser:
+   - http://localhost:3000 - frontend
+   - http://localhost:8000/docs - API docs
+   - http://localhost:3100 - Langfuse tracing UI (admin@tenderec.local / admin123)
+
+## Run backend app locally
+
+### Prerequisites
 
 - Python 3.12+
 - MongoDB running locally (default: `mongodb://localhost:27017`)
 - OpenAI API key (set via `OPENAI_API_KEY` env var in `.env`)
 
-## Setup
-
 ```bash
-uv sync --all-extras
+uv run uvicorn main:app --reload --log-level info
 ```
 
-Set your OpenAI API key in the `.env` file:
+## Modules
 
-```
-OPENAI_API_KEY=sk-...
-```
-
-Optional `.env` overrides:
-
-```
-MONGODB_URL=mongodb://localhost:27017
-MONGODB_DB_NAME=tenderec
-LLM_MODEL=gpt-4o-mini
-ORGANIZATION_CLASSIFICATION_SOURCE=mongodb
-TENDER_DEADLINE_DATE=2026-01-10
-```
-
-## Running the app
-
-```bash
-fastapi dev main.py
-```
-
-The API will be available at `http://localhost:8000`. Interactive docs at `http://localhost:8000/docs`.
-
-## Running tests
-
-```bash
-uv run pytest tests/ -v
-```
-
-Tests mock both MongoDB and the OpenAI client — no running database or API token required.
-
-## API Endpoints
+The backend is organized into domain-based modules.
 
 ### Companies
 
-The companies module handles company profile management. 
-A company profile is created by sending a free-text description to `PUT /api/v1/companies/{company_name}`. 
-The LLM extracts structured information from the description: 
-- industries, 
-- service categories, 
-- CPV codes, 
-- target authorities
-- geography. 
-
-- All extracted values are in Polish. 
-The result is stored in MongoDB for further use in tender search and matching.
-
-To retrieve a saved profile use `GET /api/v1/companies/{company_name}`.
-
-### Example
-
-```bash
-curl -X PUT "http://localhost:8000/api/v1/companies/greenworks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "description": "GreenWorks Infrastructure Ltd. is a mid-sized environmental services company specializing in the development, maintenance, and revitalization of green areas. The company delivers end-to-end services related to urban greenery, public parks, roadside vegetation, and municipal green infrastructure. GreenWorks works primarily with public sector clients, including municipalities, road authorities, public institutions, and state-owned entities. Core services: maintenance of public green areas, tree cutting and removal, new plantings, landscaping projects, seasonal vegetation management, roadside and railway greenery. Geographic focus: Poland."
-  }'
-```
-```bash
-curl -X GET "http://localhost:8000/api/v1/companies/greenworks" \
-  -H "Content-Type: application/json" | jq
-```
-Result: 
-```json
-{
-  "company_name": "greenworks",
-  "profile": {
-    "company_info": {
-      "name": "GreenWorks Infrastructure Ltd.",
-      "industries": [
-        "usługi środowiskowe",
-        "utrzymanie terenów zielonych",
-        "architektura krajobrazu"
-      ]
-    },
-    "matching_criteria": {
-      "service_categories": [
-        "utrzymanie terenów zielonych",
-        "wycinka drzew",
-        "nasadzenia roślin",
-        "rewitalizacja terenów zielonych",
-        "zarządzanie sezonową roślinnością",
-        "prace związane z zielenią przy drogach i infrastrukturze publicznej"
-      ],
-      "cpv_codes": [
-        "77310000-6",
-        "77340000-5",
-        "45112710-5",
-        "45112700-2",
-        "77314100-5"
-      ],
-      "target_authorities": [
-        "gminy",
-        "zarządy dróg",
-        "instytucje publiczne",
-        "jednostki państwowe"
-      ],
-      "geography": {
-        "primary_country": "Polska"
-      }
-    }
-  },
-  "created_at": "2026-02-25T15:02:00.478000"
-}
-```
-
-**Later improvements may include:**
-- Support for multiple profiles per company (e.g., different service lines)
-- More detailed geographic targeting (e.g., specific regions or cities)
-- Additional structured data extraction (e.g., company size, certifications)
-- LLM may add additional questions to the company to improve profile quality (What size is the company? What certifications do they have? Do they have experience with public tenders?)
-
+Handles company profile management. A company profile is created by sending a free-text description, which the LLM parses into structured data:
+- **Industries** the company operates in
+- **Service categories** the company offers
+- **Target authorities** (e.g., municipalities, road authorities)
+- and other not used now, such as: geographical focus, cpv codes, company size.
 
 ### Organization Classification
 
-`GET /api/v1/organizations/industries` classifies contracting authorities into 2-3 industries each, based on their name and tender history.
+Classifies contracting authorities into 1-3 industries based on their name and tender history. 
+Results are cached in MongoDB to avoid repeated LLM calls.
 
-- Default source: `mongodb` (reads cached results, no LLM cost)
-- Set `ORGANIZATION_CLASSIFICATION_SOURCE=llm` to reclassify via LLM and save to MongoDB
-- Organizations are classified in batches of 80 per LLM call
-- Only tenders with deadlines after the reference date are included
+### Recommendations
 
-```bash
-curl -X GET "http://localhost:8000/api/v1/organizations/industries" | jq
-```
+The core module - scores every tender against a company profile using LLM evaluation and stores the results.
+Right now it matches profile to tender name and contracting authority's industries.
+Supports filtering by match level and refreshing individual recommendations.
 
-## Limitations
+### Tenders
 
-- Rate limits depend on your OpenAI plan — classification of organizations requires multiple batches
+Provides access to a static dataset of ~1,400 Polish public tenders
+Also exposes a conversational Q&A agent that can answer natural-language questions about specific tenders, including reading attached PDF/DOCX/TXT documents.
 
-## Next steps:
-- tests: evaluate LLM results
-- count used tokens and cost per endpoint
-- use langchain for flexibility, changing model providers easily,
+The Q&A agent is built with LangGraph's `create_react_agent` and has access to 7 tools:
+- `get_tender_details` - look up a tender by exact name
+- `search_tenders` - fuzzy search tenders by name substring
+- `list_tenders_by_organization` - filter tenders by contracting organization
+- `get_tender_files` - retrieve attached file URLs
+- `read_file_content` - download and extract text from PDF/DOCX/TXT (up to 20 MB, 50K chars)
+- `get_today_date` - current date for deadline comparison
+- `get_company_info` - look up the user's company profile
+
+
+### Feedback (`src/feedback/`)
+
+Collects user feedback comments per company (e.g., "too short deadline", "not our area"). 
+Feedback is incorporated into recommendation prompts to adjust future LLM scoring.
+
+### LLM (`src/llm/`)
+
+Shared LLM infrastructure - OpenAI client and Langfuse tracing client.:
+
+## How the Algorithm Works
+
+### Step 1: Company Profile Extraction
+
+1. User sends a free-text company description  which is extracted by LLM into a structured profile.
+
+Results are stored in MongoDB.
+### Step 2: Organization Industry Classification
+
+1. All tenders are loaded from `tenders.json` and classified by LLM.
+Results are cached in MongoDB.
+
+### Step 3: Tender Scoring (Core Matching)
+
+1. Build a prompt containing:
+   - Company profile (industries, service categories, target authorities)
+   - Tender name + contracting organization + organization's classified industries
+   - Any user feedback on previously rejected tenders
+2. The LLM evaluates:
+
+   **Name Match**: How closely the tender subject matches the company's service categories.
+
+   **Industry Match**: How closely the contracting organization's industries match the company's target authorities.
+
+ Each match also receives a one-sentence reasoning in Polish explaining the score.
+
+### Step 4: Feedback Loop
+
+Users can submit feedback comments per company. On recommendation refresh, these comments are included in the LLM prompt, allowing the model to adjust its scoring based on user preferences (e.g., "we don't bid on contracts under 50k", "too short deadlines").
+
+
+## Necessary Improvements
+- obvious code cleanup - improve readability, write tests, think about structure etc.
+- introduces data models for many things that are currently just dicts
+- use IDs instead of names for lookups and references
+- LLM evaluation for given prompts, input data and output data, eg. profile evaluation, organization classitication, etc.
+- Preparing the most important tender data in advance: budgets, obligatory legal requirements, tender details etc
+- dont rely only in matching tender on name, company profile, industry, but also on other factors, such as CPV codes, tender size, deadlines, etc.
+
+## LLM
 - use structured output
+- No LLM evaluation/quality tracking - no tracking of prompt changes or their impact on recommendation quality. No golden dataset or evaluation pipeline to prevent regressions.
+- single LLM model used everythere - no differentiation between tasks that might require different levels of reasoning or cost
+- each company could have many different profiles
+- parse tender documents for richer context - the Q&A agent already has `read_file_content` for PDF/DOCX
+- track token usage per company per run, set daily/weekly/montly spend caps
+- explore vector/embedding-based retrieval
 
-## Future vision
-1. Use vector datase 
-- use vector databases for more efficient tender retrieval and matching without LLM scoring of all tenders
-- point places in documents that confirm LLM reasoning (e.g., "LLM says this tender matches because of CPV code 77310000-6, which corresponds to maintenance of green areas. The tender includes this CPV code in its metadata.")
-2. Use orchestrator agent who work with subagent responsible for specific tasks (e.g., company profile extraction, tender retrieval, matching explanation)gs
